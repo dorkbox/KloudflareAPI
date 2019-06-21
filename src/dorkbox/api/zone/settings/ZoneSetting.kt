@@ -788,12 +788,13 @@ class HTTP2EdgePrioritization : ZoneSetting() {
 
 
 /**
- * @see [https://api.cloudflare.com](https://api.cloudflare.com/#zone-properties)
+ * https://api.cloudflare.com/#zone-settings-properties
  */
 open class ZoneSetting {
 
     /**
      * ID of the zone setting
+     *
      * always_online, advanced_ddos, brotli, browser_cache_ttl, browser_check, flatten_at_root, cache_level, challenge_ttl,
      * development_mode, edge_cache_ttl, origin_error_page_pass_thru, sort_query_string_for_cache, email_obfuscation,
      * hotlink_protection, ip_geolocation, ipv6, websockets, sha1_support, tls_1_2_only, minify, max_upload, mobile_redirect,

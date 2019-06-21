@@ -33,14 +33,14 @@ open class DnsRecord {
      * Record type
      * A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI
      */
-    @field:[Json(name = "type") DnsType]
+    @field:[Json(name = "type")]
     var type = RecordType.A
 
     /**
      * DNS record name
      */
     @field:[Json(name = "name")]
-    var name= ""
+    var name = ""
 
     /**
      * A valid IPv4 address
@@ -93,11 +93,15 @@ open class DnsRecord {
     @field:[Json(name = "created_on") ISO8601]
     var createdOn = LocalDateTime.now()
 
+    /**
+     * Extra Cloudflare-specific information about the record
+     */
     @field:[Json(name = "meta")]
     var meta = Meta()
 
     /**
      * Metadata about the record
      */
-    var data: String? = null
+    @field:[Json(name = "data")]
+    var data: Data = Data()
 }

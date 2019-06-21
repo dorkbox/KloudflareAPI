@@ -18,12 +18,10 @@ package dorkbox
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import dorkbox.api.CloudflareActions
-import dorkbox.api.core.CfErrorResponse
-import dorkbox.api.core.CfResponse
-import dorkbox.api.core.Error
-import dorkbox.api.core.ISO8601Adapter
+import dorkbox.api.core.*
+import dorkbox.api.dns.CreateDnsRecord
+import dorkbox.api.dns.DeleteDnsRecord
 import dorkbox.api.dns.DnsRecord
-import dorkbox.api.dns.DnsRecordTypeAdapter
 import dorkbox.api.user.BillingHistory
 import dorkbox.api.user.BillingProfile
 import dorkbox.api.user.User
@@ -95,7 +93,7 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
     }
 
 
-    fun getUser() : User {
+    fun getUser(): User {
         return wrap(cloudflare.getUser(xAuthEmail, xAuthKey))
     }
 
@@ -111,16 +109,28 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
         return wrap(cloudflare.listZones(xAuthEmail, xAuthKey, options))
     }
 
-    fun getZoneRatePlans(zoneIdentifier: String): RatePlan {
-        return wrap(cloudflare.getZoneRatePlans(xAuthEmail, xAuthKey, zoneIdentifier))
+    fun getZoneRatePlans(zone: Zone): RatePlan {
+        return wrap(cloudflare.getZoneRatePlans(xAuthEmail, xAuthKey, zone.id))
     }
 
-    fun getZoneSettings(zoneIdentifier: String): ZoneSetting {
-        return wrap(cloudflare.getZoneSettings(xAuthEmail, xAuthKey, zoneIdentifier))
+    fun getZoneSettings(zone: Zone): ZoneSetting {
+        return wrap(cloudflare.getZoneSettings(xAuthEmail, xAuthKey, zone.id))
     }
 
-    fun listDnsRecords(zoneIdentifier: String): List<DnsRecord> {
-        return wrap(cloudflare.listDnsRecords(xAuthEmail, xAuthKey, zoneIdentifier))
+    fun listDnsRecords(zone: Zone): List<DnsRecord> {
+        return wrap(cloudflare.listDnsRecords(xAuthEmail, xAuthKey, zone.id))
+    }
+
+    fun createDnsRecord(zone: Zone, dnsRecord: CreateDnsRecord): DnsRecord {
+        return wrap(cloudflare.createDnsRecord(xAuthEmail, xAuthKey, zone.id, dnsRecord))
+    }
+
+    fun updateDnsRecord(zone: Zone, newDnsRecord: CreateDnsRecord): Any {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun deleteDnsRecord(zone: Zone, dnsRecord: DnsRecord): DeleteDnsRecord {
+        return wrap(cloudflare.deleteDnsRecord(xAuthEmail, xAuthKey, zone.id, dnsRecord.id))
     }
 }
 

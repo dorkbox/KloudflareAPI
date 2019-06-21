@@ -15,24 +15,9 @@
  */
 package dorkbox.api.dns
 
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.JsonQualifier
-import com.squareup.moshi.ToJson
+/**
+ * https://api.cloudflare.com/#dns-records-for-a-zone-properties
+ */
+class Data {
 
-@Retention(AnnotationRetention.RUNTIME)
-@JsonQualifier
-annotation class DnsType
-
-/** Converts byte arrays to base64 (so it looks better as a string...) */
-internal class DnsRecordTypeAdapter {
-    @ToJson
-    fun toJson(@DnsType recordType: RecordType): String {
-        return recordType.name
-    }
-
-    @FromJson
-    @DnsType
-    fun fromJson(recordType: String): RecordType {
-       return RecordType.valueOf(recordType)
-    }
 }

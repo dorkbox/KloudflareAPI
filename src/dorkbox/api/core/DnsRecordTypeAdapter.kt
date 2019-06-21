@@ -13,9 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dorkbox.api.dns
+package dorkbox.api.core
 
-class ARecord : DnsRecord() {
-    val asd = ""
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
+import dorkbox.api.dns.RecordType
 
+/** Converts byte arrays to base64 (so it looks better as a string...) */
+internal class DnsRecordTypeAdapter {
+    @ToJson
+    fun toJson(recordType: RecordType): String {
+        return recordType.name
+    }
+
+    @FromJson
+    fun fromJson(recordType: String): RecordType {
+       return RecordType.valueOf(recordType)
+    }
 }

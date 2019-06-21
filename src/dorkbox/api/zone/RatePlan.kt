@@ -18,9 +18,9 @@ package dorkbox.api.zone
 import com.squareup.moshi.Json
 
 /**
- * https://api.cloudflare.com/#zone-properties
+ * https://api.cloudflare.com/#zone-rate-plan-properties
  */
-class RatePlan {
+class   RatePlan {
 
     /**
      * Plan identifier tag
