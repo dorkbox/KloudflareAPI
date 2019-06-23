@@ -20,6 +20,7 @@ import dorkbox.api.dns.CreateDnsRecord
 import dorkbox.api.dns.DeleteDnsRecord
 import dorkbox.api.dns.DnsRecord
 import dorkbox.api.dns.UpdateDnsRecord
+import dorkbox.api.firewall.AccessRule
 import dorkbox.api.user.BillingHistory
 import dorkbox.api.user.BillingProfile
 import dorkbox.api.user.User
@@ -161,5 +162,17 @@ interface CloudflareActions {
             @Path("zone_identifier") zoneIdentifier: String,
             @Path("identifier") identifier: String
                       ): Call<CfResponse<DeleteDnsRecord>>
+
+    /**
+     * Lists the access rules for the firewall.
+     *
+     * https://api.cloudflare.com/#dns-records-for-a-zone-delete-dns-record
+     */
+    @Headers("Content-Type: application/json")
+    @GET("user/firewall/access_rules/rules")
+    fun listAccessRules(
+            @Header("X-Auth-Email") email: String,
+            @Header("X-Auth-Key") key: String
+                      ): Call<CfResponse<List<AccessRule>>>
 
 }
