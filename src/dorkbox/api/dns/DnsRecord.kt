@@ -17,12 +17,20 @@ package dorkbox.api.dns
 
 import com.squareup.moshi.Json
 import dorkbox.api.core.ISO8601
+import dorkbox.api.zone.Zone
 import java.time.LocalDateTime
 
 /**
  * https://api.cloudflare.com/#dns-records-for-a-zone-properties
  */
 open class DnsRecord {
+    /**
+     * Which zone this DNS record belongs to
+     */
+    @Transient
+    lateinit var zone: Zone
+
+
     /**
      * DNS record identifier tag
      */

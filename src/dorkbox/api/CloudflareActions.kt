@@ -38,10 +38,10 @@ interface CloudflareActions {
      */
     @Headers("Content-Type: application/json")
     @GET("user")
-    fun getUser(
+    fun getUserDetails(
             @Header("X-Auth-Email") email: String,
             @Header("X-Auth-Key") key: String
-               ): Call<CfResponse<User>>
+                      ): Call<CfResponse<User>>
 
     /**
      * Gets the user's Billing Profile
@@ -147,7 +147,7 @@ interface CloudflareActions {
             @Path("zone_identifier") zoneIdentifier: String,
             @Path("identifier") identifier: String,
             @Body data: UpdateDnsRecord
-                      ): Call<CfResponse<DnsRecord>>
+                       ): Call<CfResponse<DnsRecord>>
 
     /**
      * Deletes a DNS record for the specified zone + dns record
@@ -161,7 +161,7 @@ interface CloudflareActions {
             @Header("X-Auth-Key") key: String,
             @Path("zone_identifier") zoneIdentifier: String,
             @Path("identifier") identifier: String
-                      ): Call<CfResponse<DeleteDnsRecord>>
+                       ): Call<CfResponse<DeleteDnsRecord>>
 
     /**
      * Lists the access rules for the firewall.
@@ -173,6 +173,6 @@ interface CloudflareActions {
     fun listAccessRules(
             @Header("X-Auth-Email") email: String,
             @Header("X-Auth-Key") key: String
-                      ): Call<CfResponse<List<AccessRule>>>
+                       ): Call<CfResponse<List<AccessRule>>>
 
 }

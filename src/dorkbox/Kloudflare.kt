@@ -22,6 +22,8 @@ import dorkbox.api.core.*
 import dorkbox.api.dns.CreateDnsRecord
 import dorkbox.api.dns.DeleteDnsRecord
 import dorkbox.api.dns.DnsRecord
+import dorkbox.api.dns.UpdateDnsRecord
+import dorkbox.api.firewall.AccessRule
 import dorkbox.api.user.BillingHistory
 import dorkbox.api.user.BillingProfile
 import dorkbox.api.user.User
@@ -93,8 +95,8 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
     }
 
 
-    fun getUser(): User {
-        return wrap(cloudflare.getUser(xAuthEmail, xAuthKey))
+    fun getUserDetails(): User {
+        return wrap(cloudflare.getUserDetails(xAuthEmail, xAuthKey))
     }
 
     fun getUserBillingProfile(): BillingProfile {
@@ -118,19 +120,29 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
     }
 
     fun listDnsRecords(zone: Zone): List<DnsRecord> {
-        return wrap(cloudflare.listDnsRecords(xAuthEmail, xAuthKey, zone.id))
+        val wrap = wrap(cloudflare.listDnsRecords(xAuthEmail, xAuthKey, zone.id))
+        wrap.forEach {
+            it.zone = zone
+        }
+        return wrap
     }
 
-    fun createDnsRecord(zone: Zone, dnsRecord: CreateDnsRecord): DnsRecord {
-        return wrap(cloudflare.createDnsRecord(xAuthEmail, xAuthKey, zone.id, dnsRecord))
+    fun createDnsRecord(dnsRecord: CreateDnsRecord): DnsRecord {
+        val wrap = wrap(cloudflare.createDnsRecord(xAuthEmail, xAuthKey, dnsRecord.zone.id, dnsRecord))
+        wrap.zone = dnsRecord.zone
+        return wrap
     }
 
-    fun updateDnsRecord(zone: Zone, newDnsRecord: CreateDnsRecord): Any {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun updateDnsRecord(updatedDnsRecord: UpdateDnsRecord): Any {
+        return wrap(cloudflare.updateDnsRecord(xAuthEmail, xAuthKey, updatedDnsRecord.zone.id, updatedDnsRecord.id, updatedDnsRecord))
     }
 
-    fun deleteDnsRecord(zone: Zone, dnsRecord: DnsRecord): DeleteDnsRecord {
-        return wrap(cloudflare.deleteDnsRecord(xAuthEmail, xAuthKey, zone.id, dnsRecord.id))
+    fun deleteDnsRecord(dnsRecord: DnsRecord): DeleteDnsRecord {
+        return wrap(cloudflare.deleteDnsRecord(xAuthEmail, xAuthKey, dnsRecord.zone.id, dnsRecord.id))
+    }
+
+    fun listAccessRules(): List<AccessRule> {
+        return wrap(cloudflare.listAccessRules(xAuthEmail, xAuthKey))
     }
 }
 

@@ -5,4 +5,4 @@ package dorkbox.api.dns
  *
  * This is the "same" object as creating a new record. This is a different type in order to prevent confusion and simplify naming conventions
  */
-class UpdateDnsRecord : CreateDnsRecord()
+class UpdateDnsRecord(dnsRecord: DnsRecord) : CreateDnsRecord(dnsRecord)

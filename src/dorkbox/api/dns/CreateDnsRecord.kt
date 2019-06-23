@@ -20,7 +20,14 @@ import com.squareup.moshi.Json
 /**
  * https://api.cloudflare.com/#dns-records-for-a-zone-create-dns-record
  */
-open class CreateDnsRecord {
+open class CreateDnsRecord(dnsRecord: DnsRecord) {
+
+    @Transient
+    var id = dnsRecord.id
+
+    @Transient
+    var zone = dnsRecord.zone
+
     /**
      * Record type
      * A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI
