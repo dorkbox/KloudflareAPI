@@ -15,7 +15,7 @@ plugins {
 
 object Extras {
     // set for the project
-    const val description = "Cloudflare API for kotlin"
+    const val description = "Cloudflare API v4 for Kotlin"
     const val group = "com.dorkbox"
     const val version = "1.0"
 
