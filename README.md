@@ -36,6 +36,14 @@ listZones.forEach { zone ->
             }
 
             println("  $domainName ${dnsRecord.type} : ${dnsRecord.id}")
+
+            val newDnsRecord = CreateDnsRecord(zone)
+            newDnsRecord.type = RecordType.A
+            newDnsRecord.name = "test"
+            newDnsRecord.content = "1.2.3.4"
+
+            val newRecord = kloudflare.createDnsRecord(newDnsRecord)
+            println("Created: ${newRecord.name} -> ${newRecord.content}")
         }
     }
 }
