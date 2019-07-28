@@ -247,6 +247,11 @@ publishing {
         }
     }
 
+    // output the local coordinates in the console
+    tasks["publishToMavenLocal"].doLast {
+        println("Maven Local coordinates: ${Extras.group}:${Extras.name}:${Extras.version}")
+    }
+
     // output the release URL in the console
     tasks["releaseRepository"].doLast {
         val url = "https://oss.sonatype.org/content/repositories/releases/"
