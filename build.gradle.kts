@@ -5,12 +5,19 @@ println("\tGradle ${project.gradle.gradleVersion}")
 
 plugins {
     java
+    signing
+    `maven-publish`
+
+    // publish on sonatype
+    id("de.marcphilipp.nexus-publish") version "0.2.0"
+    // close and release on sonatype
+    id("io.codearte.nexus-staging") version "0.21.0"
 
     id("com.dorkbox.Licensing") version "1.4"
-    id("com.dorkbox.VersionUpdate") version "1.4.1"
+    id("com.dorkbox.VersionUpdate") version "1.6"
     id("com.dorkbox.GradleUtils") version "1.2"
 
-    kotlin("jvm") version "1.3.40"
+    kotlin("jvm") version "1.3.41"
 }
 
 object Extras {
@@ -27,6 +34,9 @@ object Extras {
     val buildDate = Instant.now().toString()
 
     val JAVA_VERSION = JavaVersion.VERSION_1_8.toString()
+
+    var sonatypeUserName = ""
+    var sonatypePassword = ""
 }
 
 ///////////////////////////////
@@ -99,9 +109,18 @@ tasks.jar.get().apply {
     duplicatesStrategy = DuplicatesStrategy.FAIL
 
     manifest {
-        attributes["Implementation-Version"] = Extras.version
-        attributes["Build-Date"] = Extras.buildDate
-        attributes["Main-Class"] = "dorkbox.UndertowServerTest"
+        // https://docs.oracle.com/javase/tutorial/deployment/jar/packageman.html
+        attributes["Name"] = Extras.name
+
+        attributes["Specification-Title"] = Extras.name
+        attributes["Specification-Version"] = Extras.version
+        attributes["Specification-Vendor"] = Extras.vendor
+
+        attributes["Implementation-Title"] = "${Extras.group}.${Extras.id}"
+        attributes["Implementation-Version"] = Extras.buildDate
+        attributes["Implementation-Vendor"] = Extras.vendor
+
+        attributes["Automatic-Module-Name"] = Extras.id
     }
 }
 
@@ -129,11 +148,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    val coroutrineVer = "1.2.2"
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutrineVer")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutrineVer")
-
-    val okHttpVer = "4.0.0"
+    val okHttpVer = "4.0.1"
     val moshiVer = "1.8.0"
     val retroVer = "2.6.0"
 
@@ -145,16 +160,125 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:$retroVer")
     implementation ("com.squareup.moshi:moshi:$moshiVer")
     implementation ("com.squareup.moshi:moshi-kotlin:$moshiVer")
+}
+
+///////////////////////////////
+//////    PUBLISH TO SONATYPE / MAVEN CENTRAL
+//////
+////// TESTING : local maven repo <PUBLISHING - publishToMavenLocal>
+//////
+////// RELEASE : sonatype / maven central, <PUBLISHING - publish> then <RELEASE - closeAndReleaseRepository>
+///////////////////////////////
+val sourceJar = task<Jar>("sourceJar") {
+    description = "Creates a JAR that contains the source code."
+
+    from(sourceSets["main"].java)
+
+    archiveClassifier.set("sources")
+}
+
+val javaDocJar = task<Jar>("javaDocJar") {
+    description = "Creates a JAR that contains the javadocs."
+
+    archiveClassifier.set("javadoc")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = Extras.group
+            artifactId = Extras.id
+            version = Extras.version
+
+            from(components["java"])
+
+            artifact(sourceJar)
+            artifact(javaDocJar)
+
+            pom {
+                name.set(Extras.name)
+                description.set(Extras.description)
+                url.set(Extras.url)
+
+                issueManagement {
+                    url.set("${Extras.url}/issues")
+                    system.set("Gitea Issues")
+                }
+                organization {
+                    name.set(Extras.vendor)
+                    url.set("https://dorkbox.com")
+                }
+                developers {
+                    developer {
+                        id.set("dorkbox")
+                        name.set(Extras.vendor)
+                        email.set("email@dorkbox.com")
+                    }
+                }
+                scm {
+                    url.set(Extras.url)
+                    connection.set("scm:${Extras.url}.git")
+                }
+            }
+        }
+    }
 
 
-    // awesome logging framework for kotlin.
-    // https://www.reddit.com/r/Kotlin/comments/8gbiul/slf4j_loggers_in_3_ways/
-    // https://github.com/MicroUtils/kotlin-logging
-    implementation("io.github.microutils:kotlin-logging:1.6.26")
-    implementation("io.github.microutils:kotlin-logging-common:1.6.26")
+    repositories {
+        maven {
+            setUrl("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+            credentials {
+                username = Extras.sonatypeUserName
+                password = Extras.sonatypePassword
+            }
+        }
+    }
 
-    implementation("org.slf4j:slf4j-api:1.7.26")
 
-    implementation("ch.qos.logback:logback-core:1.2.3")
-    implementation("ch.qos.logback:logback-classic:1.2.3")
+    tasks.withType<PublishToMavenRepository> {
+        onlyIf {
+            publication == publishing.publications["maven"] && repository == publishing.repositories["maven"]
+        }
+    }
+
+    tasks.withType<PublishToMavenLocal> {
+        onlyIf {
+            publication == publishing.publications["maven"]
+        }
+    }
+
+    // output the release URL in the console
+    tasks["releaseRepository"].doLast {
+        val url = "https://oss.sonatype.org/content/repositories/releases/"
+        val projectName = Extras.group.replace('.', '/')
+        val name = Extras.name
+        val version = Extras.version
+
+        println("Maven URL: $url$projectName/$name/$version/")
+    }
+
+
+    nexusStaging {
+        username = Extras.sonatypeUserName
+        password = Extras.sonatypePassword
+    }
+
+    nexusPublishing {
+        packageGroup.set(Extras.group)
+        repositoryName.set("maven")
+        username.set(Extras.sonatypeUserName)
+        password.set(Extras.sonatypePassword)
+    }
+
+    signing {
+        sign(publishing.publications["maven"])
+    }
+
+    task<Task>("publishAndRelease") {
+        group = "publish and release"
+
+        // required to make sure the tasks run in the correct order
+        tasks["closeAndReleaseRepository"].mustRunAfter(tasks["publishToNexus"])
+        dependsOn("publishToNexus", "closeAndReleaseRepository")
+    }
 }
