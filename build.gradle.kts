@@ -9,15 +9,15 @@ plugins {
     `maven-publish`
 
     // publish on sonatype
-    id("de.marcphilipp.nexus-publish") version "0.2.0"
+    id("de.marcphilipp.nexus-publish") version "0.4.0"
     // close and release on sonatype
-    id("io.codearte.nexus-staging") version "0.21.0"
+    id("io.codearte.nexus-staging") version "0.21.1"
 
-    id("com.dorkbox.Licensing") version "1.4"
-    id("com.dorkbox.VersionUpdate") version "1.6"
-    id("com.dorkbox.GradleUtils") version "1.2"
+    id("com.dorkbox.Licensing") version "1.4.2"
+    id("com.dorkbox.VersionUpdate") version "1.6.1"
+    id("com.dorkbox.GradleUtils") version "1.2.8"
 
-    kotlin("jvm") version "1.3.41"
+    kotlin("jvm") version "1.3.61"
 }
 
 object Extras {
@@ -77,7 +77,7 @@ sourceSets {
 }
 
 repositories {
-    mavenLocal() // this must be first!
+//    mavenLocal() // this must be first!
     jcenter()
 }
 
@@ -148,12 +148,15 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    val okHttpVer = "4.0.1"
-    val moshiVer = "1.8.0"
-    val retroVer = "2.6.0"
+    val moshiVer = "1.9.2"
+    val okHttpVer = "4.2.2"
+    val retroVer = "2.7.0"
 
     implementation("com.squareup.okhttp3:okhttp:$okHttpVer")
     implementation("com.squareup.okhttp3:logging-interceptor:$okHttpVer") // Log Network Calls
+
+    // better SSL library
+    implementation("org.conscrypt:conscrypt-openjdk-uber:2.2.1")
 
     // For serialization. THESE ARE NOT TRANSITIVE because it screws up the kotlin version
     implementation("com.squareup.retrofit2:retrofit:$retroVer")
@@ -223,27 +226,59 @@ publishing {
         }
     }
 
+    signing {
+        setRequired({ project.gradle.taskGraph.hasTask("publishToSonatype") })
 
-    repositories {
-        maven {
-            setUrl("https://oss.sonatype.org/service/local/staging/deploy/maven2")
-            credentials {
-                username = Extras.sonatypeUserName
-                password = Extras.sonatypePassword
+        // the home dir for the signing keys are wrong in windows. This makes sure it's consistent
+        extra["signing.secretKeyRingFile"] = System.getProperty("user.home") + "\\.gnupg\\secring.gpg"
+        sign(publishing.publications["maven"])
+    }
+
+    nexusStaging {
+        packageGroup = Extras.group
+        username = Extras.sonatypeUserName
+        password = Extras.sonatypePassword
+    }
+
+    nexusPublishing {
+        packageGroup.set(Extras.group)
+
+        repositories {
+            sonatype {
+                username.set(Extras.sonatypeUserName)
+                password.set(Extras.sonatypePassword)
             }
         }
     }
 
+    task<Task>("Publish & Release to Sonatype") {
+        group = "publish and release"
 
-    tasks.withType<PublishToMavenRepository> {
-        onlyIf {
-            publication == publishing.publications["maven"] && repository == publishing.repositories["maven"]
-        }
+        // required to make sure the tasks run in the correct order
+        tasks["closeAndReleaseRepository"].mustRunAfter(tasks["publishToSonatype"])
+        dependsOn("publishToSonatype", "closeAndReleaseRepository")
     }
 
-    tasks.withType<PublishToMavenLocal> {
-        onlyIf {
-            publication == publishing.publications["maven"]
+    task<Task>("Publish & Release to Maven Local") {
+        group = "publish and release"
+
+        // required to make sure the tasks run in the correct order
+        dependsOn("publishToMavenLocal")
+    }
+
+    // "hide" all of the irrelevant tasks by un-setting their group (which will cause them NOT to display).
+    // 'gradle tasks --all' will still show them
+    project.afterEvaluate {
+        tasks.forEach {
+            if (it.group == "release") {
+                it.apply {
+                    this.group = ""
+                }
+            } else if (it.group == "publishing") {
+                it.apply {
+                    this.group = ""
+                }
+            }
         }
     }
 
@@ -260,30 +295,5 @@ publishing {
         val version = Extras.version
 
         println("Maven URL: $url$projectName/$name/$version/")
-    }
-
-
-    nexusStaging {
-        username = Extras.sonatypeUserName
-        password = Extras.sonatypePassword
-    }
-
-    nexusPublishing {
-        packageGroup.set(Extras.group)
-        repositoryName.set("maven")
-        username.set(Extras.sonatypeUserName)
-        password.set(Extras.sonatypePassword)
-    }
-
-    signing {
-        sign(publishing.publications["maven"])
-    }
-
-    task<Task>("publishAndRelease") {
-        group = "publish and release"
-
-        // required to make sure the tasks run in the correct order
-        tasks["closeAndReleaseRepository"].mustRunAfter(tasks["publishToNexus"])
-        dependsOn("publishToNexus", "closeAndReleaseRepository")
     }
 }
