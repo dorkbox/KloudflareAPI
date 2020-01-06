@@ -15,9 +15,12 @@
  */
 package dorkbox.kloudflareApi.api.dns
 
+import com.squareup.moshi.JsonClass
+
 /**
  * https://api.cloudflare.com/#dns-records-for-a-zone-properties
  */
+@JsonClass(generateAdapter = true)
 class Data {
 
 }
