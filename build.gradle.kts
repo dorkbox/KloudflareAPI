@@ -11,20 +11,21 @@ plugins {
     // publish on sonatype
     id("de.marcphilipp.nexus-publish") version "0.4.0"
     // close and release on sonatype
-    id("io.codearte.nexus-staging") version "0.21.1"
+    id("io.codearte.nexus-staging") version "0.21.2"
 
     id("com.dorkbox.Licensing") version "1.4.2"
     id("com.dorkbox.VersionUpdate") version "1.6.1"
     id("com.dorkbox.GradleUtils") version "1.2.8"
 
     kotlin("jvm") version "1.3.61"
+    kotlin("kapt") version "1.3.61"
 }
 
 object Extras {
     // set for the project
     const val description = "Cloudflare API v4 for Kotlin"
     const val group = "com.dorkbox"
-    const val version = "1.0"
+    const val version = "1.1"
 
     // set as project.ext
     const val name = "KloudflareAPI"
@@ -146,11 +147,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     val moshiVer = "1.9.2"
-    val okHttpVer = "4.2.2"
-    val retroVer = "2.7.0"
+    val okHttpVer = "4.3.0"
+    val retroVer = "2.7.1"
 
     implementation("com.squareup.okhttp3:okhttp:$okHttpVer")
     implementation("com.squareup.okhttp3:logging-interceptor:$okHttpVer") // Log Network Calls
@@ -161,8 +161,13 @@ dependencies {
     // For serialization. THESE ARE NOT TRANSITIVE because it screws up the kotlin version
     implementation("com.squareup.retrofit2:retrofit:$retroVer")
     implementation("com.squareup.retrofit2:converter-moshi:$retroVer")
+
     implementation ("com.squareup.moshi:moshi:$moshiVer")
     implementation ("com.squareup.moshi:moshi-kotlin:$moshiVer")
+
+    // for AUTOMATIC kotlin reflective serialization of json classes
+    kapt ("com.squareup.moshi:moshi-kotlin-codegen:$moshiVer")
+    kaptTest ("com.squareup.moshi:moshi-kotlin-codegen:$moshiVer")
 }
 
 ///////////////////////////////

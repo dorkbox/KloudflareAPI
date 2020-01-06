@@ -46,37 +46,29 @@ object KloudflareTest {
 
         val kloudflare = Kloudflare(email, token)
 
-        println(kloudflare.getUserDetails())
-        println(kloudflare.getUserBillingProfile())
-        println(kloudflare.getUserBillingHistory())
+        try {
+
+            println(kloudflare.getUserDetails())
+//            println(kloudflare.getUserBillingProfile())
+//            println(kloudflare.getUserBillingHistory())
 
 
-        val zones = kloudflare.listZones()
+            val zones = kloudflare.listZones()
+            zones.forEach {
+                println(it)
+            }
 
-//        println(kloudflare.getZoneRatePlans("123"))
-//        println(kloudflare.getZoneRatePlans("123"))
-//        println(kloudflare.getZoneSettings("123"))
-//        println(kloudflare.listDnsRecords("123"))
-//        println(kloudflare.listAccessRules())
-
-
-
-//        val history = cloudflare.getUserBillingHistory(email, token).execute()
-//        println("user: ${history.body()?.result}")
-//
-//        val zones = cloudflare.listZones(email, token).execute().body()?.result
-//        println("user: ${zones.body()?.result}")
-
-//        val zoneRatePlans = cloudflare.getZoneRatePlans(email, token, "123").execute()
-//        println("user: ${zoneRatePlans.body()?.result}")
-//
-//        val zoneSettings = cloudflare.getZoneSettings(email, token, "123").execute()
-//        println("user: ${zoneSettings.body()?.result}")
-//
-//        val dnsRecords = cloudflare.listDnsRecords(email, token, "123").execute()
-//        println("user: ${dnsRecords.body()?.result}")
+    //        println(kloudflare.getZoneRatePlans("123"))
+    //        println(kloudflare.getZoneRatePlans("123"))
+    //        println(kloudflare.getZoneSettings("123"))
+    //        println(kloudflare.listDnsRecords("123"))
+            println(kloudflare.listAccessRules())
 
 
-        kloudflare.shutdown()
+
+        }
+        finally {
+            kloudflare.shutdown()
+        }
     }
 }

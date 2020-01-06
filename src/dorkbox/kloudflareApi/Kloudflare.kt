@@ -16,6 +16,8 @@
 package dorkbox.kloudflareApi
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dorkbox.kloudflareApi.api.CloudflareActions
 import dorkbox.kloudflareApi.api.core.CfErrorResponse
 import dorkbox.kloudflareApi.api.core.CfResponse
@@ -37,16 +39,31 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import org.conscrypt.Conscrypt
 import retrofit2.Call
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
+import java.security.Security
+import java.time.LocalDateTime
+import java.util.Collections.*
+import kotlin.reflect.full.defaultType
 
 
 class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
     companion object {
         private const val API_BASE_URL = "https://api.cloudflare.com/client/v4/"
+
+
+        init {
+            try {
+                Security.insertProviderAt(Conscrypt.newProvider(), 1);
+            }
+            catch (e: Throwable) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private val errorConverter: Converter<ResponseBody, CfErrorResponse>
@@ -55,19 +72,18 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
 
     init {
         // JSON mapping to java classes
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        // val interceptor = HttpLoggingInterceptor()
+        // interceptor.level = HttpLoggingInterceptor.Level.BODY
 
         client = OkHttpClient.Builder()
-//                .addInterceptor(interceptor)  // this is the raw HTTP interceptor
+                // .addInterceptor(interceptor)  // this is the raw HTTP interceptor
                 .build()
 
         val moshi = Moshi.Builder()
                 .add(ISO8601Adapter())
                 .add(DnsRecordTypeAdapter())
                 .build()
-
-//            val adapter = moshi.adapter<List<String>>(Types.newParameterizedType(List::class.java, String::class.java))
 
         val retrofit = Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
@@ -76,7 +92,6 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
                 .build()
 
         errorConverter = retrofit.responseBodyConverter(CfErrorResponse::class.java, CfErrorResponse::class.annotations.toTypedArray())
-
         cloudflare = retrofit.create(CloudflareActions::class.java)
     }
 
@@ -92,6 +107,7 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
         return response.body?.string()!!
     }
 
+    @Throws(IOException::class)
     private fun <T> wrap(call: Call<CfResponse<T>>): T {
         val response = call.execute()
 
@@ -101,7 +117,7 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
         }
 
         val errorResponse = errorConverter.convert(response.errorBody()!!)
-        throw IOException("HTTP call failed: " + errorResponse?.errors?.joinToString { error: Error -> "[${error.code} : ${error.message}]" })
+        throw IOException("Call failed: " + errorResponse?.errors?.joinToString { error: Error -> "[${error.code} : ${error.message}]" })
     }
 
     /**
