@@ -16,14 +16,8 @@
 package dorkbox.kloudflareApi
 
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dorkbox.kloudflareApi.api.CloudflareActions
-import dorkbox.kloudflareApi.api.core.CfErrorResponse
-import dorkbox.kloudflareApi.api.core.CfResponse
-import dorkbox.kloudflareApi.api.core.DnsRecordTypeAdapter
-import dorkbox.kloudflareApi.api.core.Error
-import dorkbox.kloudflareApi.api.core.ISO8601Adapter
+import dorkbox.kloudflareApi.api.core.*
 import dorkbox.kloudflareApi.api.dns.CreateDnsRecord
 import dorkbox.kloudflareApi.api.dns.DeleteDnsRecord
 import dorkbox.kloudflareApi.api.dns.DnsRecord
@@ -38,7 +32,6 @@ import dorkbox.kloudflareApi.api.zone.settings.ZoneSetting
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody
-import okhttp3.logging.HttpLoggingInterceptor
 import org.conscrypt.Conscrypt
 import retrofit2.Call
 import retrofit2.Converter
@@ -46,9 +39,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
 import java.security.Security
-import java.time.LocalDateTime
-import java.util.Collections.*
-import kotlin.reflect.full.defaultType
+import java.util.Collections.emptyMap
 
 
 class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
@@ -63,6 +54,13 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
             catch (e: Throwable) {
                 e.printStackTrace();
             }
+        }
+
+        /**
+         * Gets the version number.
+         */
+        fun getVersion(): String {
+            return "1.1"
         }
     }
 
