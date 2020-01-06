@@ -60,7 +60,7 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
          * Gets the version number.
          */
         fun getVersion(): String {
-            return "1.1"
+            return "1.2"
         }
     }
 
