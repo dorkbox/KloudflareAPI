@@ -16,31 +16,31 @@
 package dorkbox.kloudflareApi.api.zone.settings
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class MobileRedirectSetting {
     /**
      * Whether or not the mobile redirection is enabled
      * on, off
      */
     @field:[Json(name = "status")]
-    val status = ""
+    var status = ""
 
     /**
      * Which subdomain prefix you wish to redirect visitors on mobile devices to (subdomain must already exist).
      */
     @field:[Json(name = "mobile_subdomain")]
-    val mobileSubdomain: String? = null
+    var mobileSubdomain: String? = null
 
     /**
      * Whether to drop the current page path and redirect to the mobile subdomain URL root or to keep the path and redirect to the same page on the mobile subdomain
      * on, off
      */
     @field:[Json(name = "strip_uri")]
-    val strip_uri = false
+    var strip_uri = false
 
     override fun toString(): String {
         return "MobileRedirectSetting(status='$status', mobileSubdomain=$mobileSubdomain, strip_uri=$strip_uri)"
     }
-
-
 }

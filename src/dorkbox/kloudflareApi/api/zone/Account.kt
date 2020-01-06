@@ -16,23 +16,25 @@
 package dorkbox.kloudflareApi.api.zone
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * https://api.cloudflare.com/#zone-properties
  */
+@JsonClass(generateAdapter = true)
 class Account {
 
     /**
      * Account identifier tag
      */
     @field:[Json(name = "id")]
-    val id = ""
+    var id = ""
 
     /**
      * Account name
      */
     @field:[Json(name = "name")]
-    val name = ""
+    var name = ""
 
     override fun toString(): String {
         return "Account(id='$id', name='$name')"

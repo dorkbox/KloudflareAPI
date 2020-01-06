@@ -16,25 +16,27 @@
 package dorkbox.kloudflareApi.api.firewall
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import dorkbox.kloudflareApi.api.core.ISO8601
 import java.time.LocalDateTime
 
 /**
  * https://api.cloudflare.com/#user-level-firewall-access-rule-properties
  */
+@JsonClass(generateAdapter = true)
 class AccessRule {
 
     /**
      * Access rule identifier tag
      */
     @field:[Json(name = "id")]
-    val id = ""
+    var id = ""
 
     /**
      * A personal note about the rule. Typically used as a reminder or explanation for the rule.
      */
     @field:[Json(name = "notes")]
-    val notes = ""
+    var notes = ""
 
     /**
      * The possible modes the rule can be in.
@@ -42,7 +44,7 @@ class AccessRule {
      * valid values: block, challenge, whitelist, js_challenge
      */
     @field:[Json(name = "allowed_modes")]
-    val allowedModes = listOf<String>()
+    var allowedModes = listOf<String>()
 
     /**
      * The action to apply to a matched request
@@ -50,28 +52,28 @@ class AccessRule {
      * valid values: block, challenge, whitelist, js_challenge
      */
     @field:[Json(name = "mode")]
-    val mode = ""
+    var mode = ""
 
     /**
      * Rule configuration
      */
     @field:[Json(name = "configuration")]
-    val configuration = Configuration()
+    var configuration = Configuration()
 
     @field:[Json(name = "scope")]
-    val scope = Scope()
+    var scope = Scope()
 
     /**
      * When the record was last modified
      */
     @field:[Json(name = "modified_on") ISO8601]
-    var modifiedOn = LocalDateTime.now()
+    var modifiedOn: LocalDateTime = LocalDateTime.now()
 
     /**
      * When the record was created
      */
     @field:[Json(name = "created_on") ISO8601]
-    var createdOn = LocalDateTime.now()
+    var createdOn: LocalDateTime = LocalDateTime.now()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -16,11 +16,13 @@
 package dorkbox.kloudflareApi.api.core
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class Error {
     @field:[Json(name = "code")]
-    val code = 0
+    var code = 0
 
     @field:[Json(name = "message")]
-    val message = ""
+    var message = ""
 }

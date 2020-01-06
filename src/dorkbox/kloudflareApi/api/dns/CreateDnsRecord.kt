@@ -16,23 +16,19 @@
 package dorkbox.kloudflareApi.api.dns
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import dorkbox.kloudflareApi.api.zone.Zone
 
 /**
  * https://api.cloudflare.com/#dns-records-for-a-zone-create-dns-record
+ *
+ * NOTE: 'zone' is not part of the Cloudflare API
+ *
+ *   It is used to associate this dns record with it's zone.
+ *   A default value is required by code generation.
  */
-open class CreateDnsRecord(zone: Zone) {
-
-    /**
-     * NOTE: This is not part of the Cloudflare API
-     *
-     * Used to associate this dns record with it's zone
-     */
-    @Transient
-    val zone = zone
-
-
-
+@JsonClass(generateAdapter = true)
+open class CreateDnsRecord(@Transient val zone: Zone = Zone()) {
 
     /**
      * Record type

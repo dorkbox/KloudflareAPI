@@ -16,19 +16,21 @@
 package dorkbox.kloudflareApi.api.zone.settings
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import dorkbox.kloudflareApi.api.core.ISO8601
 import java.time.LocalDateTime
 
 /**
  * Always Online Mode
  */
+@JsonClass(generateAdapter = true)
 class AlwaysOnline : ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "AlwaysOnline(value='$value')" + super.toString()
@@ -38,6 +40,7 @@ class AlwaysOnline : ZoneSetting() {
 /**
  * Advanced DDoS Protection
  */
+@JsonClass(generateAdapter = true)
 class AdvancedDDos : ZoneSetting() {
     /**
      * Value of the zone setting
@@ -45,7 +48,7 @@ class AdvancedDDos : ZoneSetting() {
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "off"
+    var value = "off"
 
     override fun toString(): String {
         return "AdvancedDDos(value='$value')" + super.toString()
@@ -55,13 +58,14 @@ class AdvancedDDos : ZoneSetting() {
 /**
  * Brotli Compression
  */
+@JsonClass(generateAdapter = true)
 class Brotli : ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "Brotli(value='$value')" + super.toString()
@@ -71,6 +75,7 @@ class Brotli : ZoneSetting() {
 /**
  * Browser Cache TTL
  */
+@JsonClass(generateAdapter = true)
 class BrowserCacheTtl : ZoneSetting() {
     /**
      * Value of the zone setting
@@ -81,7 +86,7 @@ class BrowserCacheTtl : ZoneSetting() {
      * notes: The minimum TTL available depends on the plan level of the zone. (Enterprise = 30, Business = 1800, Pro = 1800, Free = 1800)
      */
     @field:[Json(name = "value")]
-    val value = 14400
+    var value = 14400
 
     override fun toString(): String {
         return "BrowserCacheTtl(value=$value)" + super.toString()
@@ -91,13 +96,14 @@ class BrowserCacheTtl : ZoneSetting() {
 /**
  * Browser Check
  */
+@JsonClass(generateAdapter = true)
 class BrowserCheck : ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "BrowserCheck(value='$value')" + super.toString()
@@ -108,13 +114,14 @@ class BrowserCheck : ZoneSetting() {
 /**
  * Cloudflare CNAME Flattening
  */
+@JsonClass(generateAdapter = true)
 class FlattenAtRoot: ZoneSetting() {
     /**
      * Value of the zone setting
      * flatten_at_root, flatten_all
      */
     @field:[Json(name = "value")]
-    val value = "flatten_at_root"
+    var value = "flatten_at_root"
 
     override fun toString(): String {
         return "FlattenAtRoot(value='$value')" + super.toString()
@@ -125,13 +132,14 @@ class FlattenAtRoot: ZoneSetting() {
 /**
  * Cloudflare Cache Level
  */
+@JsonClass(generateAdapter = true)
 class CacheLevel: ZoneSetting() {
     /**
      * Value of the zone setting
      * aggressive, basic, simplified
      */
     @field:[Json(name = "value")]
-    val value = "aggressive"
+    var value = "aggressive"
 
     override fun toString(): String {
         return "CacheLevel(value='$value')" + super.toString()
@@ -141,6 +149,7 @@ class CacheLevel: ZoneSetting() {
 /**
  * Challenge Page TTL
  */
+@JsonClass(generateAdapter = true)
 class ChallengePageTtl: ZoneSetting() {
     /**
      * Value of the zone setting
@@ -148,7 +157,7 @@ class ChallengePageTtl: ZoneSetting() {
      * valid values: 300, 900, 1800, 2700, 3600, 7200, 10800, 14400, 28800, 57600, 86400, 604800, 2592000, 31536000
      */
     @field:[Json(name = "value")]
-    val value = 1800
+    var value = 1800
 
     override fun toString(): String {
         return "ChallengePageTtl(value=$value)" + super.toString()
@@ -158,13 +167,14 @@ class ChallengePageTtl: ZoneSetting() {
 /**
  * Development Mode
  */
+@JsonClass(generateAdapter = true)
 class DevelopmentMode: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     /**
      * Value of the zone setting
@@ -173,7 +183,7 @@ class DevelopmentMode: ZoneSetting() {
      * for the domain. If development mode has never been enabled, this value is false.
      */
     @field:[Json(name = "time_remaining")]
-    val timeRemaining = 0
+    var timeRemaining = 0
 
     override fun toString(): String {
         return "DevelopmentMode(value='$value', timeRemaining=$timeRemaining)" + super.toString()
@@ -183,6 +193,7 @@ class DevelopmentMode: ZoneSetting() {
 /**
  * Edge Cache TTL
  */
+@JsonClass(generateAdapter = true)
 class EdgeCacheTtl: ZoneSetting() {
     /**
      * Value of the zone setting
@@ -192,7 +203,7 @@ class EdgeCacheTtl: ZoneSetting() {
      * notes: The minimum TTL available depends on the plan level of the zone. (Enterprise = 30, Business = 1800, Pro = 3600, Free = 7200)
      */
     @field:[Json(name = "value")]
-    val value = 1800
+    var value = 1800
 
     override fun toString(): String {
         return "EdgeCacheTtl(value=$value)" + super.toString()
@@ -202,13 +213,14 @@ class EdgeCacheTtl: ZoneSetting() {
 /**
  * Error Pages On
  */
+@JsonClass(generateAdapter = true)
 class ErrorPagesOn: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "ErrorPagesOn(value='$value')" + super.toString()
@@ -219,13 +231,14 @@ class ErrorPagesOn: ZoneSetting() {
 /**
  * Get String Sort
  */
+@JsonClass(generateAdapter = true)
 class StringSort: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "StringSort(value='$value')" + super.toString()
@@ -235,13 +248,14 @@ class StringSort: ZoneSetting() {
 /**
  * Email Obfuscation
  */
+@JsonClass(generateAdapter = true)
 class EmailObfuscation: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "EmailObfuscation(value='$value')" + super.toString()
@@ -251,13 +265,14 @@ class EmailObfuscation: ZoneSetting() {
 /**
  * Hotlink Protection
  */
+@JsonClass(generateAdapter = true)
 class HotlinkProtection: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "HotlinkProtection(value='$value')" + super.toString()
@@ -267,13 +282,14 @@ class HotlinkProtection: ZoneSetting() {
 /**
  * IP Geolocation
  */
+@JsonClass(generateAdapter = true)
 class IpGeolocation: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "IpGeolocation(value='$value')" + super.toString()
@@ -283,13 +299,14 @@ class IpGeolocation: ZoneSetting() {
 /**
  * IPv6
  */
+@JsonClass(generateAdapter = true)
 class IPv6: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "IPv6(value='$value')" + super.toString()
@@ -299,13 +316,14 @@ class IPv6: ZoneSetting() {
 /**
  * WebSockets
  */
+@JsonClass(generateAdapter = true)
 class Websockets: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "Websockets(value='$value')" + super.toString()
@@ -315,13 +333,14 @@ class Websockets: ZoneSetting() {
 /**
  * Toggle SHA1 support
  */
+@JsonClass(generateAdapter = true)
 class ToggleSha1: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "ToggleSha1(value='$value')" + super.toString()
@@ -331,13 +350,14 @@ class ToggleSha1: ZoneSetting() {
 /**
  * TLS1.2 Only
  */
+@JsonClass(generateAdapter = true)
 class Tls1_2Only: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "Tls1_2Only(value='$value')" + super.toString()
@@ -347,13 +367,14 @@ class Tls1_2Only: ZoneSetting() {
 /**
  * Auto-Minify Assets
  */
+@JsonClass(generateAdapter = true)
 class AutoMinify: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = MinifyAssetsSetting()
+    var value = MinifyAssetsSetting()
 
     override fun toString(): String {
         return "AutoMinify(value=$value)" + super.toString()
@@ -363,6 +384,7 @@ class AutoMinify: ZoneSetting() {
 /**
  * Max Upload
  */
+@JsonClass(generateAdapter = true)
 class MaxUpload: ZoneSetting() {
     /**
      * Value of the zone setting
@@ -371,7 +393,7 @@ class MaxUpload: ZoneSetting() {
      * notes: The size depends on the plan level of the zone. (Enterprise = 500, Business = 200, Pro = 100, Free = 100)
      */
     @field:[Json(name = "value")]
-    val value = 100
+    var value = 100
 
     override fun toString(): String {
         return "MaxUpload(value=$value)" + super.toString()
@@ -381,13 +403,14 @@ class MaxUpload: ZoneSetting() {
 /**
  * Mobile Redirect
  */
+@JsonClass(generateAdapter = true)
 class MobileRedirect: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = MobileRedirectSetting()
+    var value = MobileRedirectSetting()
 
     override fun toString(): String {
         return "MobileRedirect(value=$value)" + super.toString()
@@ -397,13 +420,14 @@ class MobileRedirect: ZoneSetting() {
 /**
  * Mirage Image Optimization
  */
+@JsonClass(generateAdapter = true)
 class Mirage: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "Mirage(value='$value')" + super.toString()
@@ -413,13 +437,14 @@ class Mirage: ZoneSetting() {
 /**
  * Polish Image Optimization
  */
+@JsonClass(generateAdapter = true)
 class PolishImage: ZoneSetting() {
     /**
      * Value of the zone setting
      *  off, lossless, lossy
      */
     @field:[Json(name = "value")]
-    val value = "off"
+    var value = "off"
 
     override fun toString(): String {
         return "PolishImage(value='$value')" + super.toString()
@@ -429,13 +454,14 @@ class PolishImage: ZoneSetting() {
 /**
  * Polish WebP Conversion
  */
+@JsonClass(generateAdapter = true)
 class PolishWebP: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "PolishWebP(value='$value')" + super.toString()
@@ -445,13 +471,14 @@ class PolishWebP: ZoneSetting() {
 /**
  * Prefetch Preload
  */
+@JsonClass(generateAdapter = true)
 class PrefetchPreload: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "PrefetchPreload(value='$value')" + super.toString()
@@ -461,13 +488,14 @@ class PrefetchPreload: ZoneSetting() {
 /**
  * Privacy Pass
  */
+@JsonClass(generateAdapter = true)
 class PrivatePass: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "PrivatePass(value='$value')" + super.toString()
@@ -477,13 +505,14 @@ class PrivatePass: ZoneSetting() {
 /**
  * Response Buffering
  */
+@JsonClass(generateAdapter = true)
 class ReponseBuffering: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "ReponseBuffering(value='$value')" + super.toString()
@@ -493,13 +522,14 @@ class ReponseBuffering: ZoneSetting() {
 /**
  * Rocket Loader
  */
+@JsonClass(generateAdapter = true)
 class RocketLoader: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "RocketLoader(value='$value')" + super.toString()
@@ -509,12 +539,13 @@ class RocketLoader: ZoneSetting() {
 /**
  * Security Header
  */
+@JsonClass(generateAdapter = true)
 class SecurityHeader: ZoneSetting() {
     /**
      * Current value of the zone setting
      */
     @field:[Json(name = "value")]
-    val value = SecurityHeadingSetting()
+    var value = SecurityHeadingSetting()
 
     override fun toString(): String {
         return "SecurityHeader(value=$value)" + super.toString()
@@ -524,13 +555,14 @@ class SecurityHeader: ZoneSetting() {
 /**
  * Security Level
  */
+@JsonClass(generateAdapter = true)
 class SecurityLevel: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = SecurityHeadingSetting()
+    var value = SecurityHeadingSetting()
 
     override fun toString(): String {
         return "SecurityLevel(value=$value)" + super.toString()
@@ -540,13 +572,14 @@ class SecurityLevel: ZoneSetting() {
 /**
  * Server Side Exclude
  */
+@JsonClass(generateAdapter = true)
 class ServerSideExclude: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "ServerSideExclude(value='$value')" + super.toString()
@@ -556,6 +589,7 @@ class ServerSideExclude: ZoneSetting() {
 /**
  * SSL
  */
+@JsonClass(generateAdapter = true)
 class SSL: ZoneSetting() {
     /**
      * Value of the zone setting
@@ -564,7 +598,7 @@ class SSL: ZoneSetting() {
      * notes: Depends on the zone's plan level
      */
     @field:[Json(name = "value")]
-    val value = "off"
+    var value = "off"
 
     override fun toString(): String {
         return "SSL(value='$value')" + super.toString()
@@ -574,6 +608,7 @@ class SSL: ZoneSetting() {
 /**
  * TLS Client Authentication
  */
+@JsonClass(generateAdapter = true)
 class TlsClientAuth: ZoneSetting() {
     /**
      * Value of the zone setting
@@ -582,7 +617,7 @@ class TlsClientAuth: ZoneSetting() {
      * notes: Depends on the zone's plan level
      */
     @field:[Json(name = "value")]
-    val value = "off"
+    var value = "off"
 
     override fun toString(): String {
         return "TlsClientAuth(value='$value')" + super.toString()
@@ -592,6 +627,7 @@ class TlsClientAuth: ZoneSetting() {
 /**
  * True Client IP Header
  */
+@JsonClass(generateAdapter = true)
 class TrueClientIPHeader: ZoneSetting() {
     /**
      * Value of the zone setting
@@ -600,7 +636,7 @@ class TrueClientIPHeader: ZoneSetting() {
      * notes: Depends on the zone's plan level
      */
     @field:[Json(name = "value")]
-    val value = "off"
+    var value = "off"
 
     override fun toString(): String {
         return "TrueClientIPHeader(value='$value')" + super.toString()
@@ -610,13 +646,14 @@ class TrueClientIPHeader: ZoneSetting() {
 /**
  * Web Application Firewall
  */
+@JsonClass(generateAdapter = true)
 class WebApplicationFirewall: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "WebApplicationFirewall(value='$value')" + super.toString()
@@ -627,13 +664,14 @@ class WebApplicationFirewall: ZoneSetting() {
 /**
  * Zone Minimum TLS Version Value
  */
+@JsonClass(generateAdapter = true)
 class ZoneMinimumTLSVersionValue: ZoneSetting() {
     /**
      * Value of the zone setting
      * 1.0, 1.1, 1.2, 1.3
      */
     @field:[Json(name = "value")]
-    val value = 1.0
+    var value = 1.0
 
     override fun toString(): String {
         return "ZoneMinimumTLSVersionValue(value=$value)" + super.toString()
@@ -644,13 +682,14 @@ class ZoneMinimumTLSVersionValue: ZoneSetting() {
 /**
  * Zone Enable TLS 1.3
  */
+@JsonClass(generateAdapter = true)
 class ZoneEnableTLS1_3: ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off, zrt
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "ZoneEnableTLS1_3(value='$value')" + super.toString()
@@ -660,13 +699,14 @@ class ZoneEnableTLS1_3: ZoneSetting() {
 /**
  * Zone Enable Opportunistic Encryption
  */
+@JsonClass(generateAdapter = true)
 class ZoneEnableOpportunisticEncryption : ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off, zrt
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "ZoneEnableOpportunisticEncryption(value='$value')" + super.toString()
@@ -676,13 +716,14 @@ class ZoneEnableOpportunisticEncryption : ZoneSetting() {
 /**
  * Zone Enable Automatic HTTPS Rewrites
  */
+@JsonClass(generateAdapter = true)
 class ZoneEnableAutomaticHTTPSRewrites : ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off, zrt
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "ZoneEnableAutomaticHTTPSRewrites(value='$value')" + super.toString()
@@ -692,13 +733,14 @@ class ZoneEnableAutomaticHTTPSRewrites : ZoneSetting() {
 /**
  * HTTP2
  */
+@JsonClass(generateAdapter = true)
 class HTTP2 : ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off, zrt
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "HTTP2(value='$value')" + super.toString()
@@ -708,13 +750,14 @@ class HTTP2 : ZoneSetting() {
 /**
  * Pseudo IPv4 Value
  */
+@JsonClass(generateAdapter = true)
 class PseudoIPv4 : ZoneSetting() {
     /**
      * Value of the zone setting
      * off, add_header, overwrite_header
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "PseudoIPv4(value='$value')" + super.toString()
@@ -724,13 +767,14 @@ class PseudoIPv4 : ZoneSetting() {
 /**
  * Zone Enable Always Use HTTPS
  */
+@JsonClass(generateAdapter = true)
 class ZoneEnableAlwaysUseHTTPS : ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "ZoneEnableAlwaysUseHTTPS(value='$value')" + super.toString()
@@ -740,13 +784,14 @@ class ZoneEnableAlwaysUseHTTPS : ZoneSetting() {
 /**
  * Zone Enable Onion Routing
  */
+@JsonClass(generateAdapter = true)
 class ZoneEnableOnionRouting : ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "ZoneEnableOnionRouting(value='$value')" + super.toString()
@@ -756,13 +801,14 @@ class ZoneEnableOnionRouting : ZoneSetting() {
 /**
  * Image Resizing
  */
+@JsonClass(generateAdapter = true)
 class ImageResizing : ZoneSetting() {
     /**
      * Value of the zone setting
      *on, off
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "ImageResizing(value='$value')" + super.toString()
@@ -772,13 +818,14 @@ class ImageResizing : ZoneSetting() {
 /**
  * HTTP/2 Edge Prioritization
  */
+@JsonClass(generateAdapter = true)
 class HTTP2EdgePrioritization : ZoneSetting() {
     /**
      * Value of the zone setting
      * on, off, custom
      */
     @field:[Json(name = "value")]
-    val value = "on"
+    var value = "on"
 
     override fun toString(): String {
         return "HTTP2EdgePrioritization(value='$value')" + super.toString()
@@ -790,6 +837,7 @@ class HTTP2EdgePrioritization : ZoneSetting() {
 /**
  * https://api.cloudflare.com/#zone-settings-properties
  */
+@JsonClass(generateAdapter = true)
 open class ZoneSetting {
 
     /**
@@ -803,19 +851,19 @@ open class ZoneSetting {
      * automatic_https_rewrites, http2, , pseudo_ipv4, always_use_https, opportunistic_onion, image_resizing, h2_prioritization
      */
     @field:[Json(name = "id")]
-    val id = ""
+    var id = ""
 
     /**
      * Whether or not this setting can be modified for this zone (based on your Cloudflare plan level)
      */
     @field:[Json(name = "editable")]
-    val editable = true
+    var editable = true
 
     /**
      * last time this setting was modified
      */
     @field:[Json(name = "modified_on") ISO8601]
-    val modifiedOn: LocalDateTime? = null
+    var modifiedOn: LocalDateTime? = null
 
     override fun toString(): String {
         return "ZoneSetting(id='$id', editable=$editable, modifiedOn=$modifiedOn)"

@@ -16,23 +16,25 @@
 package dorkbox.kloudflareApi.api.zone
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * https://api.cloudflare.com/#zone-properties
  */
+@JsonClass(generateAdapter = true)
 class Owner {
 
     @field:[Json(name = "id")]
-    val id = ""
+    var id = ""
 
     /**
      * The type of owner of the zone
      */
     @field:[Json(name = "email")]
-    val email = ""
+    var email = ""
 
     @field:[Json(name = "owner_type")]
-    val ownerType = "user"
+    var ownerType = "user"
 
     override fun toString(): String {
         return "Owner(id='$id', email='$email', ownerType='$ownerType')"

@@ -16,10 +16,12 @@
 package dorkbox.kloudflareApi.api.zone
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * https://api.cloudflare.com/#zone-properties
  */
+@JsonClass(generateAdapter = true)
 class Component {
 
     /**
@@ -27,19 +29,19 @@ class Component {
      * zones, page_rules, dedicated_certificates, dedicated_certificates_custom
      */
     @field:[Json(name = "name")]
-    val name: String? = null
+    var name: String? = null
 
     /**
      * The default amount allocated
      */
     @field:[Json(name = "default")]
-    val default = 5
+    var default = 5
 
     /**
      * The unit price of the addon
      */
     @field:[Json(name = "unit_price")]
-    val unitPrice = 0
+    var unitPrice = 0
 
     override fun toString(): String {
         return "Components(name=$name, default=$default, unitPrice=$unitPrice)"

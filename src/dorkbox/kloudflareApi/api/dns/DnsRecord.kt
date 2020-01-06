@@ -16,6 +16,7 @@
 package dorkbox.kloudflareApi.api.dns
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import dorkbox.kloudflareApi.api.core.ISO8601
 import dorkbox.kloudflareApi.api.zone.Zone
 import java.time.LocalDateTime
@@ -23,6 +24,7 @@ import java.time.LocalDateTime
 /**
  * https://api.cloudflare.com/#dns-records-for-a-zone-properties
  */
+@JsonClass(generateAdapter = true)
 open class DnsRecord {
     /**
      * NOTE: This is not part of the Cloudflare API
@@ -105,13 +107,13 @@ open class DnsRecord {
      * When the record was last modified
      */
     @field:[Json(name = "modified_on") ISO8601]
-    var modifiedOn = LocalDateTime.now()
+    var modifiedOn: LocalDateTime = LocalDateTime.now()
 
     /**
      * When the record was created
      */
     @field:[Json(name = "created_on") ISO8601]
-    var createdOn = LocalDateTime.now()
+    var createdOn: LocalDateTime = LocalDateTime.now()
 
     /**
      * Extra Cloudflare-specific information about the record

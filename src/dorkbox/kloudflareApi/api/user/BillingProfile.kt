@@ -16,140 +16,142 @@
 package dorkbox.kloudflareApi.api.user
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import dorkbox.kloudflareApi.api.core.ISO8601
 import java.time.LocalDateTime
 
 /**
  * https://api.cloudflare.com/#user-billing-profile-billing-profile
  */
+@JsonClass(generateAdapter = true)
 class BillingProfile {
 
     /**
      * The email address associated with this payment type
      */
     @field:[Json(name = "payment_email")]
-    val paymentEmail = ""
+    var paymentEmail = ""
 
     /**
      * Billing profile identifier tag
      */
     @field:[Json(name = "id")]
-    val id = ""
+    var id = ""
 
     /**
      * The first name on the billing profile
      */
     @field:[Json(name = "first_name")]
-    val firstName = ""
+    var firstName = ""
 
     /**
      * The last name on the billing profile
      */
     @field:[Json(name = "last_name")]
-    val lastName = ""
+    var lastName = ""
 
     /**
      * Street address on the billing profile
      */
     @field:[Json(name = "address")]
-    val address = ""
+    var address = ""
 
     /**
      * Street address continued, apartment/suite, etc (optional)
      */
     @field:[Json(name = "address2")]
-    val address2 = ""
+    var address2 = ""
 
     /**
      * The company name on the billing profile
      */
     @field:[Json(name = "company")]
-    val company = ""
+    var company = ""
 
     /**
      * The city on the billing profile
      */
     @field:[Json(name = "city")]
-    val city = ""
+    var city = ""
 
     /**
      * the state/province on the billing profile
      */
     @field:[Json(name = "state")]
-    val state = ""
+    var state = ""
 
     /**
      * The zipcode on the billing profile
      */
     @field:[Json(name = "zipCode")]
-    val zipcode = ""
+    var zipcode = ""
 
     /**
      * the country of the address on the billing profile
      */
     @field:[Json(name = "country")]
-    val country = ""
+    var country = ""
 
     /**
      * The telephone associated with the billing profile
      */
     @field:[Json(name = "telephone")]
-    val telephone = ""
+    var telephone = ""
 
     /**
      * The last four digits of the credit card on file
      */
     @field:[Json(name = "card_number")]
-    val cardNumber = ""
+    var cardNumber = ""
 
     /**
      * The month number (1-12) of when the credit card on file expires
      */
     @field:[Json(name = "card_expiry_month")]
-    val cardExpiryMonth = 1
+    var cardExpiryMonth = 1
 
     /**
      * The year when the credit card on file expires
      */
     @field:[Json(name = "card_expiry_year")]
-    val cardExpiryYear = 2020
+    var cardExpiryYear = 2020
 
     /**
-     * Value Added Tax ID
+     * varue Added Tax ID
      */
     @field:[Json(name = "vat")]
-    val vat = ""
+    var vat = ""
 
     /**
      * Information about a customer's device collected by client SDK
      */
     @field:[Json(name = "device_data")]
-    val deviceData = ""
+    var deviceData = ""
 
     /**
      * The gateway which was used to tokenize the payment method
      *  braintree, paypal
      */
     @field:[Json(name = "payment_gateway")]
-    val paymentGateway = ""
+    var paymentGateway = ""
 
     /**
      * The string returned by the client SDK to represent a payment method
      */
     @field:[Json(name = "payment_nonce")]
-    val paymentNonce = ""
+    var paymentNonce = ""
 
     /**
      * When the profile was last modified
      */
     @field:[Json(name = "edited_on") ISO8601]
-    val editedOn = LocalDateTime.now()
+    var editedOn: LocalDateTime = LocalDateTime.now()
 
     /**
      * When the profile was created
      */
     @field:[Json(name = "created_on") ISO8601]
-    val createdOn = LocalDateTime.now()
+    var createdOn: LocalDateTime = LocalDateTime.now()
 
     override fun toString(): String {
         return "BillingProfile(paymentEmail='$paymentEmail', id='$id', firstName='$firstName', lastName='$lastName', address='$address', address2='$address2', company='$company', city='$city', state='$state', zipcode='$zipcode', country='$country', telephone='$telephone', cardNumber='$cardNumber', cardExpiryMonth=$cardExpiryMonth, cardExpiryYear=$cardExpiryYear, vat='$vat', deviceData='$deviceData', paymentGateway='$paymentGateway', paymentNonce='$paymentNonce', editedOn=$editedOn, createdOn=$createdOn)"

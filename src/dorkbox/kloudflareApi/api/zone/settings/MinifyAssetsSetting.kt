@@ -16,28 +16,30 @@
 package dorkbox.kloudflareApi.api.zone.settings
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class MinifyAssetsSetting {
     /**
      * Account identifier tag
      * on, off
      */
     @field:[Json(name = "css")]
-    val css = ""
+    var css = ""
 
     /**
      * Account identifier tag
      * on, off
      */
     @field:[Json(name = "html")]
-    val html = ""
+    var html = ""
 
     /**
      * Account identifier tag
      * on, off
      */
     @field:[Json(name = "js")]
-    val js = ""
+    var js = ""
 
     override fun toString(): String {
         return "MinifyAssets(css='$css', html='$html', js='$js')"

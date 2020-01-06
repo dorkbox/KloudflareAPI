@@ -16,41 +16,43 @@
 package dorkbox.kloudflareApi.api.user
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * https://api.cloudflare.com/#user-s-organizations-list-organizations
  */
+@JsonClass(generateAdapter = true)
 class UserOrganization {
 
     /**
      * Organization identifier tag
      */
     @field:[Json(name = "id")]
-    val id = ""
+    var id = ""
 
     /**
      * Organization Name
      */
     @field:[Json(name = "name")]
-    val name = ""
+    var name = ""
 
     /**
-     * Whether or not the user is a member of the organization or has an inivitation pending
+     * Whether or not the user is a member of the organization or has an invitation pending
      */
     @field:[Json(name = "status")]
-    val status = ""
+    var status = ""
 
     /**
      * Access permissions for this User
      */
     @field:[Json(name = "permissions")]
-    val permissions = listOf<String>()
+    var permissions = listOf<String>()
 
     /**
      * List of role names for the User at the Organization
      */
     @field:[Json(name = "roles")]
-    val roles= listOf<String>()
+    var roles= listOf<String>()
 
     override fun toString(): String {
         return "UserOrganization(id='$id', name='$name', status='$status', permissions=$permissions, roles=$roles)"

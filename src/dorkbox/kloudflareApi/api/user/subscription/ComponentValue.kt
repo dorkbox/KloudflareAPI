@@ -16,33 +16,35 @@
 package dorkbox.kloudflareApi.api.user.subscription
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * https://api.cloudflare.com/#user-subscription-properties
  */
+@JsonClass(generateAdapter = true)
 class ComponentValue {
 
     /**
      * The name of the component_value
      */
     @field:[Json(name = "name")]
-    val name = ""
+    var name = ""
 
     /**
      * The amount of the component value assigned
      */
     @field:[Json(name = "value")]
-    val value = 0
+    var value = 0
 
     /**
      * The default amount assigned.
      */
     @field:[Json(name = "default")]
-    val default = 0
+    var default = 0
 
     /**
      * The unit price for the component value
      */
     @field:[Json(name = "price")]
-    val price = 0
+    var price = 0
 }

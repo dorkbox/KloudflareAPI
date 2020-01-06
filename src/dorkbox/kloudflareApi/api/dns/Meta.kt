@@ -16,19 +16,21 @@
 package dorkbox.kloudflareApi.api.dns
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * https://api.cloudflare.com/#dns-records-for-a-zone-properties
  */
+@JsonClass(generateAdapter = true)
 class Meta {
 
     /**
      * Will exist if Cloudflare automatically added this DNS record during initial setup.
      */
     @field:[Json(name = "auto_added")]
-    val autoAdded = false
+    var autoAdded = false
 
 
     @field:[Json(name = "managed_by_apps")]
-    val managedByApps = false
+    var managedByApps = false
 }

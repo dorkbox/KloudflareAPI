@@ -16,23 +16,25 @@
 package dorkbox.kloudflareApi.api.firewall
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * https://api.cloudflare.com/#user-level-firewall-access-rule-properties
  */
+@JsonClass(generateAdapter = true)
 class Scope {
 
     /**
      * User identifier tag
      */
     @field:[Json(name = "id")]
-    val id = ""
+    var id = ""
 
     /**
      * Your contact email address
      */
     @field:[Json(name = "email")]
-    val email = ""
+    var email = ""
 
 
     /**
@@ -41,7 +43,7 @@ class Scope {
      * valid values: user
      */
     @field:[Json(name = "type")]
-    val type = "user"
+    var type = "user"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

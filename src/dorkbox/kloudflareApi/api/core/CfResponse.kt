@@ -16,10 +16,12 @@
 package dorkbox.kloudflareApi.api.core
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * Date fields will always be in UTC ISO-8601 format, including microseconds.
  */
+@JsonClass(generateAdapter = true)
 open class CfResponse<T> {
     // HTTP response codes
     //200	OK	request successful
@@ -35,19 +37,19 @@ open class CfResponse<T> {
      * The data requested is wrapped in the result tag. If you have a response, it will always be within the result field
      */
     @field:[Json(name = "result")]
-    val result: T? = null
+    var result: T? = null
 
     @field:[Json(name = "success")]
-    val success = false
+    var success = false
 
     @field:[Json(name = "errors")]
-    val errors = listOf<Error>()
+    var errors = listOf<Error>()
 
     @field:[Json(name = "messages")]
-    val messages = listOf<String>()
+    var messages = listOf<String>()
 
     @field:[Json(name = "result_info")]
-    val resultInfo: ResultInfo? = null
+    var resultInfo: ResultInfo? = null
 
     override fun toString(): String {
         return "Response(result=$result, success=$success, errors=$errors, messages=$messages, resultInfo=$resultInfo)"

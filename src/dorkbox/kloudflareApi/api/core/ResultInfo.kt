@@ -16,19 +16,21 @@
 package dorkbox.kloudflareApi.api.core
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class ResultInfo {
     @field:[Json(name = "page")]
-    val page = 1
+    var page = 1
 
     @field:[Json(name = "per_page")]
-    val perPage = 20
+    var perPage = 20
 
     @field:[Json(name = "count")]
-    val count = 1
+    var count = 1
 
     @field:[Json(name = "total_count")]
-    val totalCount = 200
+    var totalCount = 200
 
     override fun toString(): String {
         return "ResultInfo(page=$page, perPage=$perPage, count=$count, totalCount=$totalCount)"

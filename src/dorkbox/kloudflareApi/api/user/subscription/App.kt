@@ -16,12 +16,14 @@
 package dorkbox.kloudflareApi.api.user.subscription
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class App {
 
     /**
      * app install id
      */
     @field:[Json(name = "install_id")]
-    val installId = ""
+    var installId = ""
 }

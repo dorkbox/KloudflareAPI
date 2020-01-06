@@ -16,7 +16,9 @@
 package dorkbox.kloudflareApi.api.zone.settings
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class SecurityHeadingSetting {
     /**
      * Whether or not strict transport security is enabled

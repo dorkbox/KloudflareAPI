@@ -16,48 +16,50 @@
 package dorkbox.kloudflareApi.api.zone
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * https://api.cloudflare.com/#zone-rate-plan-properties
  */
-class   RatePlan {
+@JsonClass(generateAdapter = true)
+class RatePlan {
 
     /**
      * Plan identifier tag
      */
     @field:[Json(name = "id")]
-    val id = "free"
+    var id = "free"
 
     /**
      * The plan name
      */
     @field:[Json(name = "name")]
-    val name = "Free Plan"
+    var name = "Free Plan"
 
     /**
      * The monetary unit in which pricing information is displayed
      */
     @field:[Json(name = "currency")]
-    val currency = "USD"
+    var currency = "USD"
 
     /**
      * The duration of the plan subscription
      */
     @field:[Json(name = "duration")]
-    val duration = 1
+    var duration = 1
 
     /**
      * The frequency at which you will be billed for this plan
      * weekly, monthly, quarterly, yearly
      */
     @field:[Json(name = "frequency")]
-    val frequency = "monthly"
+    var frequency = "monthly"
 
     /**
      * Array of available components values for the plan
      */
     @field:[Json(name = "components")]
-    val components = listOf<Component>()
+    var components = listOf<Component>()
 
     override fun toString(): String {
         return "RatePlan(id='$id', name='$name', currency='$currency', duration=$duration, frequency='$frequency', components=$components)"

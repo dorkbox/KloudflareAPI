@@ -16,10 +16,12 @@
 package dorkbox.kloudflareApi.api.core
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * Date fields will always be in UTC ISO-8601 format, including microseconds.
  */
+@JsonClass(generateAdapter = true)
 open class CfErrorResponse {
     // HTTP response codes
     //200	OK	request successful
@@ -32,16 +34,16 @@ open class CfErrorResponse {
     //415	Unsupported Media Type	response is not valid JSON
 
     @field:[Json(name = "success")]
-    val success = false
+    var success = false
 
     @field:[Json(name = "errors")]
-    val errors = listOf<Error>()
+    var errors = listOf<Error>()
 
     @field:[Json(name = "messages")]
-    val messages = listOf<String>()
+    var messages = listOf<String>()
 
     @field:[Json(name = "result_info")]
-    val resultInfo: ResultInfo? = null
+    var resultInfo: ResultInfo? = null
 
     override fun toString(): String {
         return "Response(success=$success, errors=$errors, messages=$messages, resultInfo=$resultInfo)"

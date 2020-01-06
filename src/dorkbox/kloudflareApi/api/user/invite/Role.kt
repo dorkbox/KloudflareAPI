@@ -16,37 +16,39 @@
 package dorkbox.kloudflareApi.api.user.invite
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 
 /**
  * https://api.cloudflare.com/#user-s-invites-properties
  */
+@JsonClass(generateAdapter = true)
 class Role {
 
     /**
      * Role identifier tag
      */
     @field:[Json(name = "id")]
-    val id = ""
+    var id = ""
 
     /**
      * Role Name
      */
     @field:[Json(name = "name")]
-    val name: String? = null
+    var name: String? = null
 
     /**
      * Description of role's permissions
      */
     @field:[Json(name = "description")]
-    val description: String? = null
+    var description: String? = null
 
 
     /**
      * Access permissions for this User
      */
     @field:[Json(name = "permissions")]
-    val permissions = listOf<String>()
+    var permissions = listOf<String>()
 
     override fun toString(): String {
         return "Role(id='$id', name=$name, description=$description, permissions=$permissions)"

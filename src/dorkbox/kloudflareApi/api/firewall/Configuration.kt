@@ -16,10 +16,12 @@
 package dorkbox.kloudflareApi.api.firewall
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * https://api.cloudflare.com/#user-level-firewall-access-rule-properties
  */
+@JsonClass(generateAdapter = true)
 class Configuration {
 
     /**
@@ -29,7 +31,7 @@ class Configuration {
      *
      */
     @field:[Json(name = "target")]
-    val target = ""
+    var target = ""
 
 
     /**
@@ -39,7 +41,7 @@ class Configuration {
      * COUNTRY  : US, DE, etc
      */
     @field:[Json(name = "value")]
-    val value = ""
+    var value = ""
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
