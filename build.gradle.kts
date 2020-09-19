@@ -1,21 +1,21 @@
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.time.Instant
 
-println("\tGradle ${project.gradle.gradleVersion}")
+
+///////////////////////////////
+//////    PUBLISH TO SONATYPE / MAVEN CENTRAL
+////// TESTING : (to local maven repo) <'publish and release' - 'publishToMavenLocal'>
+////// RELEASE : (to sonatype/maven central), <'publish and release' - 'publishToSonatypeAndRelease'>
+///////////////////////////////
 
 plugins {
     java
-    signing
-    `maven-publish`
 
-    // publish on sonatype
-    id("de.marcphilipp.nexus-publish") version "0.4.0"
-    // close and release on sonatype
-    id("io.codearte.nexus-staging") version "0.21.2"
-
+    id("com.dorkbox.GradleUtils") version "1.8"
     id("com.dorkbox.Licensing") version "1.4.2"
     id("com.dorkbox.VersionUpdate") version "1.6.1"
-    id("com.dorkbox.GradleUtils") version "1.2.8"
+    id("com.dorkbox.GradlePublish") version "1.2"
 
     kotlin("jvm") version "1.3.61"
     kotlin("kapt") version "1.3.61"
@@ -25,29 +25,26 @@ object Extras {
     // set for the project
     const val description = "Cloudflare API v4 for Kotlin"
     const val group = "com.dorkbox"
-    const val version = "1.2"
+    const val version = "1.3"
 
     // set as project.ext
     const val name = "KloudflareAPI"
     const val id = "KloudflareAPI"
     const val vendor = "Dorkbox LLC"
+    const val vendorUrl = "https://dorkbox.com"
     const val url = "https://git.dorkbox.com/dorkbox/KloudflareAPI"
     val buildDate = Instant.now().toString()
 
-    val JAVA_VERSION = JavaVersion.VERSION_1_8.toString()
-
-    var sonatypeUserName = ""
-    var sonatypePassword = ""
+    val JAVA_VERSION = JavaVersion.VERSION_11.toString()
+    const val KOTLIN_API_VERSION = "1.3"
+    const val KOTLIN_LANG_VERSION = "1.3"
 }
 
 ///////////////////////////////
 /////  assign 'Extras'
 ///////////////////////////////
 GradleUtils.load("$projectDir/../../gradle.properties", Extras)
-description = Extras.description
-group = Extras.group
-version = Extras.version
-
+GradleUtils.fixIntellijPaths()
 
 licensing {
     license(License.APACHE_2) {
@@ -88,10 +85,30 @@ repositories {
 //////    Task defaults
 ///////////////////////////////
 tasks.withType<JavaCompile> {
+    doFirst {
+        println("\tCompiling classes to Java $sourceCompatibility")
+    }
+
     options.encoding = "UTF-8"
 
     sourceCompatibility = Extras.JAVA_VERSION
     targetCompatibility = Extras.JAVA_VERSION
+}
+
+tasks.withType<KotlinCompile> {
+    doFirst {
+        println("\tCompiling classes to Kotlin, Java ${kotlinOptions.jvmTarget}")
+    }
+
+    sourceCompatibility = Extras.JAVA_VERSION
+    targetCompatibility = Extras.JAVA_VERSION
+
+    // see: https://kotlinlang.org/docs/reference/using-gradle.html
+    kotlinOptions {
+        jvmTarget = Extras.JAVA_VERSION
+        apiVersion = Extras.KOTLIN_API_VERSION
+        languageVersion = Extras.KOTLIN_LANG_VERSION
+    }
 }
 
 tasks.withType<Jar> {
@@ -170,135 +187,26 @@ dependencies {
     kaptTest ("com.squareup.moshi:moshi-kotlin-codegen:$moshiVer")
 }
 
-///////////////////////////////
-//////    PUBLISH TO SONATYPE / MAVEN CENTRAL
-//////
-////// TESTING : local maven repo <PUBLISHING - publishToMavenLocal>
-//////
-////// RELEASE : sonatype / maven central, <PUBLISHING - publish> then <RELEASE - closeAndReleaseRepository>
-///////////////////////////////
-val sourceJar = task<Jar>("sourceJar") {
-    description = "Creates a JAR that contains the source code."
+publishToSonatype {
+    groupId = Extras.group
+    artifactId = Extras.id
+    version = Extras.version
 
-    from(sourceSets["main"].java)
+    name = Extras.name
+    description = Extras.description
+    url = Extras.url
 
-    archiveClassifier.set("sources")
-}
+    vendor = Extras.vendor
+    vendorUrl = Extras.vendorUrl
 
-val javaDocJar = task<Jar>("javaDocJar") {
-    description = "Creates a JAR that contains the javadocs."
-
-    archiveClassifier.set("javadoc")
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = Extras.group
-            artifactId = Extras.id
-            version = Extras.version
-
-            from(components["java"])
-
-            artifact(sourceJar)
-            artifact(javaDocJar)
-
-            pom {
-                name.set(Extras.name)
-                description.set(Extras.description)
-                url.set(Extras.url)
-
-                issueManagement {
-                    url.set("${Extras.url}/issues")
-                    system.set("Gitea Issues")
-                }
-                organization {
-                    name.set(Extras.vendor)
-                    url.set("https://dorkbox.com")
-                }
-                developers {
-                    developer {
-                        id.set("dorkbox")
-                        name.set(Extras.vendor)
-                        email.set("email@dorkbox.com")
-                    }
-                }
-                scm {
-                    url.set(Extras.url)
-                    connection.set("scm:${Extras.url}.git")
-                }
-            }
-        }
+    issueManagement {
+        url = "${Extras.url}/issues"
+        nickname = "Gitea Issues"
     }
 
-    signing {
-        setRequired({ project.gradle.taskGraph.hasTask("publishToSonatype") })
-
-        // the home dir for the signing keys are wrong in windows. This makes sure it's consistent
-        extra["signing.secretKeyRingFile"] = System.getProperty("user.home") + "\\.gnupg\\secring.gpg"
-        sign(publishing.publications["maven"])
-    }
-
-    nexusStaging {
-        packageGroup = Extras.group
-        username = Extras.sonatypeUserName
-        password = Extras.sonatypePassword
-    }
-
-    nexusPublishing {
-        packageGroup.set(Extras.group)
-
-        repositories {
-            sonatype {
-                username.set(Extras.sonatypeUserName)
-                password.set(Extras.sonatypePassword)
-            }
-        }
-    }
-
-    task<Task>("Publish & Release to Sonatype") {
-        group = "publish and release"
-
-        // required to make sure the tasks run in the correct order
-        tasks["closeAndReleaseRepository"].mustRunAfter(tasks["publishToSonatype"])
-        dependsOn("publishToSonatype", "closeAndReleaseRepository")
-    }
-
-    task<Task>("Publish & Release to Maven Local") {
-        group = "publish and release"
-
-        // required to make sure the tasks run in the correct order
-        dependsOn("publishToMavenLocal")
-    }
-
-    // "hide" all of the irrelevant tasks by un-setting their group (which will cause them NOT to display).
-    // 'gradle tasks --all' will still show them
-    project.afterEvaluate {
-        tasks.forEach {
-            if (it.group == "release") {
-                it.apply {
-                    this.group = ""
-                }
-            } else if (it.group == "publishing") {
-                it.apply {
-                    this.group = ""
-                }
-            }
-        }
-    }
-
-    // output the local coordinates in the console
-    tasks["publishToMavenLocal"].doLast {
-        println("Maven Local coordinates: ${Extras.group}:${Extras.name}:${Extras.version}")
-    }
-
-    // output the release URL in the console
-    tasks["releaseRepository"].doLast {
-        val url = "https://oss.sonatype.org/content/repositories/releases/"
-        val projectName = Extras.group.replace('.', '/')
-        val name = Extras.name
-        val version = Extras.version
-
-        println("Maven URL: $url$projectName/$name/$version/")
+    developer {
+        id = "dorkbox"
+        name = Extras.vendor
+        email = "email@dorkbox.com"
     }
 }
