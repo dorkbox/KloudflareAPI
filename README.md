@@ -60,7 +60,7 @@ Maven Info
     <dependency>
       <groupId>com.dorkbox</groupId>
       <artifactId>KloudflareAPI</artifactId>
-      <version>1.2</version>
+      <version>1.3</version>
     </dependency>
 </dependencies>
 ```
@@ -70,7 +70,7 @@ Gradle Info
 ````
 dependencies {
     ...
-    compile 'com.dorkbox:KloudflareAPI:1.2'
+    compile 'com.dorkbox:KloudflareAPI:1.3'
 }
 ````
 

@@ -59,9 +59,7 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
         /**
          * Gets the version number.
          */
-        fun getVersion(): String {
-            return "1.2"
-        }
+        const val version = "1.3"
     }
 
     private val errorConverter: Converter<ResponseBody, CfErrorResponse>

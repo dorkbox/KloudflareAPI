@@ -1,5 +1,4 @@
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.time.Instant
 
 
@@ -12,13 +11,13 @@ import java.time.Instant
 plugins {
     java
 
-    id("com.dorkbox.GradleUtils") version "1.8"
-    id("com.dorkbox.Licensing") version "1.4.2"
-    id("com.dorkbox.VersionUpdate") version "1.6.1"
-    id("com.dorkbox.GradlePublish") version "1.2"
+    id("com.dorkbox.GradleUtils") version "1.12"
+    id("com.dorkbox.Licensing") version "2.5.2"
+    id("com.dorkbox.VersionUpdate") version "2.0.5"
+    id("com.dorkbox.GradlePublish") version "1.8"
 
-    kotlin("jvm") version "1.3.61"
-    kotlin("kapt") version "1.3.61"
+    kotlin("jvm") version "1.4.21"
+    kotlin("kapt") version "1.4.21"
 }
 
 object Extras {
@@ -34,10 +33,6 @@ object Extras {
     const val vendorUrl = "https://dorkbox.com"
     const val url = "https://git.dorkbox.com/dorkbox/KloudflareAPI"
     val buildDate = Instant.now().toString()
-
-    val JAVA_VERSION = JavaVersion.VERSION_11.toString()
-    const val KOTLIN_API_VERSION = "1.3"
-    const val KOTLIN_LANG_VERSION = "1.3"
 }
 
 ///////////////////////////////
@@ -45,6 +40,8 @@ object Extras {
 ///////////////////////////////
 GradleUtils.load("$projectDir/../../gradle.properties", Extras)
 GradleUtils.fixIntellijPaths()
+GradleUtils.defaultResolutionStrategy()
+GradleUtils.compileConfiguration(JavaVersion.VERSION_11)
 
 licensing {
     license(License.APACHE_2) {
@@ -80,52 +77,7 @@ repositories {
 }
 
 
-
-///////////////////////////////
-//////    Task defaults
-///////////////////////////////
-tasks.withType<JavaCompile> {
-    doFirst {
-        println("\tCompiling classes to Java $sourceCompatibility")
-    }
-
-    options.encoding = "UTF-8"
-
-    sourceCompatibility = Extras.JAVA_VERSION
-    targetCompatibility = Extras.JAVA_VERSION
-}
-
-tasks.withType<KotlinCompile> {
-    doFirst {
-        println("\tCompiling classes to Kotlin, Java ${kotlinOptions.jvmTarget}")
-    }
-
-    sourceCompatibility = Extras.JAVA_VERSION
-    targetCompatibility = Extras.JAVA_VERSION
-
-    // see: https://kotlinlang.org/docs/reference/using-gradle.html
-    kotlinOptions {
-        jvmTarget = Extras.JAVA_VERSION
-        apiVersion = Extras.KOTLIN_API_VERSION
-        languageVersion = Extras.KOTLIN_LANG_VERSION
-    }
-}
-
-tasks.withType<Jar> {
-    duplicatesStrategy = DuplicatesStrategy.FAIL
-}
-
-tasks.compileJava.get().apply {
-    println("\tCompiling classes to Java $sourceCompatibility")
-}
-
-tasks.withType<Jar> {
-    duplicatesStrategy = DuplicatesStrategy.FAIL
-}
-
 tasks.jar.get().apply {
-    duplicatesStrategy = DuplicatesStrategy.FAIL
-
     manifest {
         // https://docs.oracle.com/javase/tutorial/deployment/jar/packageman.html
         attributes["Name"] = Extras.name
@@ -142,38 +94,20 @@ tasks.jar.get().apply {
     }
 }
 
-configurations.all {
-    resolutionStrategy {
-        // fail eagerly on version conflict (includes transitive dependencies)
-        // e.g. multiple different versions of the same dependency (group and name are equal)
-        failOnVersionConflict()
-
-        // if there is a version we specified, USE THAT VERSION (over transitive versions)
-        preferProjectModules()
-
-        // cache dynamic versions for 10 minutes
-        cacheDynamicVersionsFor(10 * 60, "seconds")
-
-        // don't cache changing modules at all
-        cacheChangingModulesFor(0, "seconds")
-    }
-}
-
-
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
 
-    val moshiVer = "1.9.2"
-    val okHttpVer = "4.3.0"
-    val retroVer = "2.7.1"
+    val moshiVer = "1.11.0"
+    val okHttpVer = "4.9.0"
+    val retroVer = "2.9.0"
 
     implementation("com.squareup.okhttp3:okhttp:$okHttpVer")
     implementation("com.squareup.okhttp3:logging-interceptor:$okHttpVer") // Log Network Calls
 
     // better SSL library
-    implementation("org.conscrypt:conscrypt-openjdk-uber:2.2.1")
+    implementation("org.conscrypt:conscrypt-openjdk-uber:2.5.1")
 
     // For serialization. THESE ARE NOT TRANSITIVE because it screws up the kotlin version
     implementation("com.squareup.retrofit2:retrofit:$retroVer")
