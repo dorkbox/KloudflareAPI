@@ -100,8 +100,8 @@ class AccessRule {
         result = 31 * result + mode.hashCode()
         result = 31 * result + configuration.hashCode()
         result = 31 * result + scope.hashCode()
-        result = 31 * result + (modifiedOn?.hashCode() ?: 0)
-        result = 31 * result + (createdOn?.hashCode() ?: 0)
+        result = 31 * result + modifiedOn.hashCode()
+        result = 31 * result + createdOn.hashCode()
         return result
     }
 
