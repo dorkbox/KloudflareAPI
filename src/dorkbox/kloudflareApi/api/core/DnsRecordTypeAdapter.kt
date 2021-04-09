@@ -19,7 +19,6 @@ import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 import dorkbox.kloudflareApi.api.dns.RecordType
 
-/** Converts byte arrays to base64 (so it looks better as a string...) */
 internal class DnsRecordTypeAdapter {
     @ToJson
     fun toJson(recordType: RecordType): String {
