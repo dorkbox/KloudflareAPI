@@ -43,7 +43,9 @@ open class DnsRecord {
         }
     }
 
-
+    override fun toString(): String {
+        return "DnsRecord(type=$type, name='${name}, content='${content}', ttl='${ttl}')"
+    }
 
     /**
      * DNS record identifier tag
@@ -53,7 +55,7 @@ open class DnsRecord {
 
     /**
      * Record type
-     * A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI
+     * A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI, CCA
      */
     @field:[Json(name = "type")]
     var type = RecordType.A
@@ -125,5 +127,5 @@ open class DnsRecord {
      * Metadata about the record
      */
     @field:[Json(name = "data")]
-    var data: Data = Data()
+    var data = mutableMapOf<String, Any>()
 }

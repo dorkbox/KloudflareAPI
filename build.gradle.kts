@@ -1,6 +1,20 @@
+/*
+ * Copyright 2021 dorkbox, llc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import java.time.Instant
-
 
 ///////////////////////////////
 //////    PUBLISH TO SONATYPE / MAVEN CENTRAL
@@ -8,23 +22,24 @@ import java.time.Instant
 ////// RELEASE : (to sonatype/maven central), <'publish and release' - 'publishToSonatypeAndRelease'>
 ///////////////////////////////
 
+gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS   // always show the stacktrace!
+gradle.startParameter.warningMode = WarningMode.All
+
 plugins {
-    java
+    id("com.dorkbox.GradleUtils") version "2.9"
+    id("com.dorkbox.Licensing") version "2.9.2"
+    id("com.dorkbox.VersionUpdate") version "2.4"
+    id("com.dorkbox.GradlePublish") version "1.11"
 
-    id("com.dorkbox.GradleUtils") version "1.12"
-    id("com.dorkbox.Licensing") version "2.5.2"
-    id("com.dorkbox.VersionUpdate") version "2.0.5"
-    id("com.dorkbox.GradlePublish") version "1.8"
-
-    kotlin("jvm") version "1.4.21"
-    kotlin("kapt") version "1.4.21"
+    kotlin("jvm") version "1.5.21"
+    kotlin("kapt") version "1.5.21"
 }
 
 object Extras {
     // set for the project
     const val description = "Cloudflare API v4 for Kotlin"
     const val group = "com.dorkbox"
-    const val version = "1.3"
+    const val version = "1.4"
 
     // set as project.ext
     const val name = "KloudflareAPI"
@@ -32,6 +47,7 @@ object Extras {
     const val vendor = "Dorkbox LLC"
     const val vendorUrl = "https://dorkbox.com"
     const val url = "https://git.dorkbox.com/dorkbox/KloudflareAPI"
+
     val buildDate = Instant.now().toString()
 }
 
@@ -39,8 +55,7 @@ object Extras {
 /////  assign 'Extras'
 ///////////////////////////////
 GradleUtils.load("$projectDir/../../gradle.properties", Extras)
-GradleUtils.fixIntellijPaths()
-GradleUtils.defaultResolutionStrategy()
+GradleUtils.defaults()
 GradleUtils.compileConfiguration(JavaVersion.VERSION_11)
 
 licensing {
@@ -71,12 +86,6 @@ sourceSets {
     }
 }
 
-repositories {
-//    mavenLocal() // this must be first!
-    jcenter()
-}
-
-
 tasks.jar.get().apply {
     manifest {
         // https://docs.oracle.com/javase/tutorial/deployment/jar/packageman.html
@@ -98,16 +107,17 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    val moshiVer = "1.11.0"
-    val okHttpVer = "4.9.0"
+    val moshiVer = "1.12.0"
+    val okHttpVer = "4.9.1"
     val retroVer = "2.9.0"
 
     implementation("com.squareup.okhttp3:okhttp:$okHttpVer")
     implementation("com.squareup.okhttp3:logging-interceptor:$okHttpVer") // Log Network Calls
 
     // better SSL library
-    implementation("org.conscrypt:conscrypt-openjdk-uber:2.5.1")
+    implementation("org.conscrypt:conscrypt-openjdk-uber:2.5.2")
 
     // For serialization. THESE ARE NOT TRANSITIVE because it screws up the kotlin version
     implementation("com.squareup.retrofit2:retrofit:$retroVer")
@@ -115,6 +125,8 @@ dependencies {
 
     implementation ("com.squareup.moshi:moshi:$moshiVer")
     implementation ("com.squareup.moshi:moshi-kotlin:$moshiVer")
+
+    implementation("com.dorkbox:Updates:1.1")
 
     // for AUTOMATIC kotlin reflective serialization of json classes
     kapt ("com.squareup.moshi:moshi-kotlin-codegen:$moshiVer")

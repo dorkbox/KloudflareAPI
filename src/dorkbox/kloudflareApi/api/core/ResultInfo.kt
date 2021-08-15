@@ -26,6 +26,9 @@ class ResultInfo {
     @field:[Json(name = "per_page")]
     var perPage = 20
 
+    @field:[Json(name = "total_pages")]
+    var totalPages = 1
+
     @field:[Json(name = "count")]
     var count = 1
 

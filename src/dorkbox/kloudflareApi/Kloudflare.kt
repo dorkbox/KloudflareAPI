@@ -35,31 +35,33 @@ import okhttp3.ResponseBody
 import org.conscrypt.Conscrypt
 import retrofit2.Call
 import retrofit2.Converter
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
 import java.security.Security
-import java.util.Collections.emptyMap
 
 
 class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
     companion object {
         private const val API_BASE_URL = "https://api.cloudflare.com/client/v4/"
 
-
-        init {
-            try {
-                Security.insertProviderAt(Conscrypt.newProvider(), 1);
-            }
-            catch (e: Throwable) {
-                e.printStackTrace();
-            }
-        }
-
         /**
          * Gets the version number.
          */
-        const val version = "1.3"
+        const val version = "1.4"
+
+        init {
+            // Add this project to the updates system, which verifies this class + UUID + version information
+            dorkbox.updates.Updates.add(Kloudflare::class.java, "16bcc9060ac6483782aafc2a5502e7b3", version)
+
+            try {
+                Security.insertProviderAt(Conscrypt.newProvider(), 1)
+            }
+            catch (e: Throwable) {
+                e.printStackTrace()
+            }
+        }
     }
 
     private val errorConverter: Converter<ResponseBody, CfErrorResponse>
@@ -69,11 +71,11 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
     init {
         // JSON mapping to java classes
 
-        // val interceptor = HttpLoggingInterceptor()
-        // interceptor.level = HttpLoggingInterceptor.Level.BODY
+//        val interceptor = HttpLoggingInterceptor()
+//        interceptor.level = HttpLoggingInterceptor.Level.BODY
 
         client = OkHttpClient.Builder()
-                // .addInterceptor(interceptor)  // this is the raw HTTP interceptor
+//                .addInterceptor(interceptor)  // this is the raw HTTP interceptor
                 .build()
 
         val moshi = Moshi.Builder()
@@ -103,13 +105,24 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
         return response.body?.string()!!
     }
 
-    @Throws(IOException::class)
     private fun <T> wrap(call: Call<CfResponse<T>>): T {
-        val response = call.execute()
+        val response: Response<CfResponse<T>> = call.execute()
 
-        val body = response.body()
+        val body: CfResponse<T>? = response.body()
         if (response.isSuccessful && body != null && body.success) {
             return body.result!!
+        }
+
+        val errorResponse = errorConverter.convert(response.errorBody()!!)
+        throw IOException("Call failed: " + errorResponse?.errors?.joinToString { error: Error -> "[${error.code} : ${error.message}]" })
+    }
+
+    private fun <T> wrapOptions(call: Call<CfResponse<T>>): Pair<ResultInfo, T> {
+        val response: Response<CfResponse<T>> = call.execute()
+
+        val body: CfResponse<T>? = response.body()
+        if (response.isSuccessful && body != null && body.success) {
+            return Pair(body.resultInfo!!, body.result!!)
         }
 
         val errorResponse = errorConverter.convert(response.errorBody()!!)
@@ -149,14 +162,25 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
      * https://api.cloudflare.com/#zone-properties
      */
     fun listZones(options: Map<String, String> = emptyMap()): List<Zone> {
-        val zones = wrap(cloudflare.listZones(xAuthEmail, xAuthKey, options))
-        zones.forEach { zone ->
-            // have to assign
-            zone.kloudflare = this;
+        val actualOptions = mutableMapOf<String, String>()
+        actualOptions.putAll(options)
+        actualOptions.putIfAbsent("per_page", "20") // not too many at once!
 
+        val (info, data) = wrapOptions(cloudflare.listZones(xAuthEmail, xAuthKey, actualOptions))
+        data.forEach { zone ->
+            // have to assign
+            zone.kloudflare = this
         }
 
-        return zones
+        val zones = mutableListOf<Zone>()
+        zones.addAll(data)
+
+        if (info.totalPages - info.page > 0) {
+            actualOptions["page"] = "${info.page + 1}"
+            zones.addAll(listZones(actualOptions))
+        }
+
+        return data
     }
 
     /**
@@ -182,13 +206,25 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
      *
      * https://api.cloudflare.com/#dns-records-for-a-zone-properties
      */
-    fun listDnsRecords(zone: Zone): List<DnsRecord> {
-        val wrap =
-            wrap(cloudflare.listDnsRecords(xAuthEmail, xAuthKey, zone.id))
-        wrap.forEach {
+    fun listDnsRecords(zone: Zone, options: Map<String, String> = emptyMap()): List<DnsRecord> {
+        val actualOptions = mutableMapOf<String, String>()
+        actualOptions.putAll(options)
+        actualOptions.putIfAbsent("per_page", "20") // not too many at once!
+
+        val (info, data) = wrapOptions(cloudflare.listDnsRecords(xAuthEmail, xAuthKey, zone.id, actualOptions))
+        data.forEach {
             it.zone = zone
         }
-        return wrap
+
+        val records = mutableListOf<DnsRecord>()
+        records.addAll(data)
+
+        if (info.totalPages - info.page > 0) {
+            actualOptions["page"] = "${info.page + 1}"
+            records.addAll(listDnsRecords(zone, actualOptions))
+        }
+
+        return records
     }
 
     /**
@@ -197,10 +233,9 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
      * https://api.cloudflare.com/#dns-records-for-a-zone-create-dns-record
      */
     fun createDnsRecord(dnsRecord: CreateDnsRecord): DnsRecord {
-        val wrap =
-            wrap(cloudflare.createDnsRecord(xAuthEmail, xAuthKey, dnsRecord.zone.id, dnsRecord))
-        wrap.zone = dnsRecord.zone
-        return wrap
+        return wrap(cloudflare.createDnsRecord(xAuthEmail, xAuthKey, dnsRecord.zone.id, dnsRecord)).apply {
+            zone = dnsRecord.zone
+        }
     }
 
     /**
@@ -208,7 +243,7 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
      *
      * https://api.cloudflare.com/#dns-records-for-a-zone-update-dns-record
      */
-    fun updateDnsRecord(updatedDnsRecord: UpdateDnsRecord): Any {
+    fun updateDnsRecord(updatedDnsRecord: UpdateDnsRecord): DnsRecord {
         return wrap(cloudflare.updateDnsRecord(xAuthEmail,
                                                xAuthKey,
                                                updatedDnsRecord.zone.id,

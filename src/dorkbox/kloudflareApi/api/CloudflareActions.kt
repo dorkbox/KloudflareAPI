@@ -28,15 +28,7 @@ import dorkbox.kloudflareApi.api.zone.RatePlan
 import dorkbox.kloudflareApi.api.zone.Zone
 import dorkbox.kloudflareApi.api.zone.settings.ZoneSetting
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 
 interface CloudflareActions {
     /**
@@ -124,7 +116,8 @@ interface CloudflareActions {
     fun listDnsRecords(
             @Header("X-Auth-Email") email: String,
             @Header("X-Auth-Key") key: String,
-            @Path("zone_identifier") zoneIdentifier: String
+            @Path("zone_identifier") zoneIdentifier: String,
+            @QueryMap options: Map<String, String> = emptyMap()
                       ): Call<CfResponse<List<DnsRecord>>>
 
 

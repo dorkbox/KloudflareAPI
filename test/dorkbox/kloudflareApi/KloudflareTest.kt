@@ -53,18 +53,32 @@ object KloudflareTest {
 //            println(kloudflare.getUserBillingHistory())
 
 
-            val zones = kloudflare.listZones()
-            zones.forEach {
-                println(it)
-            }
+//            val zones = kloudflare.listZones().filter { it.name == "example.com" }
+//            zones.forEach {
+//                println(it)
+//            }
 
     //        println(kloudflare.getZoneRatePlans("123"))
     //        println(kloudflare.getZoneRatePlans("123"))
     //        println(kloudflare.getZoneSettings("123"))
-    //        println(kloudflare.listDnsRecords("123"))
-            println(kloudflare.listAccessRules())
+//            println(kloudflare.listDnsRecords("123"))
+//            println(kloudflare.listAccessRules())
 
 
+            val zone = kloudflare.listZones().first { it.name == "example.com" }
+            zone.dnsRecords.forEach {
+               println(it)
+            }
+
+//            val newDnsRecord = CreateDnsRecord(zone)
+//            newDnsRecord.type = RecordType.CAA
+//            newDnsRecord.name = "example.com"
+//            newDnsRecord.data["flags"] = 0
+//            newDnsRecord.data["tag"] = "issue"
+//            newDnsRecord.data["value"] = "letsencrypt.org"
+//
+//            val newRecord = kloudflare.createDnsRecord(newDnsRecord)
+//            println("Created: ${newRecord.name} -> ${newRecord.content}")
 
         }
         finally {

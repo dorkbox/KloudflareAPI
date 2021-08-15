@@ -67,4 +67,10 @@ open class CreateDnsRecord(@Transient val zone: Zone = Zone()) {
      */
     @field:[Json(name = "proxied")]
     var proxied = false
+
+    /**
+     * Whether the record is receiving the performance and security benefits of Cloudflare
+     */
+    @field:[Json(name = "data")]
+    var data = mutableMapOf<String, Any>()
 }
