@@ -113,20 +113,20 @@ dependencies {
     val okHttpVer = "4.9.1"
     val retroVer = "2.9.0"
 
-    implementation("com.squareup.okhttp3:okhttp:$okHttpVer")
-    implementation("com.squareup.okhttp3:logging-interceptor:$okHttpVer") // Log Network Calls
+    api("com.squareup.okhttp3:okhttp:$okHttpVer")
+    api("com.squareup.okhttp3:logging-interceptor:$okHttpVer") // Log Network Calls
 
     // better SSL library
-    implementation("org.conscrypt:conscrypt-openjdk-uber:2.5.2")
+    api("org.conscrypt:conscrypt-openjdk-uber:2.5.2")
 
     // For serialization. THESE ARE NOT TRANSITIVE because it screws up the kotlin version
-    implementation("com.squareup.retrofit2:retrofit:$retroVer")
-    implementation("com.squareup.retrofit2:converter-moshi:$retroVer")
+    api("com.squareup.retrofit2:retrofit:$retroVer")
+    api("com.squareup.retrofit2:converter-moshi:$retroVer")
 
-    implementation ("com.squareup.moshi:moshi:$moshiVer")
-    implementation ("com.squareup.moshi:moshi-kotlin:$moshiVer")
+    api("com.squareup.moshi:moshi:$moshiVer")
+    api("com.squareup.moshi:moshi-kotlin:$moshiVer")
 
-    implementation("com.dorkbox:Updates:1.1")
+    api("com.dorkbox:Updates:1.1")
 
     // for AUTOMATIC kotlin reflective serialization of json classes
     kapt ("com.squareup.moshi:moshi-kotlin-codegen:$moshiVer")
