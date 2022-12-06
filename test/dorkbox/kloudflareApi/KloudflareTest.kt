@@ -65,7 +65,7 @@ object KloudflareTest {
 //            println(kloudflare.listAccessRules())
 
 
-            val zone = kloudflare.listZones().first { it.name == "example.com" }
+            val zone = kloudflare.listZones().first { it.name == "dorkbox.com" }
             zone.dnsRecords.forEach {
                println(it)
             }
