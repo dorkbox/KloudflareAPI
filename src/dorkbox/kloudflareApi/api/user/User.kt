@@ -17,7 +17,6 @@ package dorkbox.kloudflareApi.api.user
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import dorkbox.kloudflareApi.api.core.ISO8601
 import java.time.LocalDateTime
 
 /**
@@ -59,7 +58,7 @@ class User {
     /**
      * Last time the user was modified
      */
-    @field:[Json(name = "modified_on") ISO8601]
+    @field:[Json(name = "modified_on")]
     var modifiedOn: LocalDateTime = LocalDateTime.now()
 
     /**
@@ -71,7 +70,7 @@ class User {
     /**
      * When the user signed up.
      */
-    @field:[Json(name = "created_on") ISO8601]
+    @field:[Json(name = "created_on")]
     var createdOn: LocalDateTime = LocalDateTime.now()
 
     /**

@@ -17,7 +17,6 @@ package dorkbox.kloudflareApi.api.user
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import dorkbox.kloudflareApi.api.core.ISO8601
 import dorkbox.kloudflareApi.api.zone.Zone
 import java.time.LocalDateTime
 
@@ -54,7 +53,7 @@ class BillingHistory  {
     /**
      * When the billing item was created
      */
-    @field:[Json(name = "occurred_at") ISO8601]
+    @field:[Json(name = "occurred_at")]
     var occurredAt: LocalDateTime = LocalDateTime.now()
 
     /**

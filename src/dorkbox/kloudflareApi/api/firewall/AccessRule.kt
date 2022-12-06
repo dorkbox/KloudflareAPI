@@ -17,7 +17,6 @@ package dorkbox.kloudflareApi.api.firewall
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import dorkbox.kloudflareApi.api.core.ISO8601
 import java.time.LocalDateTime
 
 /**
@@ -66,13 +65,13 @@ class AccessRule {
     /**
      * When the record was last modified
      */
-    @field:[Json(name = "modified_on") ISO8601]
+    @field:[Json(name = "modified_on")]
     var modifiedOn: LocalDateTime = LocalDateTime.now()
 
     /**
      * When the record was created
      */
-    @field:[Json(name = "created_on") ISO8601]
+    @field:[Json(name = "created_on")]
     var createdOn: LocalDateTime = LocalDateTime.now()
 
     override fun equals(other: Any?): Boolean {

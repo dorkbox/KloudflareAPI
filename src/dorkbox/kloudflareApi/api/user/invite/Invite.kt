@@ -17,7 +17,6 @@ package dorkbox.kloudflareApi.api.user.invite
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import dorkbox.kloudflareApi.api.core.ISO8601
 import java.time.LocalDateTime
 
 /**
@@ -29,7 +28,7 @@ class Invite {
     /**
      * When the invite was sent
      */
-    @field:[Json(name = "invited_on") ISO8601]
+    @field:[Json(name = "invited_on")]
     var invitedOn: LocalDateTime = LocalDateTime.now()
 
     /**

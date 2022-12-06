@@ -17,7 +17,6 @@ package dorkbox.kloudflareApi.api.user
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import dorkbox.kloudflareApi.api.core.ISO8601
 import java.time.LocalDateTime
 
 /**
@@ -144,13 +143,13 @@ class BillingProfile {
     /**
      * When the profile was last modified
      */
-    @field:[Json(name = "edited_on") ISO8601]
+    @field:[Json(name = "edited_on")]
     var editedOn: LocalDateTime = LocalDateTime.now()
 
     /**
      * When the profile was created
      */
-    @field:[Json(name = "created_on") ISO8601]
+    @field:[Json(name = "created_on")]
     var createdOn: LocalDateTime = LocalDateTime.now()
 
     override fun toString(): String {

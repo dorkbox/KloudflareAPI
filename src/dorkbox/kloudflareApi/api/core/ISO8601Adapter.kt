@@ -16,14 +16,9 @@
 package dorkbox.kloudflareApi.api.core
 
 import com.squareup.moshi.FromJson
-import com.squareup.moshi.JsonQualifier
 import com.squareup.moshi.ToJson
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-
-@Retention(AnnotationRetention.RUNTIME)
-@JsonQualifier
-annotation class ISO8601
 
 /** Converts byte arrays to base64 (so it looks better as a string...) */
 internal class ISO8601Adapter {
@@ -34,18 +29,17 @@ internal class ISO8601Adapter {
 
 
     @ToJson
-    fun toJson(@ISO8601 date: LocalDateTime): String {
+    fun toJson(date: LocalDateTime): String {
         return format.format(date)
     }
 
     @FromJson
-    @ISO8601
     fun fromJson(dateString: String): LocalDateTime {
         return try {
             return LocalDateTime.parse(dateString, format)
         }
         catch (ignored: Exception) {
-            // if there is an error, return epoc
+            // if there is an error, return the epoc
             LocalDateTime.now()
         }
     }

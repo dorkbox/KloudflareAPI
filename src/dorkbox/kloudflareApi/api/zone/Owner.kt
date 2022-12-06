@@ -25,13 +25,13 @@ import com.squareup.moshi.JsonClass
 class Owner {
 
     @field:[Json(name = "id")]
-    var id = ""
+    var id: String? = ""
 
     /**
      * The type of owner of the zone
      */
     @field:[Json(name = "email")]
-    var email = ""
+    var email: String? = ""
 
     @field:[Json(name = "owner_type")]
     var ownerType = "user"

@@ -17,7 +17,6 @@ package dorkbox.kloudflareApi.api.zone.settings
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import dorkbox.kloudflareApi.api.core.ISO8601
 import java.time.LocalDateTime
 
 /**
@@ -862,7 +861,7 @@ open class ZoneSetting {
     /**
      * last time this setting was modified
      */
-    @field:[Json(name = "modified_on") ISO8601]
+    @field:[Json(name = "modified_on")]
     var modifiedOn: LocalDateTime? = null
 
     override fun toString(): String {

@@ -17,7 +17,6 @@ package dorkbox.kloudflareApi.api.user.subscription
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import dorkbox.kloudflareApi.api.core.ISO8601
 import dorkbox.kloudflareApi.api.zone.Zone
 import java.time.LocalDateTime
 
@@ -36,7 +35,7 @@ class Subscription {
     /**
      * The end of the current period, and also when the next billing is due
      */
-    @field:[Json(name = "current_period_end") ISO8601]
+    @field:[Json(name = "current_period_end")]
     var currentPeriodEnd: LocalDateTime = LocalDateTime.now()
 
     /**
@@ -60,7 +59,7 @@ class Subscription {
     /**
      * When the current billing period started, may be the same as InitialPeriodStart if this is the first period
      */
-    @field:[Json(name = "current_period_start") ISO8601]
+    @field:[Json(name = "current_period_start")]
     var currentPeriodStart: LocalDateTime = LocalDateTime.now()
 
     /**

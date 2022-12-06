@@ -18,7 +18,6 @@ package dorkbox.kloudflareApi.api.zone
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import dorkbox.kloudflareApi.Kloudflare
-import dorkbox.kloudflareApi.api.core.ISO8601
 import dorkbox.kloudflareApi.api.dns.DnsRecord
 import java.time.LocalDateTime
 
@@ -80,13 +79,13 @@ class Zone {
     /**
      * When the zone was created
      */
-    @field:[Json(name = "created_on") ISO8601]
+    @field:[Json(name = "created_on")]
     var createdOn: LocalDateTime = LocalDateTime.now()
 
     /**
      * When the zone was last modified
      */
-    @field:[Json(name = "modified_on") ISO8601]
+    @field:[Json(name = "modified_on")]
     var modifiedOn: LocalDateTime = LocalDateTime.now()
 
     /**
@@ -135,7 +134,7 @@ class Zone {
     /**
      * The last time proof of ownership was detected and the zone was made active
      */
-    @field:[Json(name = "activated_on") ISO8601]
+    @field:[Json(name = "activated_on")]
     var activatedOn: LocalDateTime? = null
 
     /**

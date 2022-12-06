@@ -36,7 +36,7 @@ plugins {
     // There are several issues with KSP.
     // 1) It runs on every compile (it's not cached)
     // 2) It is not possible to (at last I don't know) how to run this via IntelliJ compiles (it's only via Gradle)
-    id("dev.zacsweers.moshix") version "0.19.0" apply(false)
+    id("dev.zacsweers.moshix") version "0.20.0"
 
     kotlin("jvm") version "1.7.21"
 }
@@ -115,8 +115,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    val moshiVer = "1.12.0"
-    val okHttpVer = "4.9.1"
+    val moshiVer = "1.14.0"
+    val okHttpVer = "4.10.0"
     val retroVer = "2.9.0"
 
     api("com.squareup.okhttp3:okhttp:$okHttpVer")
