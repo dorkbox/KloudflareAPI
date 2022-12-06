@@ -60,7 +60,7 @@ Maven Info
     <dependency>
       <groupId>com.dorkbox</groupId>
       <artifactId>KloudflareAPI</artifactId>
-      <version>1.5</version>
+      <version>1.6</version>
     </dependency>
 </dependencies>
 ```

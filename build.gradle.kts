@@ -45,7 +45,7 @@ object Extras {
     // set for the project
     const val description = "Cloudflare API v4 for Kotlin"
     const val group = "com.dorkbox"
-    const val version = "1.5"
+    const val version = "1.6"
 
     // set as project.ext
     const val name = "KloudflareAPI"
