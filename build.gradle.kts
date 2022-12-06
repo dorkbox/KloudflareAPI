@@ -26,10 +26,10 @@ gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS   // always show th
 gradle.startParameter.warningMode = WarningMode.All
 
 plugins {
-    id("com.dorkbox.GradleUtils") version "2.9"
-    id("com.dorkbox.Licensing") version "2.9.2"
-    id("com.dorkbox.VersionUpdate") version "2.4"
-    id("com.dorkbox.GradlePublish") version "1.11"
+    id("com.dorkbox.GradleUtils") version "3.3.1"
+    id("com.dorkbox.Licensing") version "2.17"
+    id("com.dorkbox.VersionUpdate") version "2.5"
+    id("com.dorkbox.GradlePublish") version "1.13"
 
     kotlin("jvm") version "1.5.21"
     kotlin("kapt") version "1.5.21"
@@ -39,7 +39,7 @@ object Extras {
     // set for the project
     const val description = "Cloudflare API v4 for Kotlin"
     const val group = "com.dorkbox"
-    const val version = "1.4"
+    const val version = "1.5"
 
     // set as project.ext
     const val name = "KloudflareAPI"
@@ -115,9 +115,6 @@ dependencies {
 
     api("com.squareup.okhttp3:okhttp:$okHttpVer")
     api("com.squareup.okhttp3:logging-interceptor:$okHttpVer") // Log Network Calls
-
-    // better SSL library
-    api("org.conscrypt:conscrypt-openjdk-uber:2.5.2")
 
     // For serialization. THESE ARE NOT TRANSITIVE because it screws up the kotlin version
     api("com.squareup.retrofit2:retrofit:$retroVer")

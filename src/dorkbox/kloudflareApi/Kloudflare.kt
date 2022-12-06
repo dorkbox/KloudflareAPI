@@ -49,14 +49,14 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
         /**
          * Gets the version number.
          */
-        const val version = "1.4"
+        const val version = "1.5"
 
         init {
             // Add this project to the updates system, which verifies this class + UUID + version information
             dorkbox.updates.Updates.add(Kloudflare::class.java, "16bcc9060ac6483782aafc2a5502e7b3", version)
 
             try {
-                Security.insertProviderAt(Conscrypt.newProvider(), 1)
+                Security.insertProviderAt(Conscrypt.newProvider(), 0)
             }
             catch (e: Throwable) {
                 e.printStackTrace()
@@ -282,4 +282,3 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
         client.cache?.close()
     }
 }
-
