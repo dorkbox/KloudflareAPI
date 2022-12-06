@@ -32,14 +32,12 @@ import dorkbox.kloudflareApi.api.zone.settings.ZoneSetting
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody
-import org.conscrypt.Conscrypt
 import retrofit2.Call
 import retrofit2.Converter
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
-import java.security.Security
 
 
 class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
@@ -54,13 +52,6 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
         init {
             // Add this project to the updates system, which verifies this class + UUID + version information
             dorkbox.updates.Updates.add(Kloudflare::class.java, "16bcc9060ac6483782aafc2a5502e7b3", version)
-
-            try {
-                Security.insertProviderAt(Conscrypt.newProvider(), 0)
-            }
-            catch (e: Throwable) {
-                e.printStackTrace()
-            }
         }
     }
 

@@ -31,8 +31,14 @@ plugins {
     id("com.dorkbox.VersionUpdate") version "2.5"
     id("com.dorkbox.GradlePublish") version "1.13"
 
-    kotlin("jvm") version "1.5.21"
-    kotlin("kapt") version "1.5.21"
+    // this allows us to drop generated moshi JSON code directly into bytecode using kotlin-ir (faster and better than KSP or KAPT).
+    // https://github.com/ZacSweers/MoshiX
+    // There are several issues with KSP.
+    // 1) It runs on every compile (it's not cached)
+    // 2) It is not possible to (at last I don't know) how to run this via IntelliJ compiles (it's only via Gradle)
+    id("dev.zacsweers.moshix") version "0.19.0" apply(false)
+
+    kotlin("jvm") version "1.7.21"
 }
 
 object Extras {
@@ -124,10 +130,6 @@ dependencies {
     api("com.squareup.moshi:moshi-kotlin:$moshiVer")
 
     api("com.dorkbox:Updates:1.1")
-
-    // for AUTOMATIC kotlin reflective serialization of json classes
-    kapt ("com.squareup.moshi:moshi-kotlin-codegen:$moshiVer")
-    kaptTest ("com.squareup.moshi:moshi-kotlin-codegen:$moshiVer")
 }
 
 publishToSonatype {

@@ -1,11 +1,29 @@
  - KloudflareAPI - 
    [The Apache Software License, Version 2.0]
    https://git.dorkbox.com/dorkbox/KloudflareAPI
-   Copyright 2021
+   Copyright 2022
      Dorkbox LLC
    Cloudflare API v4 for Kotlin
 
    Extra license information
+     - OkHttp - Square’s meticulous HTTP client for the JVM, Android, and GraalVM
+       [The Apache Software License, Version 2.0]
+       https://github.com/square/okhttp
+       Copyright 2022
+         Square, Inc
+
+     - Retrofit - A type-safe HTTP client for Android and the JVM
+       [The Apache Software License, Version 2.0]
+       https://github.com/square/retrofit
+       Copyright 2022
+         Square, Inc
+
+     - Moshi - A modern JSON library for Kotlin and Java
+       [The Apache Software License, Version 2.0]
+       https://github.com/square/moshi
+       Copyright 2022
+         Square, Inc
+
      - Kotlin - 
        [The Apache Software License, Version 2.0]
        https://github.com/JetBrains/kotlin
@@ -13,33 +31,6 @@
          JetBrains s.r.o. and Kotlin Programming Language contributors
        Kotlin Compiler, Test Data+Libraries, and Tools repository contain third-party code, to which different licenses may apply
        See: https://github.com/JetBrains/kotlin/blob/master/license/README.md
-
-     - OkHttp - Square’s meticulous HTTP client for the JVM, Android, and GraalVM
-       [The Apache Software License, Version 2.0]
-       https://github.com/square/okhttp
-       Copyright 2021
-         Square, Inc
-
-     - Conscrypt - An open platform for building modern web apps for Java back ends
-       [The Apache Software License, Version 2.0]
-       https://github.com/google/conscrypt
-       Copyright 2021
-         Google Inc
-         The Android Open Source Project
-         The Netty Project
-         Apache Harmony
-
-     - Retrofit - A type-safe HTTP client for Android and the JVM
-       [The Apache Software License, Version 2.0]
-       https://github.com/square/retrofit
-       Copyright 2021
-         Square, Inc
-
-     - Moshi - A modern JSON library for Kotlin and Java
-       [The Apache Software License, Version 2.0]
-       https://github.com/square/moshi
-       Copyright 2021
-         Square, Inc
 
      - Updates - Software Update Management
        [The Apache Software License, Version 2.0]
