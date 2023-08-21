@@ -86,10 +86,7 @@ tasks.jar.get().apply {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    api(kotlin("reflect"))
 
     val moshiVer = "1.15.0"
     val okHttpVer = "4.11.0"
