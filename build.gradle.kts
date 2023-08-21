@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import java.time.Instant
-
 ///////////////////////////////
 //////    PUBLISH TO SONATYPE / MAVEN CENTRAL
 ////// TESTING : (to local maven repo) <'publish and release' - 'publishToMavenLocal'>
@@ -26,26 +24,26 @@ gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS   // always show th
 gradle.startParameter.warningMode = WarningMode.All
 
 plugins {
-    id("com.dorkbox.GradleUtils") version "3.3.1"
-    id("com.dorkbox.Licensing") version "2.17"
-    id("com.dorkbox.VersionUpdate") version "2.5"
-    id("com.dorkbox.GradlePublish") version "1.13"
+    id("com.dorkbox.GradleUtils") version "3.17"
+    id("com.dorkbox.Licensing") version "2.26"
+    id("com.dorkbox.VersionUpdate") version "2.8"
+    id("com.dorkbox.GradlePublish") version "1.18"
 
     // this allows us to drop generated moshi JSON code directly into bytecode using kotlin-ir (faster and better than KSP or KAPT).
     // https://github.com/ZacSweers/MoshiX
     // There are several issues with KSP.
     // 1) It runs on every compile (it's not cached)
     // 2) It is not possible to (at last I don't know) how to run this via IntelliJ compiles (it's only via Gradle)
-    id("dev.zacsweers.moshix") version "0.20.0"
+    id("dev.zacsweers.moshix") version "0.24.0"
 
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") version "1.9.0"
 }
 
 object Extras {
     // set for the project
     const val description = "Cloudflare API v4 for Kotlin"
     const val group = "com.dorkbox"
-    const val version = "2.0"
+    const val version = "2.1"
 
     // set as project.ext
     const val name = "KloudflareAPI"
@@ -53,8 +51,6 @@ object Extras {
     const val vendor = "Dorkbox LLC"
     const val vendorUrl = "https://dorkbox.com"
     const val url = "https://git.dorkbox.com/dorkbox/KloudflareAPI"
-
-    val buildDate = Instant.now().toString()
 }
 
 ///////////////////////////////
@@ -72,26 +68,6 @@ licensing {
     }
 }
 
-sourceSets {
-    main {
-        java {
-            setSrcDirs(listOf("src"))
-
-            // want to include java and kotlin files for the source. 'setSrcDirs' resets includes...
-            include("**/*.java", "**/*.kt")
-        }
-    }
-
-    test {
-        java {
-            setSrcDirs(listOf("test"))
-
-            // want to include java and kotlin files for the source. 'setSrcDirs' resets includes...
-            include("**/*.java", "**/*.kt")
-        }
-    }
-}
-
 tasks.jar.get().apply {
     manifest {
         // https://docs.oracle.com/javase/tutorial/deployment/jar/packageman.html
@@ -102,7 +78,7 @@ tasks.jar.get().apply {
         attributes["Specification-Vendor"] = Extras.vendor
 
         attributes["Implementation-Title"] = "${Extras.group}.${Extras.id}"
-        attributes["Implementation-Version"] = Extras.buildDate
+        attributes["Implementation-Version"] = GradleUtils.now()
         attributes["Implementation-Vendor"] = Extras.vendor
 
         attributes["Automatic-Module-Name"] = Extras.id
@@ -115,8 +91,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    val moshiVer = "1.14.0"
-    val okHttpVer = "4.10.0"
+    val moshiVer = "1.15.0"
+    val okHttpVer = "4.11.0"
     val retroVer = "2.9.0"
 
     api("com.squareup.okhttp3:okhttp:$okHttpVer")

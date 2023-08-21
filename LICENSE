@@ -1,7 +1,7 @@
  - KloudflareAPI - 
    [The Apache Software License, Version 2.0]
    https://git.dorkbox.com/dorkbox/KloudflareAPI
-   Copyright 2022
+   Copyright 2023
      Dorkbox LLC
    Cloudflare API v4 for Kotlin
 
@@ -9,19 +9,19 @@
      - OkHttp - Square’s meticulous HTTP client for the JVM, Android, and GraalVM
        [The Apache Software License, Version 2.0]
        https://github.com/square/okhttp
-       Copyright 2022
+       Copyright 2023
          Square, Inc
 
      - Retrofit - A type-safe HTTP client for Android and the JVM
        [The Apache Software License, Version 2.0]
        https://github.com/square/retrofit
-       Copyright 2022
+       Copyright 2023
          Square, Inc
 
      - Moshi - A modern JSON library for Kotlin and Java
        [The Apache Software License, Version 2.0]
        https://github.com/square/moshi
-       Copyright 2022
+       Copyright 2023
          Square, Inc
 
      - Kotlin - 
