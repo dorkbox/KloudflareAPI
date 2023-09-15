@@ -1,7 +1,7 @@
 KloudflareAPI
 =======
 
-###### [![Dorkbox](https://badge.dorkbox.com/dorkbox.svg "Dorkbox")](https://git.dorkbox.com/dorkbox/KloudflareAPI) [![Github](https://badge.dorkbox.com/github.svg "Github")](https://github.com/dorkbox/KloudflareAPI) [![Gitlab](https://badge.dorkbox.com/gitlab.svg "Gitlab")](https://gitlab.com/dorkbox/KloudflareAPI) [![Bitbucket](https://badge.dorkbox.com/bitbucket.svg "Bitbucket")](https://bitbucket.org/dorkbox/KloudflareAPI)
+###### [![Dorkbox](https://badge.dorkbox.com/dorkbox.svg "Dorkbox")](https://git.dorkbox.com/dorkbox/KloudflareAPI) [![Github](https://badge.dorkbox.com/github.svg "Github")](https://github.com/dorkbox/KloudflareAPI) [![Gitlab](https://badge.dorkbox.com/gitlab.svg "Gitlab")](https://gitlab.com/dorkbox/KloudflareAPI)
 
 
 KloudflareAPI is an kotlin project that implements (some of) the Cloudflare v4 API, allowing one manage DNS zones and user information
