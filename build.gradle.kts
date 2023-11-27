@@ -26,7 +26,7 @@ plugins {
     id("com.dorkbox.GradleUtils") version "3.18"
     id("com.dorkbox.Licensing") version "2.28"
     id("com.dorkbox.VersionUpdate") version "2.8"
-    id("com.dorkbox.GradlePublish") version "1.20"
+    id("com.dorkbox.GradlePublish") version "1.22"
 
     // this allows us to drop generated moshi JSON code directly into bytecode using kotlin-ir (faster and better than KSP or KAPT).
     // https://github.com/ZacSweers/MoshiX
