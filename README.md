@@ -70,7 +70,7 @@ Gradle Info
 ````
 dependencies {
     ...
-    compile 'com.dorkbox:KloudflareAPI:1.3'
+    compile 'com.dorkbox:KloudflareAPI:1.4'
 }
 ````
 
