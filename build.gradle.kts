@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 dorkbox, llc
+ * Copyright 2024 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ plugins {
     // There are several issues with KSP.
     // 1) It runs on every compile (it's not cached)
     // 2) It is not possible to (at last I don't know) how to run this via IntelliJ compiles (it's only via Gradle)
-    id("dev.zacsweers.moshix") version "0.24.0"
+//    id("dev.zacsweers.moshix") version "0.24.0"
 
     kotlin("jvm") version "1.9.0"
 }
@@ -42,7 +42,7 @@ object Extras {
     // set for the project
     const val description = "Cloudflare API v4 for Kotlin"
     const val group = "com.dorkbox"
-    const val version = "2.1"
+    const val version = "2.2"
 
     // set as project.ext
     const val name = "KloudflareAPI"
@@ -87,9 +87,9 @@ tasks.jar.get().apply {
 dependencies {
     api(kotlin("reflect"))
 
-    val moshiVer = "1.15.0"
-    val okHttpVer = "4.11.0"
-    val retroVer = "2.9.0"
+    val moshiVer = "1.15.1"
+    val okHttpVer = "4.12.0"
+    val retroVer = "2.11.0"
 
     api("com.squareup.okhttp3:okhttp:$okHttpVer")
     api("com.squareup.okhttp3:logging-interceptor:$okHttpVer") // Log Network Calls
