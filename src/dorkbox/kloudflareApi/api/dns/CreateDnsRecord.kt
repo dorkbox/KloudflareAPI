@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2024 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,4 +73,8 @@ open class CreateDnsRecord(@Transient val zone: Zone = Zone()) {
      */
     @field:[Json(name = "data")]
     var data = mutableMapOf<String, Any>()
+
+    override fun toString(): String {
+        return "CreateRecord(type=$type, name='${name}, content='${content}', ttl='${ttl}')"
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2024 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,4 +28,8 @@ open class DeleteDnsRecord {
      */
     @field:[Json(name = "id")]
     var id = ""
+
+    override fun toString(): String {
+        return "DeleteDnsRecord(id=$id)"
+    }
 }

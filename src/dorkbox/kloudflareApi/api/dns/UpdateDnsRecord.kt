@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2024 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package dorkbox.kloudflareApi.api.dns
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import dorkbox.kloudflareApi.api.zone.Zone
 
 /**
  * https://api.cloudflare.com/#dns-records-for-a-zone-update-dns-record
@@ -43,5 +42,9 @@ class UpdateDnsRecord(@Transient val dnsRecord: DnsRecord = DnsRecord()) : Creat
         ttl = dnsRecord.ttl
         priority = 0
         proxied = dnsRecord.proxied
+    }
+
+    override fun toString(): String {
+        return "UpdateDnsRecord(type=$type, name='${name}, content='${content}', ttl='${ttl}')"
     }
 }
