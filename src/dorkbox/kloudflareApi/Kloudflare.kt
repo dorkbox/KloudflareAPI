@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2024 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
         /**
          * Gets the version number.
          */
-        const val version = "2.2"
+        const val version = "2.3"
 
         init {
             // Add this project to the updates system, which verifies this class + UUID + version information
