@@ -93,7 +93,7 @@ class Kloudflare(private val xAuthEmail: String, private val xAuthKey: String) {
                 .build()
 
         val response = client.newCall(request).execute()
-        return response.body?.string()!!
+        return response.body?.string().trim()!!
     }
 
     private fun <T> wrap(call: Call<CfResponse<T>>): T {
