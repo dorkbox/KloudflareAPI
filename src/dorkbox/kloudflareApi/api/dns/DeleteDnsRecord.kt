@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,15 @@
  */
 package dorkbox.kloudflareApi.api.dns
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
 /**
  * https://api.cloudflare.com/#dns-records-for-a-zone-delete-dns-record
  */
-@JsonClass(generateAdapter = true)
-open class DeleteDnsRecord {
+@Serializable
+data class DeleteDnsRecord(
     /**
      * DNS record identifier tag
      */
-    @field:[Json(name = "id")]
-    var id = ""
-
-    override fun toString(): String {
-        return "DeleteDnsRecord(id=$id)"
-    }
-}
+    val id: String = "",
+)

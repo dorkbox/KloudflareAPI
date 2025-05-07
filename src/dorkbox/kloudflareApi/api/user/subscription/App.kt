@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,14 @@
  */
 package dorkbox.kloudflareApi.api.user.subscription
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
-class App {
-
+@Serializable
+data class App(
     /**
      * app install id
      */
-    @field:[Json(name = "install_id")]
-    var installId = ""
-}
+    @SerialName("install_id")
+    val installId: String = ""
+)

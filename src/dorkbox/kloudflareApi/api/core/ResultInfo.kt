@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,27 +15,21 @@
  */
 package dorkbox.kloudflareApi.api.core
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
-class ResultInfo {
-    @field:[Json(name = "page")]
-    var page = 1
+@Serializable
+data class ResultInfo(
+    val page: Int = 1,
 
-    @field:[Json(name = "per_page")]
-    var perPage = 20
+    @SerialName("per_page")
+    val perPage: Int = 20,
 
-    @field:[Json(name = "total_pages")]
-    var totalPages = 1
+    @SerialName("total_pages")
+    val totalPages: Int = 1,
 
-    @field:[Json(name = "count")]
-    var count = 1
+    val count: Int = 0,
 
-    @field:[Json(name = "total_count")]
-    var totalCount = 200
-
-    override fun toString(): String {
-        return "ResultInfo(page=$page, perPage=$perPage, count=$count, totalCount=$totalCount)"
-    }
-}
+    @SerialName("total_count")
+    val totalCount: Int = 200
+)

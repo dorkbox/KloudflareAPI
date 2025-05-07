@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,43 +15,34 @@
  */
 package dorkbox.kloudflareApi.api.core
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Date fields will always be in UTC ISO-8601 format, including microseconds.
+ *
+ *  HTTP response codes
+ *  200	OK	request successful
+ *  304	Not Modified
+ *  400	Bad Request	request was invalid
+ *  401	Unauthorized	user does not have permission
+ *  403	Forbidden	request not authenticated
+ *  429	Too many requests	client is rate limited
+ *  405	Method Not Allowed	incorrect HTTP method provided
+ *  415	Unsupported Media Type	response is not valid JSON
+ *
  */
-@JsonClass(generateAdapter = true)
-open class CfResponse<T> {
-    // HTTP response codes
-    //200	OK	request successful
-    //304	Not Modified
-    //400	Bad Request	request was invalid
-    //401	Unauthorized	user does not have permission
-    //403	Forbidden	request not authenticated
-    //429	Too many requests	client is rate limited
-    //405	Method Not Allowed	incorrect HTTP method provided
-    //415	Unsupported Media Type	response is not valid JSON
+@Serializable
+data class CfResponse<out T>(
+    // The data requested is wrapped in the result tag. If you have a response, it will always be within the result field
+    val result: T? = null,
 
-    /**
-     * The data requested is wrapped in the result tag. If you have a response, it will always be within the result field
-     */
-    @field:[Json(name = "result")]
-    var result: T? = null
+    val success: Boolean = false,
 
-    @field:[Json(name = "success")]
-    var success = false
+    val errors: List<CfMessage> = listOf(),
 
-    @field:[Json(name = "errors")]
-    var errors = listOf<Error>()
+    val messages: List<CfMessage> = listOf(),
 
-    @field:[Json(name = "messages")]
-    var messages = listOf<String>()
-
-    @field:[Json(name = "result_info")]
-    var resultInfo: ResultInfo? = null
-
-    override fun toString(): String {
-        return "Response(result=$result, success=$success, errors=$errors, messages=$messages, resultInfo=$resultInfo)"
-    }
-}
+    @SerialName("result_info")
+    val resultInfo: ResultInfo? = null
+)

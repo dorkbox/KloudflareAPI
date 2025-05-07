@@ -1,5 +1,23 @@
+/*
+ * Copyright 2025 dorkbox, llc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dorkbox.kloudflareApi
 
+import dorkbox.kloudflareApi.api.dns.ARecord
+import kotlinx.coroutines.runBlocking
 import java.time.Instant
 import java.util.*
 
@@ -48,37 +66,42 @@ object KloudflareTest {
 
         try {
 
-            println(kloudflare.getUserDetails())
-//            println(kloudflare.getUserBillingProfile())
-//            println(kloudflare.getUserBillingHistory())
+            runBlocking {
+//                println(kloudflare.user.details())
+//                println(kloudflare.user.billingProfile())
+//                println(kloudflare.user.billingHistory())
 
+//                val zones = kloudflare.zones.list()
+//                zones.forEach { zone: Zone ->
+//                    println(zone)
+////                    val ratePlans = zone.ratePlans()
+////                    println(ratePlans)
+//
+//                    val dnsRecords = zone.dnsRecords()
+//                    dnsRecords.forEach { dnsRecord: DnsRecord ->
+//                        println(dnsRecord)
+//                    }
+//                }
 
-//            val zones = kloudflare.listZones().filter { it.name == "example.com" }
-//            zones.forEach {
-//                println(it)
-//            }
+                val newDnsRecord = ARecord()
+                newDnsRecord.name = "testing3.dorkbox.com"
+                newDnsRecord.content = "1.1.1.1"
 
-    //        println(kloudflare.getZoneRatePlans("123"))
-    //        println(kloudflare.getZoneRatePlans("123"))
-    //        println(kloudflare.getZoneSettings("123"))
-//            println(kloudflare.listDnsRecords("123"))
-//            println(kloudflare.listAccessRules())
-
-
-            val zone = kloudflare.listZones().first { it.name == "dorkbox.com" }
-            zone.dnsRecords.forEach {
-               println(it)
+                val zone = kloudflare.zones.list().first{ it.name == "dorkbox.com" }
+                zone.createDnsRecord(newDnsRecord)
+                println("Created: $newDnsRecord")
             }
 
-//            val newDnsRecord = CreateDnsRecord(zone)
-//            newDnsRecord.type = RecordType.CAA
-//            newDnsRecord.name = "example.com"
-//            newDnsRecord.data["flags"] = 0
-//            newDnsRecord.data["tag"] = "issue"
-//            newDnsRecord.data["value"] = "letsencrypt.org"
+    //        println(kloudflare.getZoneSettings("123"))
+//            println(kloudflare.listAccessRules())
 //
-//            val newRecord = kloudflare.createDnsRecord(newDnsRecord)
-//            println("Created: ${newRecord.name} -> ${newRecord.content}")
+//
+//            val zone = kloudflare.listZones().first { it.name == "dorkbox.com" }
+//            zone.dnsRecords.forEach {
+//               println(it)
+//            }
+
+//
 
         }
         finally {

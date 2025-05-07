@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,36 +15,30 @@
  */
 package dorkbox.kloudflareApi.api.user.subscription
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
 /**
  * https://api.cloudflare.com/#user-subscription-properties
  */
-@JsonClass(generateAdapter = true)
-class ComponentValue {
-
+@Serializable
+data class ComponentValue(
     /**
      * The name of the component_value
      */
-    @field:[Json(name = "name")]
-    var name = ""
+    var name: String = "",
 
     /**
      * The amount of the component value assigned
      */
-    @field:[Json(name = "value")]
-    var value = 0
+    val value: Int = 0,
 
     /**
      * The default amount assigned.
      */
-    @field:[Json(name = "default")]
-    var default = 0
+    val default: Int = 0,
 
     /**
      * The unit price for the component value
      */
-    @field:[Json(name = "price")]
-    var price = 0
-}
+    val price: Int = 0
+)

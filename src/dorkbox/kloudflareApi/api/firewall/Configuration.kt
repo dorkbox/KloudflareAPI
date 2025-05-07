@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +15,20 @@
  */
 package dorkbox.kloudflareApi.api.firewall
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
 /**
  * https://api.cloudflare.com/#user-level-firewall-access-rule-properties
  */
-@JsonClass(generateAdapter = true)
-class Configuration {
-
+@Serializable
+data class Configuration(
     /**
      * The request property to target
      *
      * ip, ip_range, asn, country
      *
      */
-    @field:[Json(name = "target")]
-    var target = ""
+    val target: String = "",
 
 
     /**
@@ -40,28 +37,5 @@ class Configuration {
      * ASN      : The AS number to target in requests. (AS12345)
      * COUNTRY  : US, DE, etc
      */
-    @field:[Json(name = "value")]
-    var value = ""
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Configuration
-
-        if (target != other.target) return false
-        if (value != other.value) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = target.hashCode()
-        result = 31 * result + value.hashCode()
-        return result
-    }
-
-    override fun toString(): String {
-        return "Configuration(target='$target', value='$value')"
-    }
-}
+    val value: String = ""
+)

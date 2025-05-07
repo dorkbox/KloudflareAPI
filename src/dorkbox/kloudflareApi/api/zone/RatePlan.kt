@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,53 +15,41 @@
  */
 package dorkbox.kloudflareApi.api.zone
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
 /**
  * https://api.cloudflare.com/#zone-rate-plan-properties
  */
-@JsonClass(generateAdapter = true)
-class RatePlan {
-
+@Serializable
+data class RatePlan(
     /**
      * Plan identifier tag
      */
-    @field:[Json(name = "id")]
-    var id = "free"
+    val id: String = "free",
 
     /**
      * The plan name
      */
-    @field:[Json(name = "name")]
-    var name = "Free Plan"
+    val name: String = "Free Plan",
 
     /**
      * The monetary unit in which pricing information is displayed
      */
-    @field:[Json(name = "currency")]
-    var currency = "USD"
+    val currency: String = "USD",
 
     /**
      * The duration of the plan subscription
      */
-    @field:[Json(name = "duration")]
-    var duration = 1
+    val duration: Int = 1,
 
     /**
      * The frequency at which you will be billed for this plan
      * weekly, monthly, quarterly, yearly
      */
-    @field:[Json(name = "frequency")]
-    var frequency = "monthly"
+    val frequency: String = "monthly",
 
     /**
      * Array of available components values for the plan
      */
-    @field:[Json(name = "components")]
-    var components = listOf<Component>()
-
-    override fun toString(): String {
-        return "RatePlan(id='$id', name='$name', currency='$currency', duration=$duration, frequency='$frequency', components=$components)"
-    }
-}
+    val components: List<Component> = listOf<Component>()
+)

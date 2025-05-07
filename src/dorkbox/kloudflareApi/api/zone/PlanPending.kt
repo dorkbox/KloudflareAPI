@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,66 +15,56 @@
  */
 package dorkbox.kloudflareApi.api.zone
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * https://api.cloudflare.com/#zone-properties
  */
-@JsonClass(generateAdapter = true)
-class PlanPending {
-
+@Serializable
+data class PlanPending(
     /**
      * Plan identifier tag
      */
-    @field:[Json(name = "id")]
-    var id = ""
+    val id: String = "",
 
     /**
      * The plan name
      */
-    @field:[Json(name = "name")]
-    var name = ""
+    var name: String = "",
 
     /**
      * The price of the subscription that will be billed, in US dollars
      */
-    @field:[Json(name = "price")]
-    var price = 0
+    val price: Int = 0,
 
     /**
      * The monetary unit in which pricing information is displayed
      */
-    @field:[Json(name = "currency")]
-    var currency = "USD"
+    val currency: String = "USD",
 
     /**
      * The frequency at which you will be billed for this plan
      * weekly, monthly, quarterly, yearly
      */
-    @field:[Json(name = "frequency")]
-    var frequency = "weekly"
+    val frequency: String = "weekly",
 
     /**
      * A 'friendly' identifier to indicate to the UI what plan the object is
      * free, pro, business, enterprise
      */
-    @field:[Json(name = "legacy_id")]
-    var legacyId = "free"
+    @SerialName("legacy_id")
+    val legacyId: String = "free",
 
     /**
      * If the zone is subscribed to this plan
      */
-    @field:[Json(name = "is_subscribed")]
-    var isSubscribed = false
+    @SerialName("is_subscribed")
+    val isSubscribed: Boolean = false,
 
     /**
      * If the zone is allowed to subscribe to this plan
      */
-    @field:[Json(name = "can_subscribe")]
-    var canSubscribe = false
-
-    override fun toString(): String {
-        return "PlanPending(id='$id', name='$name', price=$price, currency='$currency', frequency='$frequency', legacyId='$legacyId', isSubscribed=$isSubscribed, canSubscribe=$canSubscribe)"
-    }
-}
+    @SerialName("can_subscribe")
+    val canSubscribe: Boolean = false
+)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,144 +15,132 @@
  */
 package dorkbox.kloudflareApi.api.user
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import dorkbox.kloudflareApi.api.core.LocalDateTimeSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
 /**
  * https://api.cloudflare.com/#user-billing-profile-billing-profile
  */
-@JsonClass(generateAdapter = true)
-class BillingProfile {
-
+@Serializable
+data class BillingProfile(
     /**
      * The email address associated with this payment type
      */
-    @field:[Json(name = "payment_email")]
-    var paymentEmail = ""
+    @SerialName("payment_email")
+    val paymentEmail: String = "",
 
     /**
      * Billing profile identifier tag
      */
-    @field:[Json(name = "id")]
-    var id = ""
+    val id: String = "",
 
     /**
      * The first name on the billing profile
      */
-    @field:[Json(name = "first_name")]
-    var firstName = ""
+    @SerialName("first_name")
+    val firstName: String = "",
 
     /**
      * The last name on the billing profile
      */
-    @field:[Json(name = "last_name")]
-    var lastName = ""
+    @SerialName("last_name")
+    val lastName: String = "",
 
     /**
      * Street address on the billing profile
      */
-    @field:[Json(name = "address")]
-    var address = ""
+    val address: String = "",
 
     /**
      * Street address continued, apartment/suite, etc (optional)
      */
-    @field:[Json(name = "address2")]
-    var address2 = ""
+    val address2: String = "",
 
     /**
      * The company name on the billing profile
      */
-    @field:[Json(name = "company")]
-    var company = ""
+    val company: String = "",
 
     /**
      * The city on the billing profile
      */
-    @field:[Json(name = "city")]
-    var city = ""
+    val city: String = "",
 
     /**
      * the state/province on the billing profile
      */
-    @field:[Json(name = "state")]
-    var state = ""
+    val state: String = "",
 
     /**
      * The zipcode on the billing profile
      */
-    @field:[Json(name = "zipCode")]
-    var zipcode = ""
+    val zipcode: String = "",
 
     /**
      * the country of the address on the billing profile
      */
-    @field:[Json(name = "country")]
-    var country = ""
+    val country: String = "",
 
     /**
      * The telephone associated with the billing profile
      */
-    @field:[Json(name = "telephone")]
-    var telephone = ""
+    val telephone: String = "",
 
     /**
      * The last four digits of the credit card on file
      */
-    @field:[Json(name = "card_number")]
-    var cardNumber = ""
+    @SerialName("card_number")
+    val cardNumber: String = "",
 
     /**
      * The month number (1-12) of when the credit card on file expires
      */
-    @field:[Json(name = "card_expiry_month")]
-    var cardExpiryMonth = 1
+    @SerialName("card_expiry_month")
+    val cardExpiryMonth: Int = 1,
 
     /**
      * The year when the credit card on file expires
      */
-    @field:[Json(name = "card_expiry_year")]
-    var cardExpiryYear = 2020
+    @SerialName("card_expiry_year")
+    val cardExpiryYear: Int = 2020,
 
     /**
-     * varue Added Tax ID
+     * value Added Tax ID
      */
-    @field:[Json(name = "vat")]
-    var vat = ""
+    val vat: String = "",
 
     /**
      * Information about a customer's device collected by client SDK
      */
-    @field:[Json(name = "device_data")]
-    var deviceData = ""
+    @SerialName("device_data")
+    val deviceData: String = "",
 
     /**
      * The gateway which was used to tokenize the payment method
      *  braintree, paypal
      */
-    @field:[Json(name = "payment_gateway")]
-    var paymentGateway = ""
+    @SerialName("payment_gateway")
+    val paymentGateway: String = "",
 
     /**
      * The string returned by the client SDK to represent a payment method
      */
-    @field:[Json(name = "payment_nonce")]
-    var paymentNonce = ""
+    @SerialName("payment_nonce")
+    val paymentNonce: String = "",
 
     /**
      * When the profile was last modified
      */
-    @field:[Json(name = "edited_on")]
-    var editedOn: LocalDateTime = LocalDateTime.now()
+    @SerialName("edited_on")
+    @Serializable(LocalDateTimeSerializer::class)
+    val editedOn: LocalDateTime? = null,
 
     /**
      * When the profile was created
      */
-    @field:[Json(name = "created_on")]
-    var createdOn: LocalDateTime = LocalDateTime.now()
-
-    override fun toString(): String {
-        return "BillingProfile(paymentEmail='$paymentEmail', id='$id', firstName='$firstName', lastName='$lastName', address='$address', address2='$address2', company='$company', city='$city', state='$state', zipcode='$zipcode', country='$country', telephone='$telephone', cardNumber='$cardNumber', cardExpiryMonth=$cardExpiryMonth, cardExpiryYear=$cardExpiryYear, vat='$vat', deviceData='$deviceData', paymentGateway='$paymentGateway', paymentNonce='$paymentNonce', editedOn=$editedOn, createdOn=$createdOn)"
-    }
-}
+    @SerialName("created_on")
+    @Serializable(LocalDateTimeSerializer::class)
+    val createdOn: LocalDateTime = LocalDateTime.now()
+)

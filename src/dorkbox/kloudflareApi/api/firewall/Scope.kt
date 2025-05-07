@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,22 @@
  */
 package dorkbox.kloudflareApi.api.firewall
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
 /**
  * https://api.cloudflare.com/#user-level-firewall-access-rule-properties
  */
-@JsonClass(generateAdapter = true)
-class Scope {
-
+@Serializable
+data class Scope(
     /**
      * User identifier tag
      */
-    @field:[Json(name = "id")]
-    var id = ""
+    val id: String = "",
 
     /**
      * Your contact email address
      */
-    @field:[Json(name = "email")]
-    var email = ""
+    val email: String = "",
 
 
     /**
@@ -42,30 +38,5 @@ class Scope {
      *
      * valid values: user
      */
-    @field:[Json(name = "type")]
-    var type = "user"
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Scope
-
-        if (id != other.id) return false
-        if (email != other.email) return false
-        if (type != other.type) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + email.hashCode()
-        result = 31 * result + type.hashCode()
-        return result
-    }
-
-    override fun toString(): String {
-        return "Scope(id='$id', email='$email', type='$type')"
-    }
-}
+    val type: String = "user"
+)

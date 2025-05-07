@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,142 +15,177 @@
  */
 package dorkbox.kloudflareApi.api.zone
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
-import dorkbox.kloudflareApi.Kloudflare
+import dorkbox.kloudflareApi.api.core.LocalDateTimeSerializer
 import dorkbox.kloudflareApi.api.dns.DnsRecord
+import dorkbox.kloudflareApi.api.zone.settings.ZoneSetting
+import dorkbox.kloudflareApi.cf
+import dorkbox.kloudflareApi.cfList
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import java.time.LocalDateTime
 
 /**
  * https://api.cloudflare.com/#zone-properties
  */
-@JsonClass(generateAdapter = true)
-class Zone {
-
-    /**
-     * NOTE: This is not part of the Cloudflare API
-     */
-    @Transient
-    lateinit var kloudflare: Kloudflare
-
-    /**
-     * NOTE: This is not part of the Cloudflare API
-     *
-     * DNS records that were retrieved from this zone.
-     */
-    @delegate:Transient
-    val dnsRecords: List<DnsRecord> by lazy { kloudflare.listDnsRecords(this) }
-
-
-
-    @field:[Json(name = "id")]
-    var id: String = ""
+@Serializable
+data class Zone(
+    val id: String = "",
 
     /**
      * The domain name
      */
-    @field:[Json(name = "name")]
-    var name = "example.com"
+    val name: String = "example.com",
 
     /**
      * The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is 0.
      */
-    @field:[Json(name = "development_mode")]
-    var developmentMode = 0
+    @SerialName("development_mode")
+    val developmentMode: Int = 0,
 
     /**
      * Original name servers before moving to Cloudflare
      */
-    @field:[Json(name = "original_name_servers")]
-    var originalNameServers: List<String>? = null
+    @SerialName("original_name_servers")
+    val originalNameServers: List<String>? = null,
 
     /**
      * Registrar for the domain at the time of switching to Cloudflare
      */
-    @field:[Json(name = "original_registrar")]
-    var originalRegistrar: String? = null
+    @SerialName("original_registrar")
+    val originalRegistrar: String? = null,
 
     /**
      * DNS host at the time of switching to Cloudflare
      */
-    @field:[Json(name = "original_dnshost")]
-    var originalDnshost: String? = null
+    @SerialName("original_dnshost")
+    val originalDnsHost: String? = null,
 
     /**
      * When the zone was created
      */
-    @field:[Json(name = "created_on")]
-    var createdOn: LocalDateTime = LocalDateTime.now()
+    @SerialName("created_on")
+    @Serializable(LocalDateTimeSerializer::class)
+    val createdOn: LocalDateTime? = null,
 
     /**
      * When the zone was last modified
      */
-    @field:[Json(name = "modified_on")]
-    var modifiedOn: LocalDateTime = LocalDateTime.now()
+    @SerialName("modified_on")
+    @Serializable(LocalDateTimeSerializer::class)
+    val modifiedOn: LocalDateTime? = null,
 
     /**
      * Cloudflare-assigned name servers. This is only populated for zones that use Cloudflare DNS
      */
-    @field:[Json(name = "name_servers")]
-    var nameServers = listOf<String>()
+    @SerialName("name_servers")
+    val nameServers: List<String> = listOf<String>(),
 
     /**
      * Information about the owner of the zone
      */
-    @field:[Json(name = "owner")]
-    var owner = Owner()
+    val owner: Owner = Owner(),
 
     /**
      * Information about the account the zone belongs to
      */
-    @field:[Json(name = "account")]
-    var account = Account()
+    val account: Account = Account(),
 
     /**
      * Available permissions on the zone for the current user requesting the item
      */
-    @field:[Json(name = "permissions")]
-    var permissions = listOf<String>()
+    val permissions: List<String> = listOf<String>(),
 
     /**
      * A zone plan
      */
-    @field:[Json(name = "plan")]
-    var plan = Plan()
+    val plan: Plan = Plan(),
 
     /**
      * A zone plan
      */
-    @field:[Json(name = "plan_pending")]
-    var planPending = PlanPending()
+    @SerialName("plan_pending")
+    val planPending: PlanPending = PlanPending(),
 
     /**
      * Status of the zone
      * active, pending, initializing, moved, deleted, deactivated
      */
-    @field:[Json(name = "status")]
-    var status = "active"
+    private val status: String = "active",
 
     /**
      * The last time proof of ownership was detected and the zone was made active
      */
-    @field:[Json(name = "activated_on")]
-    var activatedOn: LocalDateTime? = null
+    @SerialName("activated_on")
+    @Serializable(LocalDateTimeSerializer::class)
+    val activatedOn: LocalDateTime? = null,
 
     /**
      * Indicates if the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits.
      */
-    @field:[Json(name = "paused")]
-    var paused = false
+    val paused: Boolean = false,
 
     /**
      * A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup.
      * full, partial
      */
-    @field:[Json(name = "type")]
-    var type = "full"
+    val type: String = "full",
+) {
+    @Transient
+    lateinit var ktor: HttpClient
 
-    override fun toString(): String {
-        return "Zone(id=$id, name='$name', developmentMode=$developmentMode, originalNameServers=$originalNameServers, originalRegistrar=$originalRegistrar, originalDnshost=$originalDnshost, createdOn=$createdOn, modifiedOn=$modifiedOn, nameServers=$nameServers, owner=$owner, account=$account, permissions=$permissions, plan=$plan, planPending=$planPending, status='$status', activatedOn=$activatedOn, paused=$paused, type='$type')"
+    /**
+     * Gets the zone rate plan for the specified zone from the billing service
+     *
+     * https://api.cloudflare.com/#zone-rate-plan-properties
+     */
+    suspend fun ratePlans(): List<RatePlan> {
+        return ktor.cfList<RatePlan>(HttpMethod.Get,"zones/$id/available_rate_plans")
+    }
+
+    /**
+     * Gets the zone settings for the specified zone
+     *
+     * https://api.cloudflare.com/#zone-settings-properties
+     */
+    suspend fun settings(): ZoneSetting {
+        return ktor.cf(HttpMethod.Get, "zones/$id/settings")
+    }
+
+    /**
+     * Lists the DNS records for a specified zone
+     *
+     * https://api.cloudflare.com/#dns-records-for-a-zone-properties
+     */
+    suspend fun dnsRecords(): List<DnsRecord> {
+        val records = ktor.cfList<DnsRecord>(HttpMethod.Get, "zones/$id/dns_records") {
+            parameter(key = "per_page", value = 20)  // not too many at once!
+        }
+
+        records.forEach { record ->
+            record.ktor = ktor
+            record.zone = this
+        }
+
+        return records
+    }
+
+    /**
+     * Creates a new DNS record in the specified zone
+     *
+     * https://api.cloudflare.com/#dns-records-for-a-zone-create-dns-record
+     */
+    suspend inline fun <reified T:DnsRecord> createDnsRecord(newRecord: T): DnsRecord {
+        val record = ktor.cf<DnsRecord>(HttpMethod.Post,"zones/$id/dns_records") {
+            setBody(newRecord)
+        }
+
+        record.ktor = ktor
+        record.zone = this
+
+        return record
     }
 }

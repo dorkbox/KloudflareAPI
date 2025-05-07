@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,21 @@
  */
 package dorkbox.kloudflareApi.api.dns
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * https://api.cloudflare.com/#dns-records-for-a-zone-properties
  */
-@JsonClass(generateAdapter = true)
-class Meta {
-
+@Serializable
+data class Meta(
     /**
      * Will exist if Cloudflare automatically added this DNS record during initial setup.
      */
-    @field:[Json(name = "auto_added")]
-    var autoAdded = false
+    @SerialName("auto_added")
+    val autoAdded: Boolean = false,
 
 
-    @field:[Json(name = "managed_by_apps")]
-    var managedByApps = false
-}
+    @SerialName("managed_by_apps")
+    val managedByApps: Boolean = false
+)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,28 +15,21 @@
  */
 package dorkbox.kloudflareApi.api.zone
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * https://api.cloudflare.com/#zone-properties
  */
-@JsonClass(generateAdapter = true)
-class Owner {
-
-    @field:[Json(name = "id")]
-    var id: String? = ""
+@Serializable
+data class Owner(
+    val id: String? = "",
 
     /**
      * The type of owner of the zone
      */
-    @field:[Json(name = "email")]
-    var email: String? = ""
+    val email: String? = "",
 
-    @field:[Json(name = "owner_type")]
-    var ownerType = "user"
-
-    override fun toString(): String {
-        return "Owner(id='$id', email='$email', ownerType='$ownerType')"
-    }
-}
+    @SerialName("owner_type")
+    val ownerType: String = "user"
+)

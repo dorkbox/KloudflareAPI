@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dorkbox.kloudflareApi.api.core
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
-
-@JsonClass(generateAdapter = true)
-class Error {
-    @field:[Json(name = "code")]
-    var code = 0
-
-    @field:[Json(name = "message")]
-    var message = ""
-}
+package dorkbox.kloudflareApi.api.user;

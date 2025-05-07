@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,10 @@
  */
 package dorkbox.kloudflareApi.api.dns
 
+import dorkbox.kloudflareApi.api.core.DnsRecordTypeSerializer
+import kotlinx.serialization.Serializable
+
+@Serializable(DnsRecordTypeSerializer::class)
 enum class RecordType {
-    A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI, CAA
+    A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI, CAA, OPENPGPKEY, HTTPS, PTR, SVCB
 }

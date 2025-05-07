@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,21 +28,15 @@ plugins {
     id("com.dorkbox.VersionUpdate") version "2.8"
     id("com.dorkbox.GradlePublish") version "1.22"
 
-    // this allows us to drop generated moshi JSON code directly into bytecode using kotlin-ir (faster and better than KSP or KAPT).
-    // https://github.com/ZacSweers/MoshiX
-    // There are several issues with KSP.
-    // 1) It runs on every compile (it's not cached)
-    // 2) It is not possible to (at last I don't know) how to run this via IntelliJ compiles (it's only via Gradle)
-    id("dev.zacsweers.moshix") version "0.27.1"
-
     kotlin("jvm") version "2.0.0"
+    kotlin("plugin.serialization") version "2.0.0"
 }
 
 object Extras {
     // set for the project
     const val description = "Cloudflare API v4 for Kotlin"
     const val group = "com.dorkbox"
-    const val version = "2.4"
+    const val version = "3.0"
 
     // set as project.ext
     const val name = "KloudflareAPI"
@@ -57,7 +51,8 @@ object Extras {
 ///////////////////////////////
 GradleUtils.load("$projectDir/../../gradle.properties", Extras)
 GradleUtils.defaults()
-GradleUtils.compileConfiguration(JavaVersion.VERSION_11)
+GradleUtils.compileConfiguration(JavaVersion.VERSION_17)
+//GradleUtils.jpms(JavaVersion.VERSION_1_9)
 
 licensing {
     license(License.APACHE_2) {
@@ -85,23 +80,20 @@ tasks.jar.get().apply {
 }
 
 dependencies {
-    api(kotlin("reflect"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
-    val moshiVer = "1.15.1"
-    val okHttpVer = "4.12.0"
-    val retroVer = "2.11.0"
+    val ktorVersion="3.1.0"
 
-    api("com.squareup.okhttp3:okhttp:$okHttpVer")
-    api("com.squareup.okhttp3:logging-interceptor:$okHttpVer") // Log Network Calls
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    implementation("io.ktor:ktor-client-logging:$ktorVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
-    // For serialization. THESE ARE NOT TRANSITIVE because it screws up the kotlin version
-    api("com.squareup.retrofit2:retrofit:$retroVer")
-    api("com.squareup.retrofit2:converter-moshi:$retroVer")
-
-    api("com.squareup.moshi:moshi:$moshiVer")
-    api("com.squareup.moshi:moshi-kotlin:$moshiVer")
-
+    implementation("org.slf4j:slf4j-api:2.0.11")
     api("com.dorkbox:Updates:1.1")
+
+    testImplementation("ch.qos.logback:logback-classic:1.4.12")
 }
 
 publishToSonatype {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,33 +15,25 @@
  */
 package dorkbox.kloudflareApi.api.zone.settings
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
-class MinifyAssetsSetting {
+@Serializable
+data class MinifyAssetsSetting(
     /**
      * Account identifier tag
      * on, off
      */
-    @field:[Json(name = "css")]
-    var css = ""
-
-    /**
-     * Account identifier tag
-     * on, off
-     */
-    @field:[Json(name = "html")]
-    var html = ""
+    val css: String = "",
 
     /**
      * Account identifier tag
      * on, off
      */
-    @field:[Json(name = "js")]
-    var js = ""
+    val html: String = "",
 
-    override fun toString(): String {
-        return "MinifyAssets(css='$css', html='$html', js='$js')"
-    }
-}
+    /**
+     * Account identifier tag
+     * on, off
+     */
+    val js: String = ""
+)

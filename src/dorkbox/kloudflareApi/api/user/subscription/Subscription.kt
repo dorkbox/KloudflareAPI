@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,88 +15,79 @@
  */
 package dorkbox.kloudflareApi.api.user.subscription
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import dorkbox.kloudflareApi.api.core.LocalDateTimeSerializer
 import dorkbox.kloudflareApi.api.zone.Zone
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
 /**
  * https://api.cloudflare.com/#user-subscription-properties
  */
-@JsonClass(generateAdapter = true)
-class Subscription {
+@Serializable
+data class Subscription(
+    /**
+     * The end of the current period, and also when the next billing is due
+     */
+    val app: App = App(),
 
     /**
      * The end of the current period, and also when the next billing is due
      */
-    @field:[Json(name = "app")]
-    var app = App()
-
-    /**
-     * The end of the current period, and also when the next billing is due
-     */
-    @field:[Json(name = "current_period_end")]
-    var currentPeriodEnd: LocalDateTime = LocalDateTime.now()
+    @SerialName("current_period_end")
+    @Serializable(LocalDateTimeSerializer::class)
+    val currentPeriodEnd: LocalDateTime? = null,
 
     /**
      * The list of add-ons subscribed to
      */
-    @field:[Json(name = "component_values")]
-    var componentValues = listOf<ComponentValue>()
+    @SerialName("component_values")
+    val componentValues: List<ComponentValue> = listOf(),
 
     /**
      * The rate plan applied to the subscription
      */
-    @field:[Json(name = "rate_plan")]
-    var ratePlan = RatePlan()
+    @SerialName("rate_plan")
+    val ratePlan: RatePlan = RatePlan(),
 
     /**
      * The price of the subscription that will be billed, in US dollars
      */
-    @field:[Json(name = "price")]
-    var price = 0
+    val price: Int = 0,
 
     /**
      * When the current billing period started, may be the same as InitialPeriodStart if this is the first period
      */
-    @field:[Json(name = "current_period_start")]
-    var currentPeriodStart: LocalDateTime = LocalDateTime.now()
+    @SerialName("current_period_start")
+    @Serializable(LocalDateTimeSerializer::class)
+    val currentPeriodStart: LocalDateTime? = null,
 
     /**
-     * A simple zone object. May have null properties if not a zone subscription.
-     */
-    @field:[Json(name = "zone")]
-    var zone = Zone()
+    * A simple zone object. May have null properties if not a zone subscription.
+    */
+    val zone: Zone = Zone(),
 
     /**
-     * The monetary unit in which pricing information is displayed
-     */
-    @field:[Json(name = "currency")]
-    var currency = "USD"
+    * The monetary unit in which pricing information is displayed
+    */
+    val currency: String = "USD",
 
     /**
-     * The state that the subscription is in
-     *
-     * Trial, Provisioned, Paid, AwaitingPayment, Cancelled, Failed, Expired
-     */
-    @field:[Json(name = "state")]
-    var state = "Expired"
+    * The state that the subscription is in
+    *
+    * Trial, Provisioned, Paid, AwaitingPayment, Cancelled, Failed, Expired
+    */
+    val state: String = "Expired",
 
     /**
-     * Subscription identifier tag
-     */
-    @field:[Json(name = "id")]
-    var id = ""
+    * Subscription identifier tag
+    */
+    val id: String = "",
 
     /**
-     * How often the subscription is renewed automatically
-     *
-     * weekly, monthly, quarterly, yearly
-     */
-    @field:[Json(name = "frequency")]
-    var frequency = "weekly"
-
-    override fun toString(): String {
-        return "Subscription(app=$app, currentPeriodEnd=$currentPeriodEnd, componentValues=$componentValues, ratePlan=$ratePlan, price=$price, currentPeriodStart=$currentPeriodStart, zone=$zone, currency='$currency', state='$state', id='$id', frequency='$frequency')"
-    }
-}
+    * How often the subscription is renewed automatically
+    *
+    * weekly, monthly, quarterly, yearly
+    */
+    val frequency: String = "weekly"
+)

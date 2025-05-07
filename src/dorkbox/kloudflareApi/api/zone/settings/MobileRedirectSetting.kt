@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,32 +15,27 @@
  */
 package dorkbox.kloudflareApi.api.zone.settings
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
-class MobileRedirectSetting {
+@Serializable
+data class MobileRedirectSetting(
     /**
      * Whether or not the mobile redirection is enabled
      * on, off
      */
-    @field:[Json(name = "status")]
-    var status = ""
+    val status: String = "",
 
     /**
      * Which subdomain prefix you wish to redirect visitors on mobile devices to (subdomain must already exist).
      */
-    @field:[Json(name = "mobile_subdomain")]
-    var mobileSubdomain: String? = null
+    @SerialName("mobile_subdomain")
+    val mobileSubdomain: String? = null,
 
     /**
      * Whether to drop the current page path and redirect to the mobile subdomain URL root or to keep the path and redirect to the same page on the mobile subdomain
      * on, off
      */
-    @field:[Json(name = "strip_uri")]
-    var strip_uri = false
-
-    override fun toString(): String {
-        return "MobileRedirectSetting(status='$status', mobileSubdomain=$mobileSubdomain, strip_uri=$strip_uri)"
-    }
-}
+    @SerialName("strip_uri")
+    val strip_uri: Boolean = false
+)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,116 +15,135 @@
  */
 package dorkbox.kloudflareApi.api.dns
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import dorkbox.kloudflareApi.api.zone.Zone
+import dorkbox.kloudflareApi.cf
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import java.time.LocalDateTime
 
 /**
  * https://api.cloudflare.com/#dns-records-for-a-zone-properties
  */
-@JsonClass(generateAdapter = true)
-open class DnsRecord {
-    /**
-     * NOTE: This is not part of the Cloudflare API
-     *
-     * Which zone this DNS record belongs to
-     */
-    @Transient
-    lateinit var zone: Zone
-
-
-    fun prettyName(): String {
-        return when (val length = name.length - zone.name.length) {
-            0    -> "@"
-            else ->
-                name.subSequence(0, length - 1) as String // -1 because we don't want the '.'
-        }
-    }
-
-    override fun toString(): String {
-        return "DnsRecord(type=$type, name='${name}, content='${content}', ttl='${ttl}')"
-    }
-
+@Serializable
+sealed interface DnsRecord {
     /**
      * DNS record identifier tag
      */
-    @field:[Json(name = "id")]
-    var id = ""
+    val id: String
 
     /**
-     * Record type
-     * A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI, CCA
+     * Comments or notes about the DNS record. This field has no effect on DNS responses.
      */
-    @field:[Json(name = "type")]
-    var type = RecordType.A
+    var comment: String?
+
+    /**
+     * Content.
+     */
+    var content: String?
 
     /**
      * DNS record name
      */
-    @field:[Json(name = "name")]
-    var name = ""
-
-    /**
-     * A valid IPv4 address
-     */
-    @field:[Json(name = "content")]
-    var content = ""
-
-    /**
-     * Whether the record can be proxied by Cloudflare or not
-     */
-    @field:[Json(name = "proxiable")]
-    var proxiable = true
+    var name: String?
 
     /**
      * Whether the record is receiving the performance and security benefits of Cloudflare
      */
-    @field:[Json(name = "proxied")]
-    var proxied = false
+    var proxied: Boolean?
 
     /**
-     * Time to live for DNS record. Value of 1 is 'automatic'
+     * DNS record settings for IPv4/6
      */
-    @field:[Json(name = "ttl")]
-    var ttl = 1
+    var settings: Settings?
 
     /**
-     * Whether this record can be modified/deleted (true means it's managed by Cloudflare)
+     * Custom tags for the DNS record. This field has no effect on DNS responses.
      */
-    @field:[Json(name = "locked")]
-    var locked = false
+    var tags: Array<String>?
 
     /**
-     * Zone identifier tag
+     * Time To Live (TTL) of the DNS record in seconds. Setting to 1 means 'automatic'. Value must be between 60 and 86400, with the minimum reduced to 30 for Enterprise zones.
      */
-    @field:[Json(name = "zone_id")]
-    var zoneId = ""
-
-    @field:[Json(name = "zone_name")]
-    var zoneName = ""
+    var ttl: Int?
 
     /**
-     * When the record was last modified
+     * Record type
      */
-    @field:[Json(name = "modified_on")]
-    var modifiedOn: LocalDateTime = LocalDateTime.now()
+    var type: RecordType
+
+
+
+
+    /**
+     * When the record comment was last modified
+     */
+    val commentModifiedOn: LocalDateTime?
+
+    /**
+     * When the record tags were last modified
+     */
+    val tagsModifiedOn: LocalDateTime?
 
     /**
      * When the record was created
      */
-    @field:[Json(name = "created_on")]
-    var createdOn: LocalDateTime = LocalDateTime.now()
+    val createdOn: LocalDateTime
 
     /**
      * Extra Cloudflare-specific information about the record
      */
-    @field:[Json(name = "meta")]
-    var meta = Meta()
+    val meta: Meta
 
     /**
-     * Metadata about the record
+     * When the record was last modified
      */
-    @field:[Json(name = "data")]
-    var data = mutableMapOf<String, Any>()
+    val modifiedOn: LocalDateTime
+
+    /**
+     * Whether the record can be proxied by Cloudflare or not
+     */
+    var proxiable: Boolean
+
+
+    @Transient
+    var ktor: HttpClient
+
+    @Transient
+    var zone: Zone
+
+    fun prettyName(): String {
+        return when (val length = name?.length?.minus(zone.name.length)) {
+            0    -> "@"
+            else ->
+                name?.subSequence(0, length?.minus(1) ?: 0) as String // -1 because we don't want the '.'
+        }
+    }
+
+    /**
+     * Updates a DNS record for the specified zone + dns record
+     *
+     * https://api.cloudflare.com/#dns-records-for-a-zone-update-dns-record
+     */
+    suspend fun update(): DnsRecord {
+        val dnsRecord = ktor.cf<DnsRecord>(HttpMethod.Put, "zones/${zone.id}/dns_records/$id") {
+            setBody(this@DnsRecord)
+        }
+
+        dnsRecord.ktor = ktor
+        dnsRecord.zone = zone
+
+        return dnsRecord
+    }
+
+    /**
+     * Deletes a DNS record for the specified zone + dns record
+     *
+     * https://api.cloudflare.com/#dns-records-for-a-zone-delete-dns-record
+     */
+    suspend fun delete(): String {
+        return ktor.cf<DeleteDnsRecord>(HttpMethod.Delete, "zones/${zone.id}/dns_records/$id").id
+    }
 }

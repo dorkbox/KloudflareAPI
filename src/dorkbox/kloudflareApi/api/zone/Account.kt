@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,28 +15,20 @@
  */
 package dorkbox.kloudflareApi.api.zone
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
 /**
  * https://api.cloudflare.com/#zone-properties
  */
-@JsonClass(generateAdapter = true)
-class Account {
-
+@Serializable
+data class Account(
     /**
      * Account identifier tag
      */
-    @field:[Json(name = "id")]
-    var id = ""
+    val id: String = "",
 
     /**
      * Account name
      */
-    @field:[Json(name = "name")]
-    var name = ""
-
-    override fun toString(): String {
-        return "Account(id='$id', name='$name')"
-    }
-}
+    val name: String = ""
+)

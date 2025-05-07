@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,78 +15,72 @@
  */
 package dorkbox.kloudflareApi.api.user.invite
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import dorkbox.kloudflareApi.api.core.LocalDateTimeSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
 /**
  * https://api.cloudflare.com/#user-s-invites-properties
  */
-@JsonClass(generateAdapter = true)
-class Invite {
-
+@Serializable
+data class Invite(
     /**
      * When the invite was sent
      */
-    @field:[Json(name = "invited_on")]
-    var invitedOn: LocalDateTime = LocalDateTime.now()
+    @SerialName("invited_on")
+    @Serializable(LocalDateTimeSerializer::class)
+    val invitedOn: LocalDateTime? = null,
 
     /**
      * ID of the Organization the user will be added to
      */
-    @field:[Json(name = "organization_id")]
-    var organizationId: String? = null
+    @SerialName("organization_id")
+    val organizationId: String? = null,
 
     /**
      * When the invite is no longer active
      */
-    @field:[Json(name = "expires_on")]
-    var expiresOn: String? = null
+    @SerialName("expires_on")
+    val expiresOn: String? = null,
 
     /**
      * Current status of the invitation
      * pending, accepted, rejected, expired
      */
-    @field:[Json(name = "status")]
-    var status = "pending"
+    val status: String = "pending",
 
     /**
      * Organization Name
      */
-    @field:[Json(name = "organization_name")]
-    var organizationName = "Cloudflare, Inc."
+    @SerialName("organization_name")
+    val organizationName: String = "Cloudflare, Inc.",
 
     /**
      * The email address of the user who created the invite
      */
-    @field:[Json(name = "invited_by")]
-    var invitedBy: String? = null
+    @SerialName("invited_by")
+    val invitedBy: String? = null,
 
     /**
      * Email address of the user to be added to the Organization
      */
-    @field:[Json(name = "invited_member_email")]
-    var invitedMemberEmail: String? = null
+    @SerialName("invited_member_email")
+    val invitedMemberEmail: String? = null,
 
     /**
      * Invite identifier tag
      */
-    @field:[Json(name = "id")]
-    var id = ""
+    val id: String = "",
 
     /**
      * Id of the user to be added to the Organization
      */
-    @field:[Json(name = "invited_member_id")]
-    var invitedMemberId: String? = null
+    @SerialName("invited_member_id")
+    val invitedMemberId: String? = null,
 
     /**
      * Roles to be assigned to this Member
      */
-    @field:[Json(name = "roles")]
-    var roles = listOf<Role>()
-
-    override fun toString(): String {
-        return "Invite(invitedOn=$invitedOn, organizationId=$organizationId, expiresOn=$expiresOn, status='$status', organizationName='$organizationName', invitedBy=$invitedBy, invitedMemberEmail=$invitedMemberEmail, id='$id', invitedMemberId=$invitedMemberId, roles=$roles)"
-    }
-}
+    val roles: List<Role> = listOf()
+)

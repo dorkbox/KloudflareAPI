@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,101 +15,76 @@
  */
 package dorkbox.kloudflareApi.api.user
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import dorkbox.kloudflareApi.api.core.LocalDateTimeSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
 /**
  * https://api.cloudflare.com/#user-properties
  */
-@JsonClass(generateAdapter = true)
-class User {
+@Serializable
+data class User(
+    // User identifier tag
+    val id: String = "",
 
-    /**
-     * A list of betas the user is currently participating in. If a beta is zone-specific, the beta will apply to all zones.
-     */
-    @field:[Json(name = "betas")]
-    var betas = listOf<String>()
+    // Your contact email address
+    val email: String = "",
 
-    /**
-     * A list of the organizations the user is a member of (or invited to) and the permissions granted to them.
-     */
-    @field:[Json(name = "organizations")]
-    var organizations = listOf<UserOrganization>()
+    // A username used to access other cloudflare services, like support
+    val userName: String = "",
 
-    /**
-     * User's telephone number
-     */
-    @field:[Json(name = "telephone")]
-    var telephone: String? = null
+    // User's first name
+    @SerialName("first_name")
+    val firstName: String? = null,
 
-    /**
-     * The zipcode or postal code where the user lives.
-     */
-    @field:[Json(name = "zipcode")]
-    var zipcode: String? = null
+    // User's last name
+    @SerialName("last_name")
+    val lastName: String? = null,
 
-    /**
-     * User's last name
-     */
-    @field:[Json(name = "last_name")]
-    var lastName: String? = null
+    // User's telephone number
+    val telephone: String? = null,
 
-    /**
-     * Last time the user was modified
-     */
-    @field:[Json(name = "modified_on")]
-    var modifiedOn: LocalDateTime = LocalDateTime.now()
+    // The country in which the user lives.
+    val country: String? = null,
 
-    /**
-     * A username used to access other cloudflare services, like support
-     */
-    @field:[Json(name = "username")]
-    var userName = ""
+    // The zipcode or postal code where the user lives.
+    val zipcode: String? = null,
 
-    /**
-     * When the user signed up.
-     */
-    @field:[Json(name = "created_on")]
-    var createdOn: LocalDateTime = LocalDateTime.now()
+    // Whether two-factor authentication is enabled for the user account. This does not apply to API authentication
+    @SerialName("two_factor_authentication_enabled")
+    val twoFactorAuthenticationEnabled: Boolean = false,
 
-    /**
-     * The country in which the user lives.
-     */
-    @field:[Json(name = "country")]
-    var country: String? = null
+    // Whether two-factor authentication is locked for the user account. This does not apply to API authentication
+    @SerialName("two_factor_authentication_locked")
+    val twoFactorAuthenticationLocked: Boolean = false,
 
-    /**
-     * Whether two-factor authentication is enabled for the user account. This does not apply to API authentication
-     */
-    @field:[Json(name = "two_factor_authentication_enabled")]
-    var twoFactorAuthenticationEnabled = false
+    // When the user signed up.
+    @SerialName("created_on")
+    @Serializable(LocalDateTimeSerializer::class)
+    val createdOn: LocalDateTime? = null,
 
-    /**
-     * User's first name
-     */
-    @field:[Json(name = "first_name")]
-    var firstName: String? = null
+    // Last time the user was modified
+    @SerialName("modified_on")
+    @Serializable(LocalDateTimeSerializer::class)
+    val modifiedOn: LocalDateTime? = null,
 
-    /**
-     * User identifier tag
-     */
-    @field:[Json(name = "id")]
-    var id = ""
+    // A list of the organizations the user is a member of (or invited to) and the permissions granted to them.
+    val organizations: List<UserOrganization> = listOf(),
 
-    /**
-     * Indicates whether the user is prevented from performing certain actions within their account
-     */
-    @field:[Json(name = "suspended")]
-    var suspended = false
+    @SerialName("has_pro_zones")
+    val hasProZones: Boolean = false,
 
-    /**
-     * Your contact email address
-     */
-    @field:[Json(name = "email")]
-    var email = ""
+    @SerialName("has_business_zones")
+    val hasBusinessZones: Boolean = false,
 
-    override fun toString(): String {
-        return "User(betas=$betas, organizations=$organizations, telephone=$telephone, zipcode=$zipcode, lastName=$lastName, modifiedOn=$modifiedOn, userName='$userName', createdOn=$createdOn, country=$country, twoFactorAuthenticationEnabled=$twoFactorAuthenticationEnabled, firstName=$firstName, id='$id', suspended=$suspended, email='$email')"
-    }
-}
+    @SerialName("has_enterprise_zones")
+    val hasEnterpriseZones: Boolean = false,
+
+    // Indicates whether the user is prevented from performing certain actions within their account
+    val suspended: Boolean = false,
+
+    // A list of betas the user is currently participating in. If a beta is zone-specific, the beta will apply to all zones.
+    // ["zone_level_access_beta"]
+    val betas: List<String> = listOf(),
+)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,58 +15,49 @@
  */
 package dorkbox.kloudflareApi.api.user.subscription
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * https://api.cloudflare.com/#user-subscription-properties
  */
-@JsonClass(generateAdapter = true)
-class RatePlan {
-
+@Serializable
+data class RatePlan(
     /**
      * The ID of the rate_plan
      */
-    @field:[Json(name = "id")]
-    var id = ""
+    val id: String = "",
 
     /**
      * The full name of the rate plan
      */
-    @field:[Json(name = "public_name")]
-    var publicName = ""
+    @SerialName("public_name")
+    val publicName: String = "",
 
     /**
      * The currency applied to the rate_plan subscription
      */
-    @field:[Json(name = "currency")]
-    var currency = ""
+    val currency: String = "",
 
     /**
      * The scope that this rate_plan applies to
      */
-    @field:[Json(name = "scope")]
-    var scope = ""
+    val scope: String = "",
 
     /**
      * The list of sets this rate_plan applies to
      */
-    @field:[Json(name = "sets")]
-    var sets = listOf<String>()
+    val sets: List<String> = listOf(),
 
     /**
      * Whether or not a rate_plan is enterprise-based (or newly adopted term contract)
      */
-    @field:[Json(name = "is_contract")]
-    var isContract = false
+    @SerialName("is_contract")
+    val isContract: Boolean = false,
 
     /**
      * Whether this rate_plan is managed externally from Cloudflare
      */
-    @field:[Json(name = "externally_managed")]
-    var externallyManaged = false
-
-    override fun toString(): String {
-        return "RatePlan(id='$id', publicName='$publicName', currency='$currency', scope='$scope', sets=$sets, isContract=$isContract, externallyManaged=$externallyManaged)"
-    }
-}
+    @SerialName("externally_managed")
+    val externallyManaged: Boolean = false
+)

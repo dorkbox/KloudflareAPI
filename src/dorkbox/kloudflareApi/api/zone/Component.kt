@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,35 +15,28 @@
  */
 package dorkbox.kloudflareApi.api.zone
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * https://api.cloudflare.com/#zone-properties
  */
-@JsonClass(generateAdapter = true)
-class Component {
-
+@Serializable
+data class Component(
     /**
      * The unique component
      * zones, page_rules, dedicated_certificates, dedicated_certificates_custom
      */
-    @field:[Json(name = "name")]
-    var name: String? = null
+    val name: String? = null,
 
     /**
      * The default amount allocated
      */
-    @field:[Json(name = "default")]
-    var default = 5
+    val default: Int = 5,
 
     /**
      * The unit price of the addon
      */
-    @field:[Json(name = "unit_price")]
-    var unitPrice = 0
-
-    override fun toString(): String {
-        return "Components(name=$name, default=$default, unitPrice=$unitPrice)"
-    }
-}
+    @SerialName("unit_price")
+    val unitPrice: Int = 0
+)

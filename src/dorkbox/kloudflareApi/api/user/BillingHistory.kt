@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,66 +15,56 @@
  */
 package dorkbox.kloudflareApi.api.user
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import dorkbox.kloudflareApi.api.core.LocalDateTimeSerializer
 import dorkbox.kloudflareApi.api.zone.Zone
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
 /**
  * https://api.cloudflare.com/#user-billing-history-billing-history
  */
-@JsonClass(generateAdapter = true)
-class BillingHistory  {
-
+@Serializable
+data class BillingHistory(
     /**
      * Billing item identifier tag
      */
-    @field:[Json(name = "id")]
-    var id = ""
+    val id: String = "",
 
     /**
      * The billing item type
      */
-    @field:[Json(name = "type")]
-    var type = "charge"
+    val type: String = "charge",
 
     /**
      * The billing item action
      */
-    @field:[Json(name = "action")]
-    var action = "subscription"
+    private val action: String = "subscription",
 
     /**
      * The billing item description
      */
-    @field:[Json(name = "description")]
-    var description = "The billing item description"
+    private val description: String = "The billing item description",
 
     /**
      * When the billing item was created
      */
-    @field:[Json(name = "occurred_at")]
-    var occurredAt: LocalDateTime = LocalDateTime.now()
+    @SerialName("occurred_at")
+    @Serializable(LocalDateTimeSerializer::class)
+    val occurredAt: LocalDateTime? = null,
 
     /**
      * The amount associated with this billing item
      */
-    @field:[Json(name = "amount")]
-    var amount: Double = 20.99
+    val amount: Double = 20.99,
 
     /**
      * The monetary unit in which pricing information is displayed
      */
-    @field:[Json(name = "currency")]
-    var currency = "USD"
+    val currency: String = "USD",
 
     /**
      *
      */
-    @field:[Json(name = "zone")]
-    var zone = Zone()
-
-    override fun toString(): String {
-        return "BillingHistory(id='$id', type='$type', action='$action', description='$description', occurredAt=$occurredAt, amount=$amount, currency='$currency', zone=$zone)"
-    }
-}
+    val zone: Zone = Zone()
+)

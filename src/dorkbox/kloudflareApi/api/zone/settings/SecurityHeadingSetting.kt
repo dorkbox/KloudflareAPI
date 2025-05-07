@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,36 +15,31 @@
  */
 package dorkbox.kloudflareApi.api.zone.settings
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
-class SecurityHeadingSetting {
+@Serializable
+data class SecurityHeadingSetting(
     /**
      * Whether or not strict transport security is enabled
      */
-    @field:[Json(name = "enabled")]
-    val enabled = false
+    val enabled: Boolean = false,
 
     /**
      * Max age in seconds of the strict transport security
      */
-    @field:[Json(name = "max_age")]
-    val maxAge = 1234
+    @SerialName("max_age")
+    val maxAge: Int = 1234,
 
     /**
      * Include all subdomains for strict transport security
      */
-    @field:[Json(name = "include_subdomains")]
-    val includeSubdomains = true
+    @SerialName("include_subdomains")
+    val includeSubdomains: Boolean = true,
 
     /**
      * Whether or not to include 'X-Content-Type-Options: nosniff' header
      */
-    @field:[Json(name = "nosniff")]
-    val noSniff = true
-
-    override fun toString(): String {
-        return "SecurityHeadingSetting(enabled=$enabled, maxAge=$maxAge, includeSubdomains=$includeSubdomains, noSniff=$noSniff)"
-    }
-}
+    @SerialName("nosniff")
+    val noSniff: Boolean = true
+)

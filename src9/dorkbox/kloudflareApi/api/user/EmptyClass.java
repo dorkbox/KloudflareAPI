@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dorkbox.kloudflareApi.api.core
 
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.ToJson
-import dorkbox.kloudflareApi.api.dns.RecordType
+package dorkbox.kloudflareApi.api.user;
 
-internal class DnsRecordTypeAdapter {
-    @ToJson
-    fun toJson(recordType: RecordType): String {
-        return recordType.name
-    }
-
-    @FromJson
-    fun fromJson(recordType: String): RecordType {
-       return RecordType.valueOf(recordType)
-    }
-}
+/**
+ * Required for intellij to not complain regarding `module-info` for a multi-release jar.
+ * This file is completely ignored by the gradle build process
+ */
+public
+class EmptyClass {}

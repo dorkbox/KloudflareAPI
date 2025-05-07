@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,42 +15,32 @@
  */
 package dorkbox.kloudflareApi.api.user.invite
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
 
 /**
  * https://api.cloudflare.com/#user-s-invites-properties
  */
-@JsonClass(generateAdapter = true)
-class Role {
-
+@Serializable
+data class Role(
     /**
      * Role identifier tag
      */
-    @field:[Json(name = "id")]
-    var id = ""
+    val id: String = "",
 
     /**
      * Role Name
      */
-    @field:[Json(name = "name")]
-    var name: String? = null
+    val name: String? = null,
 
     /**
      * Description of role's permissions
      */
-    @field:[Json(name = "description")]
-    var description: String? = null
+    val description: String? = null,
 
 
     /**
      * Access permissions for this User
      */
-    @field:[Json(name = "permissions")]
-    var permissions = listOf<String>()
-
-    override fun toString(): String {
-        return "Role(id='$id', name=$name, description=$description, permissions=$permissions)"
-    }
-}
+    val permissions: List<String> = listOf()
+)

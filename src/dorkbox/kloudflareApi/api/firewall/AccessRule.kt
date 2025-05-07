@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 dorkbox, llc
+ * Copyright 2025 dorkbox, llc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,96 +15,59 @@
  */
 package dorkbox.kloudflareApi.api.firewall
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import dorkbox.kloudflareApi.api.core.LocalDateTimeSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
 /**
  * https://api.cloudflare.com/#user-level-firewall-access-rule-properties
  */
-@JsonClass(generateAdapter = true)
-class AccessRule {
-
+@Serializable
+data class AccessRule(
     /**
      * Access rule identifier tag
      */
-    @field:[Json(name = "id")]
-    var id = ""
+    val id: String = "",
 
     /**
      * A personal note about the rule. Typically used as a reminder or explanation for the rule.
      */
-    @field:[Json(name = "notes")]
-    var notes = ""
+    val notes: String = "",
 
     /**
      * The possible modes the rule can be in.
      *
      * valid values: block, challenge, whitelist, js_challenge
      */
-    @field:[Json(name = "allowed_modes")]
-    var allowedModes = listOf<String>()
+    @SerialName("allowed_modes")
+    val allowedModes: List<String> = listOf<String>(),
 
     /**
      * The action to apply to a matched request
      *
      * valid values: block, challenge, whitelist, js_challenge
      */
-    @field:[Json(name = "mode")]
-    var mode = ""
+    val mode: String = "",
 
     /**
      * Rule configuration
      */
-    @field:[Json(name = "configuration")]
-    var configuration = Configuration()
+    val configuration: Configuration = Configuration(),
 
-    @field:[Json(name = "scope")]
-    var scope = Scope()
+    val scope: Scope = Scope(),
 
     /**
      * When the record was last modified
      */
-    @field:[Json(name = "modified_on")]
-    var modifiedOn: LocalDateTime = LocalDateTime.now()
+    @SerialName("modified_on")
+    @Serializable(LocalDateTimeSerializer::class)
+    val modifiedOn: LocalDateTime? = null,
 
     /**
      * When the record was created
      */
-    @field:[Json(name = "created_on")]
-    var createdOn: LocalDateTime = LocalDateTime.now()
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as AccessRule
-
-        if (id != other.id) return false
-        if (notes != other.notes) return false
-        if (allowedModes != other.allowedModes) return false
-        if (mode != other.mode) return false
-        if (configuration != other.configuration) return false
-        if (scope != other.scope) return false
-        if (modifiedOn != other.modifiedOn) return false
-        if (createdOn != other.createdOn) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + notes.hashCode()
-        result = 31 * result + allowedModes.hashCode()
-        result = 31 * result + mode.hashCode()
-        result = 31 * result + configuration.hashCode()
-        result = 31 * result + scope.hashCode()
-        result = 31 * result + modifiedOn.hashCode()
-        result = 31 * result + createdOn.hashCode()
-        return result
-    }
-
-    override fun toString(): String {
-        return "AccessRule(id='$id', notes='$notes', allowedModes=$allowedModes, mode='$mode', configuration=$configuration, scope=$scope, modifiedOn=$modifiedOn, createdOn=$createdOn)"
-    }
-}
+    @SerialName("created_on")
+    @Serializable(LocalDateTimeSerializer::class)
+    val createdOn: LocalDateTime = LocalDateTime.now()
+)
