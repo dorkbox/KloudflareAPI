@@ -19,7 +19,6 @@ package dorkbox.kloudflareApi
 import dorkbox.kloudflareApi.api.dns.ARecord
 import kotlinx.coroutines.runBlocking
 import java.time.Instant
-import java.util.*
 
 /**
  *
@@ -45,7 +44,7 @@ object KloudflareTest {
     fun main(arguments: Array<String>) {
         // drop everything to lower case.
         for ((index, value) in arguments.withIndex()) {
-            val lowerCase = value.toLowerCase(Locale.US)
+            val lowerCase = value.lowercase()
             arguments[index] = lowerCase
         }
 
@@ -88,8 +87,21 @@ object KloudflareTest {
                 newDnsRecord.content = "1.1.1.1"
 
                 val zone = kloudflare.zones.list().first{ it.name == "dorkbox.com" }
-                zone.createDnsRecord(newDnsRecord)
-                println("Created: $newDnsRecord")
+                var record = zone.dnsRecords().firstOrNull { it.name == "testing3.dorkbox.com" }
+                if (record == null) {
+                    record = zone.createDnsRecord(newDnsRecord)
+                    println("Created: $newDnsRecord")
+                } else {
+                    println("Reused: $record")
+                }
+
+
+                record.ttl = 1
+                record.update()
+                println("To 1: ${record.update()}")
+
+                record.ttl = 60
+                println("To 60: ${record.update()}")
             }
 
     //        println(kloudflare.getZoneSettings("123"))
