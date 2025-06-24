@@ -28,8 +28,8 @@ plugins {
     id("com.dorkbox.VersionUpdate") version "2.8"
     id("com.dorkbox.GradlePublish") version "1.22"
 
-    kotlin("jvm") version "2.0.0"
-    kotlin("plugin.serialization") version "2.0.0"
+    kotlin("jvm") version "2.2.0"
+    kotlin("plugin.serialization") version "2.2.0"
 }
 
 object Extras {
@@ -82,7 +82,7 @@ tasks.jar.get().apply {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
-    val ktorVersion="3.1.0"
+    val ktorVersion="3.2.0"
 
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
@@ -90,7 +90,7 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
-    implementation("org.slf4j:slf4j-api:2.0.11")
+    implementation("org.slf4j:slf4j-api:2.0.17")
     api("com.dorkbox:Updates:1.1")
 
     testImplementation("ch.qos.logback:logback-classic:1.4.12")
