@@ -23,12 +23,12 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class DSData(
-    var algorithm: Int? = null,
+    var algorithm: UByte? = null,
     var digest: String? = null,
 
     @SerialName("digest_type")
-    var digestType: Int? = null,
+    var digestType: UByte? = null,
 
     @SerialName("key_tag")
-    var keyTag: Int? = null,
+    var keyTag: UShort? = null,
 )

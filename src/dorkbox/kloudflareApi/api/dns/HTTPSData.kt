@@ -22,7 +22,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class HTTPSData(
-    var priority: Int? = null,
+    var priority: UShort? = null,
     var target: String? = null,
     var value: String? = null,
 )

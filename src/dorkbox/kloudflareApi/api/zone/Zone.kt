@@ -186,6 +186,84 @@ data class Zone(
         record.ktor = ktor
         record.zone = this
 
+        newRecord.ktor = ktor
+        newRecord.zone = this
+
         return record
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Zone) return false
+
+        if (developmentMode != other.developmentMode) return false
+        if (paused != other.paused) return false
+        if (id != other.id) return false
+        if (name != other.name) return false
+        if (originalNameServers != other.originalNameServers) return false
+        if (originalRegistrar != other.originalRegistrar) return false
+        if (originalDnsHost != other.originalDnsHost) return false
+        if (createdOn != other.createdOn) return false
+        if (modifiedOn != other.modifiedOn) return false
+        if (nameServers != other.nameServers) return false
+        if (owner != other.owner) return false
+        if (account != other.account) return false
+        if (permissions != other.permissions) return false
+        if (plan != other.plan) return false
+        if (planPending != other.planPending) return false
+        if (status != other.status) return false
+        if (activatedOn != other.activatedOn) return false
+        if (type != other.type) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = developmentMode
+        result = 31 * result + paused.hashCode()
+        result = 31 * result + id.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + (originalNameServers?.hashCode() ?: 0)
+        result = 31 * result + (originalRegistrar?.hashCode() ?: 0)
+        result = 31 * result + (originalDnsHost?.hashCode() ?: 0)
+        result = 31 * result + (createdOn?.hashCode() ?: 0)
+        result = 31 * result + (modifiedOn?.hashCode() ?: 0)
+        result = 31 * result + nameServers.hashCode()
+        result = 31 * result + owner.hashCode()
+        result = 31 * result + account.hashCode()
+        result = 31 * result + permissions.hashCode()
+        result = 31 * result + plan.hashCode()
+        result = 31 * result + planPending.hashCode()
+        result = 31 * result + status.hashCode()
+        result = 31 * result + (activatedOn?.hashCode() ?: 0)
+        result = 31 * result + type.hashCode()
+        return result
+    }
+
+    override fun toString(): String {
+        return "Zone" + toStringIndent("")
+    }
+
+    fun toStringIndent(indent: String): String {
+        return "(" +
+                "\n\t$indent id='$id'" +
+                "\n\t$indent name='$name'" +
+                "\n\t$indent developmentMode=$developmentMode" +
+                "\n\t$indent originalNameServers=$originalNameServers" +
+                "\n\t$indent originalRegistrar=$originalRegistrar" +
+                "\n\t$indent originalDnsHost=$originalDnsHost" +
+                "\n\t$indent createdOn=$createdOn" +
+                "\n\t$indent modifiedOn=$modifiedOn" +
+                "\n\t$indent nameServers=$nameServers" +
+                "\n\t$indent owner=$owner" +
+                "\n\t$indent account=$account" +
+                "\n\t$indent permissions=$permissions" +
+                "\n\t$indent plan=$plan" +
+                "\n\t$indent planPending=$planPending" +
+                "\n\t$indent status='$status'" +
+                "\n\t$indent activatedOn=$activatedOn" +
+                "\n\t$indent paused=$paused" +
+                "\n\t$indent type='$type'" +
+                "\n)"
     }
 }

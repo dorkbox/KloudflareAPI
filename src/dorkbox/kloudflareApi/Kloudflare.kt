@@ -129,7 +129,7 @@ suspend inline fun <reified R> HttpClient.cf(
             val cfResponse = response.getOrNull()?.body<CfResponseDnsRecord>()
             val success = cfResponse?.success == true
             if (success) {
-                return cfResponse?.result as R
+                return cfResponse.result as R
             } else {
                 throw IOException("Call ($method) failed: " + cfResponse?.errors?.joinToString())
             }
@@ -137,7 +137,7 @@ suspend inline fun <reified R> HttpClient.cf(
             val cfResponse = response.getOrNull()?.body<CfResponse<R>>()
             val success = cfResponse?.success == true
             if (success) {
-                return cfResponse?.result!!
+                return cfResponse.result!!
             } else {
                 throw IOException("Call ($method) failed: " + cfResponse?.errors?.joinToString())
             }
@@ -163,7 +163,7 @@ suspend inline fun <reified R> HttpClient.cfList(
     }
 
     if (response.isSuccess) {
-        var success = false
+        var success: Boolean
         var resultInfo: ResultInfo?
 
         if (DnsRecord::class.java.isAssignableFrom(R::class.java)) {

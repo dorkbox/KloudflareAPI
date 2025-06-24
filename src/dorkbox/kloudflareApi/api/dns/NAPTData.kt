@@ -23,8 +23,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NAPTData(
     var flags: String? = null,
-    var order: Int? = null,
-    var preference: Int? = null,
+    var order: UShort? = null,
+    var preference: UShort? = null,
     var regex: String? = null,
     var replacement: String? = null,
     var service: String? = null,

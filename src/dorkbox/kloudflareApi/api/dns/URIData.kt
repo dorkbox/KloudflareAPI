@@ -30,5 +30,5 @@ data class URIData(
     /**
      * The record weight.
      */
-    var weight: Int? = null,
+    var weight: UShort? = null,
 )

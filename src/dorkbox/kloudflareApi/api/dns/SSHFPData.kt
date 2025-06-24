@@ -22,7 +22,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class SSHFPData(
-    var algorithm: Int? = null,
+    var algorithm: UByte? = null,
     var fingerprint: String? = null,
-    var type: Int? = null,
+    var type: UByte? = null,
 )

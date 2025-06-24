@@ -26,9 +26,9 @@ data class SMIMEAData(
     var certificate: String? = null,
 
     @SerialName("matching_type")
-    var matchingType: Int? = null,
+    var matchingType: UByte? = null,
 
-    var selector: Int? = null,
+    var selector: UByte? = null,
 
-    var usage: Int? = null,
+    var usage: UByte? = null,
 )

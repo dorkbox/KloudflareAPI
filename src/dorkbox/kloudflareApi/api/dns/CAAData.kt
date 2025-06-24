@@ -22,7 +22,12 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class CAAData(
-    var flags: Int? = null,
+    // maximum: 255, minimum: 0
+    var flags: UByte? = null,
+
+    // Name of the property controlled by this record (e.g.: issue, issuewild, iodef).
     var tag: String? = null,
+
+    // Value of the record. This field's semantics depend on the chosen tag.
     var value: String? = null
 )

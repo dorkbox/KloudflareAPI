@@ -53,7 +53,7 @@ object DnsRecordListSerializer : KSerializer<List<DnsRecord>> {
                 RecordType.MX         -> decoder.json.decodeFromJsonElement(MXRecord::class.serializer(), jsonObject)
                 RecordType.NS         -> decoder.json.decodeFromJsonElement(NSRecord::class.serializer(), jsonObject)
                 RecordType.CERT       -> decoder.json.decodeFromJsonElement(CERTRecord::class.serializer(), jsonObject)
-                RecordType.DNSKEY     -> decoder.json.decodeFromJsonElement(DNSKEYRecord::class.serializer(), jsonObject)
+                RecordType.DNSKEY     -> decoder.json.decodeFromJsonElement(DnsKeyRecord::class.serializer(), jsonObject)
                 RecordType.DS         -> decoder.json.decodeFromJsonElement(DSRecord::class.serializer(), jsonObject)
                 RecordType.NAPTR      -> decoder.json.decodeFromJsonElement(NAPTRecord::class.serializer(), jsonObject)
                 RecordType.SMIMEA     -> decoder.json.decodeFromJsonElement(SMIMEARecord::class.serializer(), jsonObject)
