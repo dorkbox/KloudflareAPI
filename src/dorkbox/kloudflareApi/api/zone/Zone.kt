@@ -203,8 +203,8 @@ data class Zone(
         if (originalNameServers != other.originalNameServers) return false
         if (originalRegistrar != other.originalRegistrar) return false
         if (originalDnsHost != other.originalDnsHost) return false
-        if (createdOn != other.createdOn) return false
-        if (modifiedOn != other.modifiedOn) return false
+        if (createdOn?.equals(other.createdOn) == false) return false
+        if (modifiedOn?.equals(other.modifiedOn) == false) return false
         if (nameServers != other.nameServers) return false
         if (owner != other.owner) return false
         if (account != other.account) return false
@@ -212,7 +212,7 @@ data class Zone(
         if (plan != other.plan) return false
         if (planPending != other.planPending) return false
         if (status != other.status) return false
-        if (activatedOn != other.activatedOn) return false
+        if (activatedOn?.equals(other.activatedOn) == false) return false
         if (type != other.type) return false
 
         return true
